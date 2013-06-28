@@ -1,0 +1,13 @@
+Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
+        bgColor      = "black",
+        fgColor      = "grey",
+        position     = TopW C 100,
+        lowerOnStart = True,
+        commands     = [Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
+                        Run Memory ["-t","Mem: <usedratio>%"] 10,
+                        Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
+                        Run Com  "failed_tests" ["-n", "-p", "-xmobar"] "tests" 20,
+                        Run Com  "gmail_unread" ["-xmobar"] "mail" 600],
+       sepChar        = "%",
+       alignSep       = "}{",
+       template       = "%cpu% | %memory% | %tests% }{ %mail% <fc=#ee9a00>%date%</fc>"}

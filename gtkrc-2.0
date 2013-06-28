@@ -1,0 +1,7 @@
+gtk-theme-name = "Aurora"
+style "font"
+{
+    font_name = "Droid Sans 9"
+}
+widget_class "*" style "font"
+gtk-font-name = "Droid Sans 9"
