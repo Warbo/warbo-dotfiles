@@ -3,13 +3,32 @@
 ;; We tell xbindkeys to handle particular X events (eg. key presses) using
 ;; Scheme functions. We generally use two kinds of handlers, which I'll call
 ;; "actions" and "listeners".
-;; When an action is triggered, something happens (usually executing a command).
-;; When a listener is triggered, a new set of bindings become active. When the
-;; listener is stopped (eg. when the corresponding key is released) the old
-;; bindings are put back.
-;; Listeners are useful for "chords", ie. pressing multiple keys at once.
-;; Modifier keys (Alt, Ctrl, Super, etc.) appear in event IDs, so they don't
-;; need their own listeners.
+
+(define (action event a)
+        "An action performs some task (usually executing a system command)."
+        (a)
+)
+
+(define (listener event l)
+        "When a listener is triggered, a new set of bindings become active."
+        (xbindkey-function '(event)
+                           (lambda ()
+                             ;; Turn off the current bindings
+                             (ungrab-all-keys)
+                             (remove-all-keys)
+
+                             ;; Execute l, which should set some handlers
+                             (l)
+
+                             ;; Stop listening when released
+                             (xbindkey-function '(release event)
+                                                (lambda ()
+                                                  (if (not modkey-used)
+                                                      (primary-9))
+                                                  (set! modkey-used #f)
+                             (reset-to-primary-binding))))
+        (grab-all-keys)
+)
 
 (define (primary-bindings)
         "This is our top-level listener. It sets our default handlers."
@@ -22,10 +41,10 @@
         ;; You can find event IDs using "xbindkeys -k"
 
         ;; Put listeners here
-        (xbindkey-function '("b:9") second-binding)  
-        (xbindkey-function '("b:10") primary-10) 
-        (xbindkey-function '("b:11") tertiary-binding) 
-        (xbindkey-function '("b:12") primary-12) 
+        (xbindkey-function '("b:9") second-binding)
+        (xbindkey-function '("b:10") primary-10)
+        (xbindkey-function '("b:11") tertiary-binding)
+        (xbindkey-function '("b:12") primary-12)
         (xbindkey-function '("b:13") primary-13)
         (xbindkey-function '("b:14") primary-14)
         (xbindkey-function '("b:16") primary-16)
@@ -33,41 +52,33 @@
 
 ;; To simulate key presses we use the xte command.
 ;; WARNING: xbindkeys will handle events triggered by xte, so handlers which
-;; handle their own actions will cause infinite loops!
+;; naively re-trigger their own events will cause infinite loops!
 ;;
-;; If you want to re-trigger your event, so it "passes through" to another
-;; application, do this:
+;; If you want to re-trigger your event, eg. so it "passes through" to another
+;; application, you need to disable then re-enable your keybindings, like this:
 ;;
 ;; (ungrab-all-keys)
-;; (perform-your-action)
+;; (perform-your-action)  ;; Replace this bit
 ;; (grab-all-keys)
 
 (define (xte . keys)
-""
+        "Simple wrapper around xte"
         (let (s-quote (lambda (s)
                          (string-join '("'" s "'"))))
              (run-command (string-join ("xte" . (map s-quote keys))))))
 
-(define (display-n str) 
-  "Display a string then newline" 
-  (display str) 
-  (newline)) 
+(define (display-n str)
+  "Display a string then newline"
+  (display str)
+  (newline))
 
 ;; Helpers for Drupal's SimpleTest module
 
 (define (next-test)
-  "Switches to the next SimpleTest page. Assumes we're in Chromium, on a SimpleTest page"
-  (run-command (string-join ("xte"
-
-                             ;; Select the address bar
-                             "'keydown Ctrl_L' 'key l' 'keyup Ctrl_L'"
-
-                             ;; Tab to "Previous"
-                             "'key Tab'"
-
-                             ;; Tab to "Next"
-                             "'key Tab'")
-                            " "))
+        "Switches to the next SimpleTest page. Assumes we're in Chromium, on a SimpleTest page"
+        (xte '("keydown Ctrl_L" "key l" "keyup Ctrl_L" ;; Select the address bar
+               "key Tab"                               ;; Tab to "Previous"
+               "key Tab")))                            ;; Tab to "Next"
 
 (define (secondary-12) ;;UNASSIGNED 
   (display-n "Code Me")) 

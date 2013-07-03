@@ -49,11 +49,11 @@ main = do
 
 myTerminal = "lxterminal"
 
-myWorkspaces = ["1:Term",
+myWorkspaces = ["1:Term" ,
                 "2:Emacs",
-                "3:",
-                "4:SVN",
-                "5:Web"]
+                "3:Mail" ,
+                "4:SVN"  ,
+                "5:Web"  ]
 
 myKeys = keys defaultConfig
 

@@ -10,4 +10,4 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
                         Run Com  "gmail_unread" ["-xmobar"] "mail" 600],
        sepChar        = "%",
        alignSep       = "}{",
-       template       = "%cpu% | %memory% | %tests% }{ %mail% <fc=#ee9a00>%date%</fc>"}
+       template       = "}{ %tests% | %mail% <fc=#ee9a00>%date%</fc>"}
