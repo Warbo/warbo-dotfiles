@@ -168,6 +168,9 @@ by Prelude.")
  'gnus-parameters
  '("\\`nnrss:" (mm-discouraged-alternatives nil)))
 
+;; Ignore updates to already-read articles
+(setq nnrss-ignore-article-fields '(slash:comments dc:date pubDate))
+
 ;; If an RSS feed is actually ATOM, convert it
 (require 'mm-url)
 (defadvice mm-url-insert (after DE-convert-atom-to-rss () )
@@ -336,3 +339,6 @@ by Prelude.")
  	  (lambda ()
  	    (font-lock-add-keywords nil 
  				    '(("(\\|)" . 'paren-face)))))
+
+;; Proof General
+(load-file "~/.emacs.d/vendor/ProofGeneral-4.2/generic/proof-site.el")
