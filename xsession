@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 off;
 on;
-xmonad
+#xmonad
+ratpoison
+

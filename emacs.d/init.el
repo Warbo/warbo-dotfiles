@@ -291,6 +291,8 @@ by Prelude.")
 ;;              '((regexp-quote "wandisco.com") nil nil))
 (add-to-list 'tramp-default-proxies-alist
              '((regexp-quote "staging-store.wandisco.com") "\\`root\\'" "/ssh:chris.warburton@%h:"))
+(add-to-list 'tramp-default-proxies-alist
+             '((regexp-quote "chrisw.webdevbox.es") "\\`root\\'" "/ssh:chris.warburton@%h:"))
 
 ;; When TRAMP connections die, auto-save can hang
 (setq auto-save-default nil)
