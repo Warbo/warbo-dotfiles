@@ -49,10 +49,6 @@ changes in this directory.  All Emacs Lisp files there are loaded automatically
 by Prelude.")
 (defvar prelude-vendor-dir (expand-file-name "vendor" prelude-dir)
   "This directory houses packages that are not yet available in ELPA (or MELPA).")
-(defvar prelude-snippets-dir (expand-file-name "snippets" prelude-dir)
-  "This folder houses additional yasnippet bundles distributed with Prelude.")
-(defvar prelude-personal-snippets-dir (expand-file-name "snippets" prelude-personal-dir)
-  "This folder houses additional yasnippet bundles added by the users.")
 (defvar prelude-savefile-dir (expand-file-name "savefile" prelude-dir)
   "This folder stores all the automatically generated save/history-files.")
 (defvar prelude-modules-file (expand-file-name "prelude-modules.el" prelude-dir)
@@ -172,13 +168,13 @@ by Prelude.")
 (require 'mm-url)
 (defadvice mm-url-insert (after DE-convert-atom-to-rss () )
   "Converts atom to RSS by calling xsltproc."
-  (when (re-search-forward "xmlns=\"http://www.w3.org/.*/Atom\"" 
+  (when (re-search-forward "xmlns=\"http://www.w3.org/.*/Atom\""
                            nil t)
     (message "Converting Atom to RSS... ")
     (goto-char (point-min))
-    (call-process-region (point-min) (point-max) 
-                         "xsltproc" 
-                         t t nil 
+    (call-process-region (point-min) (point-max)
+                         "xsltproc"
+                         t t nil
                          (expand-file-name "~/atom2rss.xsl") "-")
     (goto-char (point-min))
     (message "Converting Atom to RSS... done")))
@@ -263,9 +259,6 @@ by Prelude.")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa"     . "http://melpa.milkbox.net/packages/")))
 
-;; JIRA for issue tracking (not very useful TBH)
-(require 'jira)
-
 ;; Resize windows with Shift-Control-Arrow-Cursor
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
@@ -328,11 +321,11 @@ by Prelude.")
     (((class color) (background light))
      (:foreground "grey30")))
   "Face used to dim parentheses.")
-(add-hook 'emacs-lisp-mode-hook 
+(add-hook 'emacs-lisp-mode-hook
  	  (lambda ()
- 	    (font-lock-add-keywords nil 
+ 	    (font-lock-add-keywords nil
  				    '(("(\\|)" . 'paren-face)))))
 (add-hook 'scheme-mode-hook
  	  (lambda ()
- 	    (font-lock-add-keywords nil 
+ 	    (font-lock-add-keywords nil
  				    '(("(\\|)" . 'paren-face)))))
