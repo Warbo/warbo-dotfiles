@@ -1,4 +1,4 @@
-gtk-theme-name = "Aurora"
+gtk-theme-name = "Industrial"
 style "font"
 {
     font_name = "Droid Sans 9"
