@@ -336,4 +336,4 @@ by Prelude.")
  				    '(("(\\|)" . 'paren-face)))))
 
 ;; Proof General
-(load-file "~/.emacs.d/vendor/ProofGeneral-4.2/generic/proof-site.el")
+(ignore-errors (load-file "~/.emacs.d/vendor/ProofGeneral-4.2/generic/proof-site.el"))
