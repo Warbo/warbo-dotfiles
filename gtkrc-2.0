@@ -1,4 +1,5 @@
-gtk-theme-name = "Clearlooks"
+gtk-theme-name = "Industrial"
+
 style "font"
 {
     font_name = "Droid Sans 9"
