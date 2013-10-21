@@ -6,6 +6,7 @@ import XMonad.Operations
 import System.IO
 import System.Exit
 import XMonad.Util.Run
+import XMonad.Util.EZConfig
 import XMonad.Actions.CycleWS
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -34,18 +35,16 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
 main = do
-    dzenLeftBar  <- spawnPipe myXmonadBar
     xmonad $ ewmh defaultConfig {
-      terminal            = myTerminal           ,
-      workspaces          = myWorkspaces         ,
-      keys                = myKeys               ,
-      modMask             = myModMask            ,
-      layoutHook          = myLayoutHook         ,
-      manageHook          = myManageHook         ,
-      logHook             = myLogHook dzenLeftBar,
-      normalBorderColor   = colorNormalBorder    ,
-      focusedBorderColor  = colorFocusedBorder   ,
-      borderWidth         = 1                    }
+      terminal            = myTerminal  ,
+      workspaces          = myWorkspaces,
+      keys                = myKeys      ,
+      modMask             = myModMask   ,
+      layoutHook          = myLayoutHook,
+      manageHook          = myManageHook,
+      normalBorderColor   = "#666666"   ,
+      focusedBorderColor  = "#6666CC"   ,
+      borderWidth         = 1           }
 
 myTerminal = "lxterminal"
 
@@ -54,8 +53,9 @@ myWorkspaces = ["1:Term" ,
                 "3:Mail" ,
                 "4:SVN"  ,
                 "5:Web"  ]
-
-myKeys = keys defaultConfig
+myKeys c = M.union (customKeys c) (keys defaultConfig c)
+customKeys c = mkKeymap c [("M-<Left>",  nextScreen),
+                           ("M-<Right>", nextScreen)]
 
 -- Use Super key as mod
 myModMask = mod4Mask
@@ -91,7 +91,8 @@ myManageHook = manageHook defaultConfig <+> manageDocks <+> extras
                      terms  = ["lxterminal", "Lxterminal"]
                      emacs  = ["emacs", "Emacs"]
                      webs   = ["Firefox", "Google-chrome", "Chromium",
-                              "Chromium-browser", "chromium-browser"]
+                              "Chromium-browser", "chromium-browser",
+                              "conkeror"]
                      svn    = ["kdesvn", "Kdesvn"]
                      floats = ["MPlayer", "Xmessage", "XFontSel"]
 
@@ -106,20 +107,5 @@ myManageHook = manageHook defaultConfig <+> manageDocks <+> extras
                      myDoFullFloat :: ManageHook
                      myDoFullFloat = doF W.focusDown <+> doFullFloat
 
-myLogHook :: Handle -> X ()
-myLogHook  h = myLogHook' h >> fadeInactiveLogHook 0xdddddddd
-myLogHook' h = dynamicLogWithPP $ defaultPP {
-                 ppCurrent           =   dzenColor "#ebac54" "#1B1D1E" . pad,
-                 ppVisible           =   dzenColor "white"   "#1B1D1E" . pad,
-                 ppHidden            =   dzenColor "white"   "#1B1D1E" . pad,
-                 ppHiddenNoWindows   =   dzenColor "#7b7b7b" "#1B1D1E" . pad,
-                 ppUrgent            =   dzenColor "#ff0000" "#1B1D1E" . pad,
-                 ppWsSep             =   " ",
-                 ppSep               =   "  |  ",
-                 ppLayout            =   dzenColor "#ebac54" "#1B1D1E",
-                 ppTitle             =   (" " ++) . dzenColor "white" "#1B1D1E" . dzenEscape,
-                 ppOutput            =   hPutStrLn h}
-
-myXmonadBar = "dzen2 -x '1440' -y '0' -h '24' -w '640' -ta 'l' -fg '#FFFFFF' -bg '#1B1D1E'"
 colorNormalBorder   = "#666666"
 colorFocusedBorder  = "#6666CC"
