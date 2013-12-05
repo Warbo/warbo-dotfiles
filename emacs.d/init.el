@@ -32,8 +32,14 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(defvar current-user
+      (getenv
+       (if (equal system-type 'windows-nt) "USERNAME" "USER")))
 
-(message "Prelude is powering up... Be patient, Master %s!" (getenv "USER"))
+(message "Prelude is powering up... Be patient, Master %s!" current-user)
+
+(when (version< emacs-version "24.1")
+  (error "Prelude requires at least GNU Emacs 24.1"))
 
 (defvar prelude-dir (file-name-directory load-file-name)
   "The root dir of the Emacs Prelude distribution.")
@@ -49,10 +55,6 @@ changes in this directory.  All Emacs Lisp files there are loaded automatically
 by Prelude.")
 (defvar prelude-vendor-dir (expand-file-name "vendor" prelude-dir)
   "This directory houses packages that are not yet available in ELPA (or MELPA).")
-(defvar prelude-snippets-dir (expand-file-name "snippets" prelude-dir)
-  "This folder houses additional yasnippet bundles distributed with Prelude.")
-(defvar prelude-personal-snippets-dir (expand-file-name "snippets" prelude-personal-dir)
-  "This folder houses additional yasnippet bundles added by the users.")
 (defvar prelude-savefile-dir (expand-file-name "savefile" prelude-dir)
   "This folder stores all the automatically generated save/history-files.")
 (defvar prelude-modules-file (expand-file-name "prelude-modules.el" prelude-dir)
@@ -62,19 +64,24 @@ by Prelude.")
   (make-directory prelude-savefile-dir))
 
 (defun prelude-add-subfolders-to-load-path (parent-dir)
- "Add all first level PARENT-DIR subdirs to the `load-path'."
+ "Add all level PARENT-DIR subdirs to the `load-path'."
  (dolist (f (directory-files parent-dir))
    (let ((name (expand-file-name f parent-dir)))
      (when (and (file-directory-p name)
                 (not (equal f ".."))
                 (not (equal f ".")))
-       (add-to-list 'load-path name)))))
+       (add-to-list 'load-path name)
+       (prelude-add-subfolders-to-load-path name)))))
 
 ;; add Prelude's directories to Emacs's `load-path'
 (add-to-list 'load-path prelude-core-dir)
 (add-to-list 'load-path prelude-modules-dir)
 (add-to-list 'load-path prelude-vendor-dir)
 (prelude-add-subfolders-to-load-path prelude-vendor-dir)
+
+;; reduce the frequency of garbage collection by making it happen on
+;; each 50MB of allocated data (the default is on every 0.76MB)
+(setq gc-cons-threshold 50000000)
 
 ;; the core stuff
 (require 'prelude-packages)
@@ -100,7 +107,7 @@ by Prelude.")
   (message "Loading personal configuration files in %s..." prelude-personal-dir)
   (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
 
-(message "Prelude is ready to do thy bidding, Master %s!" (getenv "USER"))
+(message "Prelude is ready to do thy bidding, Master %s!" current-user)
 
 (prelude-eval-after-init
  ;; greet the use with some useful tip
@@ -175,13 +182,13 @@ by Prelude.")
 (require 'mm-url)
 (defadvice mm-url-insert (after DE-convert-atom-to-rss () )
   "Converts atom to RSS by calling xsltproc."
-  (when (re-search-forward "xmlns=\"http://www.w3.org/.*/Atom\"" 
+  (when (re-search-forward "xmlns=\"http://www.w3.org/.*/Atom\""
                            nil t)
     (message "Converting Atom to RSS... ")
     (goto-char (point-min))
-    (call-process-region (point-min) (point-max) 
-                         "xsltproc" 
-                         t t nil 
+    (call-process-region (point-min) (point-max)
+                         "xsltproc"
+                         t t nil
                          (expand-file-name "~/atom2rss.xsl") "-")
     (goto-char (point-min))
     (message "Converting Atom to RSS... done")))
@@ -255,6 +262,10 @@ by Prelude.")
       browse-url-generic-program "x-www-browser")
 
 ;; Identi.ca. Credentials are taken from ~/.netrc
+;(add-to-list 'load-path "~/.emacs.d/vendor/flim/")
+;(load-file "~/.emacs.d/vendor/emacs-oauth/oauth.el")
+;(add-to-list 'load-path "~/.emacs.d/vendor/pumpio-el/src/")
+;(require 'pumpio-interface)
 (when (require 'netrc nil t)
   (autoload 'identica-mode "identica-mode" nil t)
   (let ((identica (netrc-machine (netrc-parse "~/.netrc") "identi.ca" t))) ; remove this `t' if you didn't specify a port
@@ -329,6 +340,15 @@ by Prelude.")
     (shell (concat "*shell-" (number-to-string bash-counter) "*"))
     ))
 
+;; "Refresh" an SSH shell after a connection dies
+(defun refresh-terminal ()
+  "Start a new shell, like the current"
+  (interactive)
+  (let ((buf-name (buffer-name)))
+        (progn (command-execute 'bash)
+               (kill-buffer buf-name)
+               (rename-buffer buf-name))))
+
 ;; Make parentheses dimmer when editing LISP
 (defface paren-face
   '((((class color) (background dark))
@@ -336,13 +356,13 @@ by Prelude.")
     (((class color) (background light))
      (:foreground "grey30")))
   "Face used to dim parentheses.")
-(add-hook 'emacs-lisp-mode-hook 
+(add-hook 'emacs-lisp-mode-hook
  	  (lambda ()
- 	    (font-lock-add-keywords nil 
+ 	    (font-lock-add-keywords nil
  				    '(("(\\|)" . 'paren-face)))))
 (add-hook 'scheme-mode-hook
  	  (lambda ()
- 	    (font-lock-add-keywords nil 
+ 	    (font-lock-add-keywords nil
  				    '(("(\\|)" . 'paren-face)))))
 
 ;; Proof General
