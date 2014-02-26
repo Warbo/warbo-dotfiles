@@ -32,8 +32,14 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(defvar current-user
+      (getenv
+       (if (equal system-type 'windows-nt) "USERNAME" "USER")))
 
-(message "Prelude is powering up... Be patient, Master %s!" (getenv "USER"))
+(message "Prelude is powering up... Be patient, Master %s!" current-user)
+
+(when (version< emacs-version "24.1")
+  (error "Prelude requires at least GNU Emacs 24.1"))
 
 (defvar prelude-dir (file-name-directory load-file-name)
   "The root dir of the Emacs Prelude distribution.")
@@ -58,19 +64,24 @@ by Prelude.")
   (make-directory prelude-savefile-dir))
 
 (defun prelude-add-subfolders-to-load-path (parent-dir)
- "Add all first level PARENT-DIR subdirs to the `load-path'."
+ "Add all level PARENT-DIR subdirs to the `load-path'."
  (dolist (f (directory-files parent-dir))
    (let ((name (expand-file-name f parent-dir)))
      (when (and (file-directory-p name)
                 (not (equal f ".."))
                 (not (equal f ".")))
-       (add-to-list 'load-path name)))))
+       (add-to-list 'load-path name)
+       (prelude-add-subfolders-to-load-path name)))))
 
 ;; add Prelude's directories to Emacs's `load-path'
 (add-to-list 'load-path prelude-core-dir)
 (add-to-list 'load-path prelude-modules-dir)
 (add-to-list 'load-path prelude-vendor-dir)
 (prelude-add-subfolders-to-load-path prelude-vendor-dir)
+
+;; reduce the frequency of garbage collection by making it happen on
+;; each 50MB of allocated data (the default is on every 0.76MB)
+(setq gc-cons-threshold 50000000)
 
 ;; the core stuff
 (require 'prelude-packages)
@@ -96,7 +107,7 @@ by Prelude.")
   (message "Loading personal configuration files in %s..." prelude-personal-dir)
   (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
 
-(message "Prelude is ready to do thy bidding, Master %s!" (getenv "USER"))
+(message "Prelude is ready to do thy bidding, Master %s!" current-user)
 
 (prelude-eval-after-init
  ;; greet the use with some useful tip
@@ -130,7 +141,7 @@ by Prelude.")
           (lambda () (local-set-key "o" 'my-gnus-group-list-subscribed-groups)))
 
 ;; Make Gnus NOT ignore [Gmail]/... mailboxes
-(setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+(setq gnus-ignored-newsgroups "")
 
 ;; Posting styles, to make Gnus behave differently for each account
 (setq mail-signature nil)
@@ -251,6 +262,10 @@ by Prelude.")
       browse-url-generic-program "x-www-browser")
 
 ;; Identi.ca. Credentials are taken from ~/.netrc
+;(add-to-list 'load-path "~/.emacs.d/vendor/flim/")
+;(load-file "~/.emacs.d/vendor/emacs-oauth/oauth.el")
+;(add-to-list 'load-path "~/.emacs.d/vendor/pumpio-el/src/")
+;(require 'pumpio-interface)
 (when (require 'netrc nil t)
   (autoload 'identica-mode "identica-mode" nil t)
   (let ((identica (netrc-machine (netrc-parse "~/.netrc") "identi.ca" t))) ; remove this `t' if you didn't specify a port
@@ -291,7 +306,7 @@ by Prelude.")
              '((regexp-quote "chrisw.webdevbox.es") "\\`root\\'" "/ssh:chris.warburton@%h:"))
 
 ;; When TRAMP connections die, auto-save can hang
-(setq auto-save-default nil)
+(setq auto-save-default t)
 
 ;; Turn off Prelude's auto-save-when-switching-buffer
 (ad-unadvise 'switch-to-buffer)
@@ -308,10 +323,11 @@ by Prelude.")
   "Start a new EShell"
   (interactive)
   (setq sh-counter (+ sh-counter 1))
-  (progn (command-execute 'eshell)
-         (rename-buffer (concat "*eshell-"
-                                (number-to-string sh-counter)
-                                "*"))))
+  (let ((buf (concat "*eshell-" (number-to-string sh-counter) "*")))
+    (command-execute 'eshell)
+    (rename-buffer buf)
+    buf))
+
 (setq bash-counter 1)
 (defun bash ()
   "Start a bash shell"
@@ -321,6 +337,15 @@ by Prelude.")
       ((explicit-shell-file-name "/bin/bash"))
     (shell (concat "*shell-" (number-to-string bash-counter) "*"))
     ))
+
+;; "Refresh" an SSH shell after a connection dies
+(defun refresh-terminal ()
+  "Start a new shell, like the current"
+  (interactive)
+  (let ((buf-name (buffer-name)))
+        (progn (command-execute 'bash)
+               (kill-buffer buf-name)
+               (rename-buffer buf-name))))
 
 ;; Make parentheses dimmer when editing LISP
 (defface paren-face
@@ -340,3 +365,178 @@ by Prelude.")
 
 ;; Proof General
 (ignore-errors (load-file "~/.emacs.d/vendor/ProofGeneral-4.2/generic/proof-site.el"))
+
+(defun eshell/emacs (file)
+  "Running 'emacs' in eshell should open a new buffer"
+  (find-file file))
+
+(defun eshell-in (dir)
+  "Launch a new eshell in the given directory"
+  (let ((buffer (sh)))
+    (with-current-buffer buffer
+      (eshell/cd dir)
+      (eshell-send-input))
+    buffer))
+
+(defun eshell-named-in (namedir)
+  "Launch a new eshell with the given buffer name in the given directory"
+  (let* ((name   (car namedir))
+         (dir    (eval (cadr namedir))))
+    (unless (get-buffer name)
+      (with-current-buffer (eshell-in dir)
+        (rename-buffer name)))
+    name))
+
+(defun push-keys (keys)
+  "Takes a string describing keypresses and pushes them to the input queue"
+  (setq unread-command-events
+        (append (listify-key-sequence (kbd keys))
+                unread-command-events)))
+
+(defun shell-in (dir)
+  "Launch a new shell in the given directory"
+  (let ((buffer (bash)))
+    (with-current-buffer buffer
+      (interactive)
+      (insert "cd " dir)
+      (push-keys "RET"))
+    buffer))
+
+(defun shell-named-in (namedir)
+  "Launch a new shell with the given buffer name in the given directory"
+  (let* ((name (car namedir))
+         (dir  (eval (cadr namedir))))
+    (unless (get-buffer name)
+      (with-current-buffer (shell-in dir)
+        (rename-buffer name)))
+    name))
+
+(defun shell-from-buf (buf)
+  "Switch to the given buffer then open a shell.
+   Useful for piggybacking on TRAMP."
+  (with-current-buffer buf
+    (bash)))
+
+(defun shell-with-name-from-buf (namebuf)
+  "Switch to a given buffer, open a shell and rename it."
+  (let* ((name (car namebuf))
+         (buf  (eval (cadr namebuf))))
+    (unless (get-buffer name)
+      (with-current-buffer (shell-from-buf buf)
+        (rename-buffer name)))
+    name))
+
+(defun run-in-buf (buffunc)
+  "Call a function in a buffer"
+  (let* ((buf  (car buffunc))
+         (func (cadr buffunc)))
+    (if (get-buffer buf)
+        (with-current-buffer buf (eval func)))))
+
+(defun startup-eshells ()
+  "Useful buffers to open at startup"
+  (let* (; Some useful shorthand
+        (c     'concat)
+        (ssh   (lambda (user) (funcall c "/ssh:" user "@")))
+        (wdc    "wandisco.com")
+        (live   (concat wdc ":/"))
+        (dev   (lambda (name) (concat name ".wdev." wdc)))
+        (path  (lambda (prefix) (concat prefix ":/")))
+
+        (domains  "var/www/domains/")
+        (store    (concat domains "wandisco.com/drupal7/htdocs/"))
+        (logs     "var/log/apache2/")
+        (www-data "/sudo:www-data@localhost:/")
+        (ubuntu   (funcall ssh "ubuntu"))
+        (root     (funcall ssh "root"))
+        (admin    (funcall ssh "adminwdcom"))
+        (stage    "webstage.wandisco.com:/")
+        (ci       (funcall dev "webs-ci"))
+        (cw       (funcall dev "chrisw"))
+        (ci-box   (funcall path ci))
+        (cw-box   (funcall path cw))
+        (disco    (funcall path "disco.wandisco.com")))
+
+        ;; Open an eshell for each user on each server
+        (mapcar 'eshell-named-in
+           '(("home"        "~")
+             ("results"     "~")
+             ("debian"      "~/codebase/webs-store/drupal7_22/htdocs")
+             ("discodev"    "~/codebase/discodev/htdocs/")
+             ("www-data"    (concat www-data      store))
+             ("stage"       (concat admin  stage  store))
+             ;("live"        (concat root   live   store))
+             ("ci"          (concat root   ci-box domains))
+             ("cw"          (concat root   cw-box store))
+             ("logs"        (concat "/sudo::/"    logs))
+             ;("logs-live"   (concat root   live   logs))
+             ("logs-stage"  (concat ubuntu stage  logs))
+             ("disco"       (concat root   disco  domains))
+             ("stage-disco" (concat root   disco  domains))))))
+
+(defun startup-shells ()
+  "Use our eshells' TRAMP connections to launch some shells"
+  (mapcar 'shell-with-name-from-buf
+          '(("store-tester" "home")
+            ("admin@stage"  "stage")
+            ("root@cw"      "cw")
+            ("chris@debian" "debian")
+
+            ; We use -init to indicate that extra work is needed
+            ("apache@cw-init"   "cw")
+            ;("admin@live-init"  "live")
+            ("root@stage-init"   "stage"))))
+
+(defun initialise-startup-shells ()
+  "Run some initialisation commands"
+  (let* ((enter (push-keys "RET"))
+         (su    (lambda (&optional user)
+                  ((input (c "sudo -u " (or user root) " bash"))
+                   (enter))))
+         (run-init (lambda (buffunc)
+                     (let* ((buf  (car buffunc))
+                            (func (cadr buffunc)))
+                       ())
+    (mapcar 'run-in-buf
+            '(("admin@live-init"  '(su "adminwdcom"))
+              ("root@stage-init"  '(su))
+              ("admin@stage-init" '(su "adminwdcom"))
+              ("apache@cw-init"   '(su "apache")))))
+
+(defun indent-and-align ()
+  "Prettier indentation. Tries to align code nicely automatically."
+  (message "HELLO"))
+
+(add-hook 'c-special-indent-hook 'indent-and-align)
+
+;; Don't run Flymake over TRAMP
+(setq flymake-allowed-file-name-masks
+      (cons '("^/ssh:" (lambda () nil))
+            flymake-allowed-file-name-masks))
+
+;; PHP lint
+(require 'php-mode)
+(require 'flymake)
+
+(defun flymake-php-init ()
+  "Use php to check the syntax of the current file."
+  (let* ((temp (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))
+         (local (file-relative-name temp (file-name-directory buffer-file-name))))
+    (list "php" (list "-f" local "-l"))))
+
+(add-to-list 'flymake-err-line-patterns
+  '("\\(Parse\\|Fatal\\) error: +\\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)$" 3 4 nil 2))
+
+(add-to-list 'flymake-allowed-file-name-masks '("\\.php$" flymake-php-init))
+
+;; Drupal-type extensions
+(add-to-list 'flymake-allowed-file-name-masks '("\\.module$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.install$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.inc$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.engine$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.test$" flymake-php-init))
+
+(add-hook 'php-mode-hook (lambda () (flymake-mode 1)))
+(define-key php-mode-map '[M-S-up] 'flymake-goto-prev-error)
+(define-key php-mode-map '[M-S-down] 'flymake-goto-next-error)
+

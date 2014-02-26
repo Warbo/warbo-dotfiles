@@ -41,3 +41,6 @@ define_keymaps_page_mode(
 
 page_mode_activate(simpletest_mode);
 provide('simpletest');
+
+io_service.manageOfflineStatus = false;
+io_service.offline = false;
