@@ -5,3 +5,4 @@ style "font"
 }
 widget_class "*" style "font"
 gtk-font-name = "Droid Sans 9"
+gtk-key-theme-name = "Emacs"
