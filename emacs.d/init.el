@@ -266,10 +266,10 @@ by Prelude.")
                          ("melpa"     . "http://melpa.milkbox.net/packages/")))
 
 ;; Resize windows with Shift-Control-Arrow-Cursor
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<left>")  'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+(global-set-key (kbd "S-C-<down>")  'shrink-window)
+(global-set-key (kbd "S-C-<up>")    'enlarge-window)
 
 ;; Turn off pesky scrollbars
 (scroll-bar-mode -1)
