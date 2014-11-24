@@ -2,7 +2,6 @@
 #off;
 #on;
 #x-www-browser &
-lxterminal -e screen &
-#emacs &
+st -e tmux &
+emacs &
 xmonad
-

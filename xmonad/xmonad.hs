@@ -36,29 +36,29 @@ import qualified XMonad.StackSet as W
 
 main = do
     xmonad $ ewmh defaultConfig {
-      terminal            = myTerminal  ,
+      terminal            = "st"        ,
       workspaces          = myWorkspaces,
       keys                = myKeys      ,
-      modMask             = myModMask   ,
+
+      -- Use super key as modifier
+      modMask             = mod4Mask    ,
+
       layoutHook          = myLayoutHook,
       manageHook          = myManageHook,
+
+      -- Prettyness
       normalBorderColor   = "#666666"   ,
       focusedBorderColor  = "#6666CC"   ,
       borderWidth         = 1           }
 
-myTerminal = "lxterminal"
-
 myWorkspaces = ["1:Term" ,
                 "2:Emacs",
                 "3:Mail" ,
-                "4:SVN"  ,
+                "4:Misc" ,
                 "5:Web"  ]
 myKeys c = M.union (customKeys c) (keys defaultConfig c)
 customKeys c = mkKeymap c [("M-<Left>",  nextScreen),
                            ("M-<Right>", nextScreen)]
-
--- Use Super key as mod
-myModMask = mod4Mask
 
 -- How to lay out the windows on a workspace
 myLayoutHook = avoidStruts $ layoutHook defaultConfig
@@ -106,6 +106,3 @@ myManageHook = manageHook defaultConfig <+> manageDocks <+> extras
                      -- Fullscreen which still allows focusing of other windows
                      myDoFullFloat :: ManageHook
                      myDoFullFloat = doF W.focusDown <+> doFullFloat
-
-colorNormalBorder   = "#666666"
-colorFocusedBorder  = "#6666CC"
