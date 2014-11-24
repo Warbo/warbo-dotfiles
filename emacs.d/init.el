@@ -133,8 +133,7 @@ by Prelude.")
 (defun my-gnus-group-list-subscribed-groups ()
   "List all subscribed groups with or without un-read messages"
   (interactive)
-  (gnus-group-list-all-groups 5)
-  )
+  (gnus-group-list-all-groups 5))
 (add-hook 'gnus-group-mode-hook
           ;; List all the subscribed groups even they contain zero un-read
           ;; messages
@@ -146,16 +145,7 @@ by Prelude.")
 ;; Posting styles, to make Gnus behave differently for each account
 (setq mail-signature nil)
 (setq gnus-parameters
-      ;; Work email
-      '((".*wandisco.*"
-         (posting-style
-          (address "chris.warburton@wandisco.com")
-          (name "Chris Warburton")
-          (body "\n\nRegards,\n-- \nChris Warburton | Developer\n\nWANdisco // Non-Stop Data\n\ne. chris.warburton@wandisco.com")
-          (eval (setq message-sendmail-extra-arguments '("-a" "wandisco")))
-          (user-mail-address "chris.warburton@wandisco.com")))
-        ;; Personal email
-        (".*gmail.*"
+      '((".*"
          (posting-style
           (address "chriswarbo@gmail.com")
           (name "Chris Warburton")
@@ -259,7 +249,7 @@ by Prelude.")
 ;(setq browse-url-browser-function 'w3m-browse-url)
 ;(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "x-www-browser")
+      browse-url-generic-program "conkeror")
 
 ;; Identi.ca. Credentials are taken from ~/.netrc
 ;(add-to-list 'load-path "~/.emacs.d/vendor/flim/")
@@ -334,7 +324,7 @@ by Prelude.")
   (interactive)
   (setq bash-counter (+ bash-counter 1))
   (let
-      ((explicit-shell-file-name "/bin/bash"))
+      ((explicit-shell-file-name "bash"))
     (shell (concat "*shell-" (number-to-string bash-counter) "*"))
     ))
 
@@ -501,7 +491,7 @@ by Prelude.")
             '(("admin@live-init"  '(su "adminwdcom"))
               ("root@stage-init"  '(su))
               ("admin@stage-init" '(su "adminwdcom"))
-              ("apache@cw-init"   '(su "apache")))))
+              ("apache@cw-init"   '(su "apache")))))))))
 
 (defun indent-and-align ()
   "Prettier indentation. Tries to align code nicely automatically."
@@ -510,9 +500,10 @@ by Prelude.")
 (add-hook 'c-special-indent-hook 'indent-and-align)
 
 ;; Don't run Flymake over TRAMP
-(setq flymake-allowed-file-name-masks
-      (cons '("^/ssh:" (lambda () nil))
-            flymake-allowed-file-name-masks))
+(if (boundp 'flymake-allowed-file-name-masks)
+    (setq flymake-allowed-file-name-masks
+          (cons '("^/ssh:" (lambda () nil))
+                flymake-allowed-file-name-masks)))
 
 ;; PHP lint
 (require 'php-mode)
@@ -540,3 +531,12 @@ by Prelude.")
 (define-key php-mode-map '[M-S-up] 'flymake-goto-prev-error)
 (define-key php-mode-map '[M-S-down] 'flymake-goto-next-error)
 
+;; active Babel languages
+(org-babel-do-load-languages 'org-babel-load-languages '((haskell    . t)
+                                                         (sh         . t)
+                                                         (gnuplot    . t)))
+
+(setq org-src-fontify-natively t)
+
+;; ML4PG
+(ignore-errors (load-file "~/System/Programs/ml4pg/ML4PG-weka-new/ml4pg.el"))
