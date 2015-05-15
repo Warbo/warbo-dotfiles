@@ -68,8 +68,8 @@ by Prelude.")
  (dolist (f (directory-files parent-dir))
    (let ((name (expand-file-name f parent-dir)))
      (when (and (file-directory-p name)
-                (not (equal f ".."))
-                (not (equal f ".")))
+		(not (equal f ".."))
+		(not (equal f ".")))
        (add-to-list 'load-path name)
        (prelude-add-subfolders-to-load-path name)))))
 
@@ -120,12 +120,12 @@ by Prelude.")
 ;; "(add-hook 'org-shiftup-final-hook 'windmove-up)", etc. don't seem to work
 ;; Default disputed keys remap so that windowmove commands aren't overridden
 (setq org-disputed-keys '(([(shift up)] . [(meta p)])
-                          ([(shift down)] . [(meta n)])
-                          ([(shift left)] . [(meta -)])
-                          ([(shift right)] . [(meta +)])
-                          ([(meta return)] . [(control meta return)])
-                          ([(control shift right)] . [(meta shift +)])
-                          ([(control shift left)] . [(meta shift -)])))
+			  ([(shift down)] . [(meta n)])
+			  ([(shift left)] . [(meta -)])
+			  ([(shift right)] . [(meta +)])
+			  ([(meta return)] . [(control meta return)])
+			  ([(control shift right)] . [(meta shift +)])
+			  ([(control shift left)] . [(meta shift -)])))
 (setq org-replace-disputed-keys t)
 
 ;; Email
@@ -135,9 +135,9 @@ by Prelude.")
   (interactive)
   (gnus-group-list-all-groups 5))
 (add-hook 'gnus-group-mode-hook
-          ;; List all the subscribed groups even they contain zero un-read
-          ;; messages
-          (lambda () (local-set-key "o" 'my-gnus-group-list-subscribed-groups)))
+	  ;; List all the subscribed groups even they contain zero un-read
+	  ;; messages
+	  (lambda () (local-set-key "o" 'my-gnus-group-list-subscribed-groups)))
 
 ;; Make Gnus NOT ignore [Gmail]/... mailboxes
 (setq gnus-ignored-newsgroups "")
@@ -145,13 +145,19 @@ by Prelude.")
 ;; Posting styles, to make Gnus behave differently for each account
 (setq mail-signature nil)
 (setq gnus-parameters
-      '((".*"
-         (posting-style
-          (address "chriswarbo@gmail.com")
-          (name "Chris Warburton")
-          (body "\n\nCheers,\nChris")
-          (eval (setq message-sendmail-extra-arguments '("-a" "gmail")))
-          (user-mail-address "chriswarbo@gmail.com")))))
+      '(("home:.*"
+	 (posting-style
+	  (address "chriswarbo@gmail.com")
+	  (name "Chris Warburton")
+	  (body "\n\nCheers,\nChris")
+	  (eval (setq message-sendmail-extra-arguments '("-a" "gmail" "--read-envelope-from" "--read-recipients")))
+	  (user-mail-address "chriswarbo@gmail.com")))
+	("dd:.*"
+	 (posting-style
+	  (address "cmwarburton@dundee.ac.uk")
+	  (body "\n\nRegards,\nChris")
+	  (eval (setq message-sendmail-extra-arguments '("-a" "dd" "--read-envelope-from" "--read-recipients")))
+	  (user-mail-address "cmwarburton@dundee.ac.uk")))))
 
 ;; Discourage HTML emails
 (eval-after-load "gnus-sum"
@@ -173,13 +179,13 @@ by Prelude.")
 (defadvice mm-url-insert (after DE-convert-atom-to-rss () )
   "Converts atom to RSS by calling xsltproc."
   (when (re-search-forward "xmlns=\"http://www.w3.org/.*/Atom\""
-                           nil t)
+			   nil t)
     (message "Converting Atom to RSS... ")
     (goto-char (point-min))
     (call-process-region (point-min) (point-max)
-                         "xsltproc"
-                         t t nil
-                         (expand-file-name "~/atom2rss.xsl") "-")
+			 "xsltproc"
+			 t t nil
+			 (expand-file-name "~/atom2rss.xsl") "-")
     (goto-char (point-min))
     (message "Converting Atom to RSS... done")))
 (ad-activate 'mm-url-insert)
@@ -188,34 +194,34 @@ by Prelude.")
 (require 'jabber)
 (setq jabber-account-list
       '(("chris.warburton@wandisco.com"
-         (:network-server . "talk.google.com")
-         (:connection-type . ssl))
-        ("chriswarbo@gmail.com"
-         (:network-server . "talk.google.com")
-         (:connection-type . ssl))
-        ("warbo@jabber.org"
-         (:network-server . "jabber.org")
-         (:connection-type . ssl))
-        ("warbo-updates@jabber.org"
-         (:network-server . "jabber.org")
-         (:connection-type . ssl))))
+	 (:network-server . "talk.google.com")
+	 (:connection-type . ssl))
+	("chriswarbo@gmail.com"
+	 (:network-server . "talk.google.com")
+	 (:connection-type . ssl))
+	("warbo@jabber.org"
+	 (:network-server . "jabber.org")
+	 (:connection-type . ssl))
+	("warbo-updates@jabber.org"
+	 (:network-server . "jabber.org")
+	 (:connection-type . ssl))))
 ;; Enable auto-away for Jabber
 (add-hook 'jabber-post-connect-hook 'jabber-autoaway-start)
 ;; FIXME: Enable libnotify notifications for Jabber
 (add-hook 'jabber-alert-message-hooks
-          (lambda (from buf text proposed-alert)
-                  (jabber-libnotify-message text
-                                            ; Strip the resource off the sender
-                                            (car (split-string from "/")))))
+	  (lambda (from buf text proposed-alert)
+		  (jabber-libnotify-message text
+					    ; Strip the resource off the sender
+					    (car (split-string from "/")))))
 
 ;; Swap cursor keys and C-p/C-n in EShell.
 ;; C-up/C-down still does history like Shell mode
 (defun m-eshell-hook ()
 ; define control p, control n and the up/down arrow
   (define-key eshell-mode-map [(control p)]
-                              'eshell-previous-matching-input-from-input)
+			      'eshell-previous-matching-input-from-input)
   (define-key eshell-mode-map [(control n)]
-                              'eshell-next-matching-input-from-input)
+			      'eshell-next-matching-input-from-input)
 
   (define-key eshell-mode-map [up] 'previous-line)
   (define-key eshell-mode-map [down] 'next-line)
@@ -229,16 +235,16 @@ by Prelude.")
 (add-hook
  'eshell-first-time-mode-hook
   (lambda ()
-          (setq eshell-visual-commands
-                (append '("mutt"
-                          "vim"
-                          "screen"
-                          "lftp"
-                          "ipython"
-                          "telnet"
-                          "ssh"
-                          "mysql")
-                        eshell-visual-commands))))
+	  (setq eshell-visual-commands
+		(append '("mutt"
+			  "vim"
+			  "screen"
+			  "lftp"
+			  "ipython"
+			  "telnet"
+			  "ssh"
+			  "mysql")
+			eshell-visual-commands))))
 
 ;; Settings for W3M browser
 (setq w3m-use-cookies t)                   ; Use cookies
@@ -251,24 +257,14 @@ by Prelude.")
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "conkeror")
 
-;; Identi.ca. Credentials are taken from ~/.netrc
-;(add-to-list 'load-path "~/.emacs.d/vendor/flim/")
-;(load-file "~/.emacs.d/vendor/emacs-oauth/oauth.el")
-;(add-to-list 'load-path "~/.emacs.d/vendor/pumpio-el/src/")
-;(require 'pumpio-interface)
-(when (require 'netrc nil t)
-  (autoload 'identica-mode "identica-mode" nil t)
-  (let ((identica (netrc-machine (netrc-parse "~/.netrc") "identi.ca" t))) ; remove this `t' if you didn't specify a port
-    (setq identica-password (netrc-get identica "password") ; if it's last, avoid doing C-M-x in public spaces at least ;-)
-          identica-username (netrc-get identica "login"))))
-
 ;; Load GEBEN for debugging PHP via Xdebug
 (autoload 'geben "geben" "PHP Debugger on Emacs" t)
 
 ;; Set some repositories for the package manager
 (setq package-archives '(("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa"     . "http://melpa.milkbox.net/packages/")))
+			 ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("melpa"     . "http://melpa.milkbox.net/packages/")
+			 ))
 
 ;; Resize windows with Shift-Control-Arrow-Cursor
 (global-set-key (kbd "S-C-<left>")  'shrink-window-horizontally)
@@ -278,22 +274,6 @@ by Prelude.")
 
 ;; Turn off pesky scrollbars
 (scroll-bar-mode -1)
-
-;; Allow sudo-over-ssh with TRAMP
-;; FIXME: This is a bit picky at the moment. If I enable sudo-over-ssh for
-;; staging-store.wandisco.com then it interferes with ssh as root to
-;; wandisco.com :(
-(set-default 'tramp-default-proxies-alist nil)
-;;(add-to-list 'tramp-default-proxies-alist
-;;             '(nil "\\`root\\'" "/ssh:chris.warburton@%h:"))
-(add-to-list 'tramp-default-proxies-alist
-             '((regexp-quote "debian") nil nil))
-;; (add-to-list 'tramp-default-proxies-alist
-;;              '((regexp-quote "wandisco.com") nil nil))
-(add-to-list 'tramp-default-proxies-alist
-             '((regexp-quote "staging-store.wandisco.com") "\\`root\\'" "/ssh:chris.warburton@%h:"))
-(add-to-list 'tramp-default-proxies-alist
-             '((regexp-quote "chrisw.webdevbox.es") "\\`root\\'" "/ssh:chris.warburton@%h:"))
 
 ;; When TRAMP connections die, auto-save can hang
 (setq auto-save-default t)
@@ -333,9 +313,9 @@ by Prelude.")
   "Start a new shell, like the current"
   (interactive)
   (let ((buf-name (buffer-name)))
-        (progn (command-execute 'bash)
-               (kill-buffer buf-name)
-               (rename-buffer buf-name))))
+	(progn (command-execute 'bash)
+	       (kill-buffer buf-name)
+	       (rename-buffer buf-name))))
 
 ;; Make parentheses dimmer when editing LISP
 (defface paren-face
@@ -345,16 +325,16 @@ by Prelude.")
      (:foreground "grey30")))
   "Face used to dim parentheses.")
 (add-hook 'emacs-lisp-mode-hook
- 	  (lambda ()
- 	    (font-lock-add-keywords nil
- 				    '(("(\\|)" . 'paren-face)))))
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("(\\|)" . 'paren-face)))))
 (add-hook 'scheme-mode-hook
- 	  (lambda ()
- 	    (font-lock-add-keywords nil
- 				    '(("(\\|)" . 'paren-face)))))
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("(\\|)" . 'paren-face)))))
 
 ;; Proof General
-(ignore-errors (load-file "~/.emacs.d/vendor/ProofGeneral-4.2/generic/proof-site.el"))
+(ignore-errors (load-file "~/.nix-profile/share/emacs/site-lisp/ProofGeneral/generic/proof-site.el"))
 
 (defun eshell/emacs (file)
   "Running 'emacs' in eshell should open a new buffer"
@@ -371,17 +351,17 @@ by Prelude.")
 (defun eshell-named-in (namedir)
   "Launch a new eshell with the given buffer name in the given directory"
   (let* ((name   (car namedir))
-         (dir    (eval (cadr namedir))))
+	 (dir    (eval (cadr namedir))))
     (unless (get-buffer name)
       (with-current-buffer (eshell-in dir)
-        (rename-buffer name)))
+	(rename-buffer name)))
     name))
 
 (defun push-keys (keys)
   "Takes a string describing keypresses and pushes them to the input queue"
   (setq unread-command-events
-        (append (listify-key-sequence (kbd keys))
-                unread-command-events)))
+	(append (listify-key-sequence (kbd keys))
+		unread-command-events)))
 
 (defun shell-in (dir)
   "Launch a new shell in the given directory"
@@ -395,10 +375,10 @@ by Prelude.")
 (defun shell-named-in (namedir)
   "Launch a new shell with the given buffer name in the given directory"
   (let* ((name (car namedir))
-         (dir  (eval (cadr namedir))))
+	 (dir  (eval (cadr namedir))))
     (unless (get-buffer name)
       (with-current-buffer (shell-in dir)
-        (rename-buffer name)))
+	(rename-buffer name)))
     name))
 
 (defun shell-from-buf (buf)
@@ -410,88 +390,88 @@ by Prelude.")
 (defun shell-with-name-from-buf (namebuf)
   "Switch to a given buffer, open a shell and rename it."
   (let* ((name (car namebuf))
-         (buf  (eval (cadr namebuf))))
+	 (buf  (eval (cadr namebuf))))
     (unless (get-buffer name)
       (with-current-buffer (shell-from-buf buf)
-        (rename-buffer name)))
+	(rename-buffer name)))
     name))
 
 (defun run-in-buf (buffunc)
   "Call a function in a buffer"
   (let* ((buf  (car buffunc))
-         (func (cadr buffunc)))
+	 (func (cadr buffunc)))
     (if (get-buffer buf)
-        (with-current-buffer buf (eval func)))))
+	(with-current-buffer buf (eval func)))))
 
 (defun startup-eshells ()
   "Useful buffers to open at startup"
   (let* (; Some useful shorthand
-        (c     'concat)
-        (ssh   (lambda (user) (funcall c "/ssh:" user "@")))
-        (wdc    "wandisco.com")
-        (live   (concat wdc ":/"))
-        (dev   (lambda (name) (concat name ".wdev." wdc)))
-        (path  (lambda (prefix) (concat prefix ":/")))
+	(c     'concat)
+	(ssh   (lambda (user) (funcall c "/ssh:" user "@")))
+	(wdc    "wandisco.com")
+	(live   (concat wdc ":/"))
+	(dev   (lambda (name) (concat name ".wdev." wdc)))
+	(path  (lambda (prefix) (concat prefix ":/")))
 
-        (domains  "var/www/domains/")
-        (store    (concat domains "wandisco.com/drupal7/htdocs/"))
-        (logs     "var/log/apache2/")
-        (www-data "/sudo:www-data@localhost:/")
-        (ubuntu   (funcall ssh "ubuntu"))
-        (root     (funcall ssh "root"))
-        (admin    (funcall ssh "adminwdcom"))
-        (stage    "webstage.wandisco.com:/")
-        (ci       (funcall dev "webs-ci"))
-        (cw       (funcall dev "chrisw"))
-        (ci-box   (funcall path ci))
-        (cw-box   (funcall path cw))
-        (disco    (funcall path "disco.wandisco.com")))
+	(domains  "var/www/domains/")
+	(store    (concat domains "wandisco.com/drupal7/htdocs/"))
+	(logs     "var/log/apache2/")
+	(www-data "/sudo:www-data@localhost:/")
+	(ubuntu   (funcall ssh "ubuntu"))
+	(root     (funcall ssh "root"))
+	(admin    (funcall ssh "adminwdcom"))
+	(stage    "webstage.wandisco.com:/")
+	(ci       (funcall dev "webs-ci"))
+	(cw       (funcall dev "chrisw"))
+	(ci-box   (funcall path ci))
+	(cw-box   (funcall path cw))
+	(disco    (funcall path "disco.wandisco.com")))
 
-        ;; Open an eshell for each user on each server
-        (mapcar 'eshell-named-in
-           '(("home"        "~")
-             ("results"     "~")
-             ("debian"      "~/codebase/webs-store/drupal7_22/htdocs")
-             ("discodev"    "~/codebase/discodev/htdocs/")
-             ("www-data"    (concat www-data      store))
-             ("stage"       (concat admin  stage  store))
-             ;("live"        (concat root   live   store))
-             ("ci"          (concat root   ci-box domains))
-             ("cw"          (concat root   cw-box store))
-             ("logs"        (concat "/sudo::/"    logs))
-             ;("logs-live"   (concat root   live   logs))
-             ("logs-stage"  (concat ubuntu stage  logs))
-             ("disco"       (concat root   disco  domains))
-             ("stage-disco" (concat root   disco  domains))))))
+	;; Open an eshell for each user on each server
+	(mapcar 'eshell-named-in
+	   '(("home"        "~")
+	     ("results"     "~")
+	     ("debian"      "~/codebase/webs-store/drupal7_22/htdocs")
+	     ("discodev"    "~/codebase/discodev/htdocs/")
+	     ("www-data"    (concat www-data      store))
+	     ("stage"       (concat admin  stage  store))
+	     ;("live"        (concat root   live   store))
+	     ("ci"          (concat root   ci-box domains))
+	     ("cw"          (concat root   cw-box store))
+	     ("logs"        (concat "/sudo::/"    logs))
+	     ;("logs-live"   (concat root   live   logs))
+	     ("logs-stage"  (concat ubuntu stage  logs))
+	     ("disco"       (concat root   disco  domains))
+	     ("stage-disco" (concat root   disco  domains))))))
 
 (defun startup-shells ()
   "Use our eshells' TRAMP connections to launch some shells"
   (mapcar 'shell-with-name-from-buf
-          '(("store-tester" "home")
-            ("admin@stage"  "stage")
-            ("root@cw"      "cw")
-            ("chris@debian" "debian")
+	  '(("store-tester" "home")
+	    ("admin@stage"  "stage")
+	    ("root@cw"      "cw")
+	    ("chris@debian" "debian")
 
-            ; We use -init to indicate that extra work is needed
-            ("apache@cw-init"   "cw")
-            ;("admin@live-init"  "live")
-            ("root@stage-init"   "stage"))))
+	    ; We use -init to indicate that extra work is needed
+	    ("apache@cw-init"   "cw")
+	    ;("admin@live-init"  "live")
+	    ("root@stage-init"   "stage"))))
 
 (defun initialise-startup-shells ()
   "Run some initialisation commands"
   (let* ((enter (push-keys "RET"))
-         (su    (lambda (&optional user)
-                  ((input (c "sudo -u " (or user root) " bash"))
-                   (enter))))
-         (run-init (lambda (buffunc)
-                     (let* ((buf  (car buffunc))
-                            (func (cadr buffunc)))
-                       ())
+	 (su    (lambda (&optional user)
+		  ((input (c "sudo -u " (or user root) " bash"))
+		   (enter))))
+	 (run-init (lambda (buffunc)
+		     (let* ((buf  (car buffunc))
+			    (func (cadr buffunc)))
+		       ())
     (mapcar 'run-in-buf
-            '(("admin@live-init"  '(su "adminwdcom"))
-              ("root@stage-init"  '(su))
-              ("admin@stage-init" '(su "adminwdcom"))
-              ("apache@cw-init"   '(su "apache")))))))))
+	    '(("admin@live-init"  '(su "adminwdcom"))
+	      ("root@stage-init"  '(su))
+	      ("admin@stage-init" '(su "adminwdcom"))
+	      ("apache@cw-init"   '(su "apache")))))))))
 
 (defun indent-and-align ()
   "Prettier indentation. Tries to align code nicely automatically."
@@ -502,41 +482,113 @@ by Prelude.")
 ;; Don't run Flymake over TRAMP
 (if (boundp 'flymake-allowed-file-name-masks)
     (setq flymake-allowed-file-name-masks
-          (cons '("^/ssh:" (lambda () nil))
-                flymake-allowed-file-name-masks)))
+	  (cons '("^/ssh:" (lambda () nil))
+		flymake-allowed-file-name-masks)))
 
 ;; PHP lint
-(require 'php-mode)
-(require 'flymake)
+;; (require 'php-mode)
+;; (require 'flymake)
 
-(defun flymake-php-init ()
-  "Use php to check the syntax of the current file."
-  (let* ((temp (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))
-         (local (file-relative-name temp (file-name-directory buffer-file-name))))
-    (list "php" (list "-f" local "-l"))))
+;; (defun flymake-php-init ()
+;;   "Use php to check the syntax of the current file."
+;;   (let* ((temp (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))
+;; 	 (local (file-relative-name temp (file-name-directory buffer-file-name))))
+;;     (list "php" (list "-f" local "-l"))))
 
-(add-to-list 'flymake-err-line-patterns
-  '("\\(Parse\\|Fatal\\) error: +\\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)$" 3 4 nil 2))
+;; (add-to-list 'flymake-err-line-patterns
+;;   '("\\(Parse\\|Fatal\\) error: +\\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)$" 3 4 nil 2))
 
-(add-to-list 'flymake-allowed-file-name-masks '("\\.php$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.php$" flymake-php-init))
 
 ;; Drupal-type extensions
-(add-to-list 'flymake-allowed-file-name-masks '("\\.module$" flymake-php-init))
-(add-to-list 'flymake-allowed-file-name-masks '("\\.install$" flymake-php-init))
-(add-to-list 'flymake-allowed-file-name-masks '("\\.inc$" flymake-php-init))
-(add-to-list 'flymake-allowed-file-name-masks '("\\.engine$" flymake-php-init))
-(add-to-list 'flymake-allowed-file-name-masks '("\\.test$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.module$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.install$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.inc$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.engine$" flymake-php-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.test$" flymake-php-init))
 
-(add-hook 'php-mode-hook (lambda () (flymake-mode 1)))
-(define-key php-mode-map '[M-S-up] 'flymake-goto-prev-error)
-(define-key php-mode-map '[M-S-down] 'flymake-goto-next-error)
+;; (add-hook 'php-mode-hook (lambda () (flymake-mode 1)))
+;; (define-key php-mode-map '[M-S-up] 'flymake-goto-prev-error)
+;; (define-key php-mode-map '[M-S-down] 'flymake-goto-next-error)
 
 ;; active Babel languages
 (org-babel-do-load-languages 'org-babel-load-languages '((haskell    . t)
                                                          (sh         . t)
-                                                         (gnuplot    . t)))
+                                                         (gnuplot    . t)
+                                                         (dot        . t)))
+
+(setq org-confirm-babel-evaluate nil)
 
 (setq org-src-fontify-natively t)
 
-;; ML4PG
-(ignore-errors (load-file "~/System/Programs/ml4pg/ML4PG-weka-new/ml4pg.el"))
+;; Syntax highlighting for Dash
+(eval-after-load "dash" '(dash-enable-font-lock))
+
+;; Unit testing for ELisp
+(require 'ert)
+(defun ert-silently ()
+  (interactive)
+  (ert t))
+(define-key emacs-lisp-mode-map       (kbd "C-x r") 'ert-silently)
+(define-key lisp-interaction-mode-map (kbd "C-x r") 'ert-silently)
+
+;; Make doc-view continuous
+(setq doc-view-continuous t)
+
+;; f5 to save-and-export in Org mode
+(defun org-export-as-pdf ()
+  (interactive)
+  (save-buffer)
+  (org-latex-export-to-pdf))
+
+(defun org-export-and-preview ()
+  (interactive)
+  (let* ((pdf (replace-regexp-in-string "\.org$" ".pdf" (buffer-name)))
+         (buf (get-buffer pdf)))
+    (when buf (with-current-buffer buf (auto-revert-mode 1)))
+    (org-export-as-pdf)
+    (unless buf (find-file pdf))))
+
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (define-key org-mode-map
+     (kbd "<f5>") 'org-export-and-preview)))
+
+;; Visual line wrapping in Org mode
+(add-hook
+ 'org-mode-hook
+ 'turn-on-visual-line-mode)
+
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (whitespace-mode 0)
+   (setq-local whitespace-style (remove-if (lambda (x)
+                                             (member x (list 'lines-tail
+                                                             'lines)))
+                                           whitespace-style))
+   (whitespace-mode 1)))
+
+;; Render markdown to PDF
+(defun md2pdf ()
+  (interactive)
+  (let* ((md  (buffer-name))
+         (pdf (replace-regexp-in-string "\.md$" ".pdf" md))
+         (buf (get-buffer pdf)))
+    (when buf (with-current-buffer buf (auto-revert-mode 1)))
+    (save-buffer)
+    (async-shell-command (concat "pandoc --bibliography=/home/chris/Documents/ArchivedPapers/Bibtex.bib --filter panpipe --filter panhandle "
+                                 md
+                                 " -o " pdf))
+    (unless buf (find-file pdf))))
+
+(add-hook
+ 'markdown-mode-hook
+ (lambda ()
+   (define-key markdown-mode-map
+     (kbd "<f5>") 'md2pdf)))
+
+(add-hook
+ 'markdown-mode-hook
+ 'turn-on-visual-line-mode)

@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
-#off;
-#on;
-#x-www-browser &
-st -e tmux &
+#!/bin/sh
+st -e dvtm -M -m ^b &
+conkeror &
+basket &
 emacs &
+xmobar &
 xmonad

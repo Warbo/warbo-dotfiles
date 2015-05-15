@@ -1,44 +1,35 @@
+;; Dummy primary so that our real accounts are all equal (second-class) citizens
+(setq gnus-select-method '(nnnil ""))
+
 ;; Incoming mail via IMAP
-
-; Set the default select method to gmail
-;(setq gnus-select-method '(nnimap "gmail"
-;                                  (nnimap-address "imap.gmail.com")
-;                                  (nnimap-server-port 993)
-;                                  (nnimap-stream ssl)
-;                                  (nnimap-authinfo-file "~/.authinfo")))
-
-(setq gnus-select-method '(nnimap "home"
-                                  (nnimap-address "imap.gmail.com")
-                                  (nnimap-server-port 993)
-                                  (nnimap-stream ssl)
-                                  (nnimap-authinfo-file "~/.authinfo")))
-
 (setq gnus-secondary-select-methods
-      '((nnimap "dundee"
-                (nnimap-address "outlook.office365.com")
-                (nnimap-server-port 993)
-                (nnimap-stream ssl)
-                (nnimap-authinfo-file "~/.authinfo"))
-
-        (nnimap "dd"
+      '((nnimap "dd"
                  (nnimap-address "outlook.office365.com")
                  (nnimaxsp-server-port 993)
                  (nnimap-stream ssl)
                  (nnimap-authinfo-file "~/.authinfo")
-                 (nnimap-list-pattern ("INBOX" "*"))
-                 (nnimap-expunge-on-close always)
-                 (gnus-check-new-newsgroups nil)
-                 (gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
+                 ;(nnimap-list-pattern ("INBOX" "*"))
+                 ;(nnimap-expunge-on-close always)
+                 ;(gnus-check-new-newsgroups nil)
+                 ;(gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]")
+                 )
 
+        (nnimap "home"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port 993)
+                (nnimap-stream ssl)
+                (nnimap-authinfo-file "~/.authinfo"))))
 
-))
+;; Outgoing mail via SMTP
 
-;; SMTP
+;; This is needed to allow msmtp to do its magic:
+(setq message-sendmail-f-is-evil 't)
+
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program
-      "/run/current-system/sw/bin/nix-shell -p msmtp --command msmtp")
-(setq message-sendmail-extra-arguments '("-a" "gmail"
-                                         "--read-envelope-from"
+      "~/.nix-profile/bin/msmtp")
+
+(setq message-sendmail-extra-arguments '("--read-envelope-from"
                                          "--read-recipients"))
 
 ;; Use plaintext when available

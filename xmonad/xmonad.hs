@@ -40,6 +40,11 @@ main = do
       workspaces          = myWorkspaces,
       keys                = myKeys      ,
 
+
+      -- Fix Java crappiness
+      --startupHook         = setWMName "LG3D",
+      startupHook = ewmhDesktopsStartup >> setWMName "LG3D",
+
       -- Use super key as modifier
       modMask             = mod4Mask    ,
 
@@ -55,7 +60,11 @@ myWorkspaces = ["1:Term" ,
                 "2:Emacs",
                 "3:Mail" ,
                 "4:Misc" ,
-                "5:Web"  ]
+                "5:Web"  ,
+                "6:Music",
+                "7:Seven",
+                "8:Eight",
+                "9:Nine" ]
 myKeys c = M.union (customKeys c) (keys defaultConfig c)
 customKeys c = mkKeymap c [("M-<Left>",  nextScreen),
                            ("M-<Right>", nextScreen)]

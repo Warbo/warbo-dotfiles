@@ -107,3 +107,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:~/System/Programs/bin:~/warbo-utilities/system:~/warbo-utilities/web
+export PAGER=cat
+
