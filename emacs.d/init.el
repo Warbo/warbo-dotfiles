@@ -274,6 +274,7 @@ by Prelude.")
 
 ;; Turn off pesky scrollbars
 (scroll-bar-mode -1)
+(menu-bar-mode -1)
 
 ;; When TRAMP connections die, auto-save can hang
 (setq auto-save-default t)

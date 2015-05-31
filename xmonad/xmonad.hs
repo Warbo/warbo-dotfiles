@@ -1,7 +1,9 @@
 import XMonad
+
 import XMonad.Prompt
 import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
 import XMonad.Prompt.AppendFile (appendFilePrompt)
+
 import XMonad.Operations
 import System.IO
 import System.Exit
@@ -35,14 +37,13 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
 main = do
-    xmonad $ ewmh defaultConfig {
+    xmonad $ {-ewmh-} defaultConfig {
       terminal            = "st"        ,
       workspaces          = myWorkspaces,
       keys                = myKeys      ,
 
 
       -- Fix Java crappiness
-      --startupHook         = setWMName "LG3D",
       startupHook = ewmhDesktopsStartup >> setWMName "LG3D",
 
       -- Use super key as modifier
@@ -73,7 +74,7 @@ customKeys c = mkKeymap c [("M-<Left>",  nextScreen),
 myLayoutHook = avoidStruts $ layoutHook defaultConfig
 
 -- What to do when new windows are created
-myManageHook = manageHook defaultConfig <+> manageDocks <+> extras
+myManageHook = manageHook defaultConfig {-<+> manageDocks-} <+> extras
                where extras = composeAll . concat $ [
                        -- Ignore these
                        [resource     =? r --> doIgnore          | r <- ignore],

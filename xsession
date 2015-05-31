@@ -4,4 +4,5 @@ conkeror &
 basket &
 emacs &
 xmobar &
+nm-applet &
 xmonad
