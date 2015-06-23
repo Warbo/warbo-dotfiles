@@ -1,5 +1,0 @@
-#!/bin/sh
-check_install treefeatures
-
-(cd ~/Programming/Haskell/TreeFeatures
- cabal test)

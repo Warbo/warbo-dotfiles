@@ -81,21 +81,21 @@ function runOne {
 
 function runAll {
     (shopt -s nullglob
-     for TEST in scripts/*
-     do
-         NAME=$(basename "$TEST")
-         runOne "$NAME"
-     done)
+     ls scripts/ | sort | while read TEST
+                          do
+                              NAME=$(basename "$TEST")
+                              runOne "$NAME"
+                          done)
 }
 
 function runFailures {
-    echo "$FAILURES" | while read NAME
-                       do
-                           if [[ -n "$NAME" ]]
-                           then
-                               runOne "$NAME"
-                           fi
-                       done
+    echo "$FAILURES" | sort | while read NAME
+                              do
+                                  if [[ -n "$NAME" ]]
+                                  then
+                                      runOne "$NAME"
+                                  fi
+                              done
 }
 
 readFailures

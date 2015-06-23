@@ -1,5 +1,0 @@
-#!/bin/sh
-check_install hs2ast
-
-(cd ~/Programming/Haskell/HS2AST
- cabal test)
