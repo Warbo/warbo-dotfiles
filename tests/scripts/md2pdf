@@ -1,0 +1,2 @@
+#!/bin/sh
+check_install md2pdf

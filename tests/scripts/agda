@@ -1,0 +1,4 @@
+#!/bin/sh
+check_install agdaBase
+check_install haskell.packages.ghc784.Agda
+check_install emacsMelpa.agda2-mode

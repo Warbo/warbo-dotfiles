@@ -1,0 +1,8 @@
+#!/bin/sh
+
+nix-shell '<nixpkgs>' -A cwNet --command "true" &&
+echo "Can make build environment for chriswarbo.net"
+
+nix-shell '<nixpkgs>' -A cwNet \
+  --command 'echo "import Hakyll; main = return ()" | runhaskell' &&
+echo "Hakyll library is available to chriswarbo.net"
