@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/Programming/Haskell/ML4HS
+./test.hs

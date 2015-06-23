@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/Programming/Haskell/ArbitraryHaskell
+cabal test pure

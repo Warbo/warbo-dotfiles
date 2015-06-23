@@ -1,0 +1,3 @@
+#!/bin/sh
+
+check_install te-unstable.hs2ast

@@ -1,6 +1,0 @@
-#!/bin/sh
-check_install te-unstable.ArbitraryHaskell
-check_install te-unstable.hs2ast
-check_install te-unstable.treefeatures
-check_install te-unstable.mlspec
-check_install te-unstable.ml4hs
