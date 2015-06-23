@@ -54,6 +54,16 @@ function runOne {
         echo "scripts/$NAME not found, skipping"
         return
     fi
+
+    # Backup old stdio, so we have something readable during a test run
+    for TYP in stdout stderr
+    do
+        test -e "results/$NAME.$TYP.old" &&
+             rm "results/$NAME.$TYP.old"
+        test -e "results/$NAME.$TYP"     &&
+             mv "results/$NAME.$TYP" "results/$NAME.$TYP.old"
+    done
+
     printf "Running $NAME..."
     if "scripts/$NAME" > "results/$NAME.stdout" 2> "results/$NAME.stderr"
     then
@@ -90,7 +100,7 @@ function runFailures {
 
 readFailures
 
-if [[ "$FAILURES_COUNT" -eq 0 ]]
+if [[ -z "$FAILURES" ]]
 then
     echo "No previous failures, running all tests"
     runAll
