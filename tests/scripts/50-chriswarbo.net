@@ -1,4 +1,5 @@
 #!/bin/sh
+nix-store --clear-failed-paths paths
 
 nix-shell '<nixpkgs>' -A cwNet --command "true" &&
 echo "Can make build environment for chriswarbo.net"

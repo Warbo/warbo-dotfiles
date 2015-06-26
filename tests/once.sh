@@ -37,14 +37,12 @@ function readFailures {
     else
         FAILURES=""
     fi
-    FAILURES_COUNT=0
-    echo "$FAILURES" | while read LINE
-                       do
-                           if [ -n "$LINE" ]
-                           then
-                               FAILURES_COUNT=$(( $FAILURES_COUNT + 1 ))
-                           fi
-                       done
+    if [[ -z "$FAILURES" ]]
+    then
+        FAILURES_COUNT=0
+    else
+        FAILURES_COUNT=$(echo "$FAILURES" | wc -l)
+    fi
 }
 
 function runOne {

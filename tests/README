@@ -36,3 +36,17 @@ Some things to notice about the behaviour of ./once.sh and results/failures:
  - Just because ./once.sh exits successfully doesn't mean our whole suite passes
    since it may have only run the previous failures. Two successes in a row
    definitely means a passing suite.
+
+Also note that tests will be run in lexicographic order, so we can prioritise
+some over others; usually in a case of "fail fast".
+
+Existing tests roughly follow this ordering:
+
+ - Fast tests should be higher than slow tests, so we can fail fast
+ - Unstable versions should be higher than stable versions, as they're more
+   likely to change, we're more likely to be working with them, and that's where
+   we'll make any fixes (producing a replacement stable version)
+ - Tests for my projects should be higher than other peoples', since they're
+   more likely to fail due to me making changes
+ - Tests for programs I use regularly should be higher than those I merely
+   maintain, since maintenance requires my tools to be working!

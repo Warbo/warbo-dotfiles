@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Try to build first, to catch things like type errors straight away
+cd /home/chris/Programming/Haskell/AstPlugin
+cabal build || exit 1
+
+RESULT=$(./dump-hackage.sh directory)
+COUNT=$(echo "$RESULT" | grep "Non-recursive binding named" | wc -l)
+
+test "$COUNT" -gt 1 || exit 1

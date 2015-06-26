@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd ~/Programming/Haskell/HS2AST
-cabal test pure
+cabal test impure
