@@ -1,2 +1,2 @@
 #!/bin/sh
-check_install hs2ast
+check_install HS2AST
