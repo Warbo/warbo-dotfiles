@@ -1,4 +1,5 @@
 #!/bin/sh
 
 cd ~/Programming/Haskell/ML4HS
-./test.hs
+rm -rf test-data/
+./test.sh
