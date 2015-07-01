@@ -1,4 +1,5 @@
 #!/bin/sh
 
 cd ~/Programming/Haskell/MLSpec
+cabal build
 cabal test
