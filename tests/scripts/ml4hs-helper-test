@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /home/chris/Programming/Haskell/ML4HSHelper
+cabal build
+cabal test
