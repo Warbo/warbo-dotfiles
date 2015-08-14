@@ -5,6 +5,7 @@ ERR=0
 for script in ~/.tests/once.sh ~/.tests/clean.sh ~/.tests/loop.sh \
               ~/.tests/scripts/* ~/warbo-utilities/system/*
 do
+    [[ -e "$script" ]] || continue
     if head -n 1 < "$script" | grep "python" > /dev/null
     then
         # Skip Python scripts

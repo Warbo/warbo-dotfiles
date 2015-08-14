@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cd ~/Programming/Haskell/ArbitraryHaskell
-nix-shell --run "cabal configure --enable tests"
+nix-shell --run "cabal configure --enable-tests"
 cabal test impure
