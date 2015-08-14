@@ -1,5 +1,6 @@
 #!/bin/sh
 
-# Try to build first, to catch things like type errors straight away
 cd /home/chris/Programming/Haskell/AstPlugin
-cabal build || exit 1
+rm shell.nix || true
+hsConfig
+cabal test

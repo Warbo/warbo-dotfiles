@@ -1,4 +1,5 @@
 #!/bin/sh
 
 cd ~/Programming/Haskell/HS2AST
+nix-shell --run "cabal configure --enable-tests"
 cabal test pure
