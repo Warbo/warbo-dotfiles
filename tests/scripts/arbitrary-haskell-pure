@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cd ~/Programming/Haskell/ArbitraryHaskell
 nix-shell --run "cabal configure --enable-tests"

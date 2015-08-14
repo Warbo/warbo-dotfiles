@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 check_install panhandle
 
 nix-shell -p which -p panhandle --pure --command 'which panhandle' &&

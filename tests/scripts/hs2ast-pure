@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cd ~/Programming/Haskell/HS2AST
 nix-shell --run "cabal configure --enable-tests"

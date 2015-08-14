@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 CODE=0
 
@@ -8,7 +8,7 @@ FAILED=0
 FAILURES_COUNT=0
 
 function statusMsg {
-    TOTAL=$(( $PASSED + $FAILED ))
+    TOTAL=$(( PASSED + FAILED ))
     if [[ $TOTAL -eq $PASSED ]]
     then
         if [ -z "$FAILURES" ]
@@ -63,28 +63,28 @@ function runOne {
     done
 
     set +e
-    printf "Running $NAME..."
+    printf "Running %s..." "$NAME"
     if "scripts/$NAME" > "results/$NAME.stdout" 2> "results/$NAME.stderr"
     then
-        PASSED=$(( $PASSED + 1 ))
+        PASSED=$(( PASSED + 1 ))
         status
         echo "PASS"
     else
         CODE=1
-        FAILED=$(( $FAILED + 1 ))
-        printf "$NAME\n" >> results/failures
+        FAILED=$(( FAILED + 1 ))
+        printf "%s\n" "$NAME" >> results/failures
         status
-        echo "FAIL"
+        echo "FAIL, see results/$NAME.stderr and results/$NAME.stdout"
     fi
 }
 
 function runAll {
-    (shopt -s nullglob
-     ls scripts/ | sort | while read TEST
-                          do
-                              NAME=$(basename "$TEST")
-                              runOne "$NAME"
-                          done)
+    shopt -s nullglob
+    for TEST in scripts/*
+    do
+        NAME=$(basename "$TEST")
+        runOne "$NAME"
+    done
 }
 
 function runFailures {

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 check_install git2html
 
 nix-shell -p which -p git2html --pure --command 'which git2html' &&
