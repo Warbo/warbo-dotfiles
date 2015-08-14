@@ -62,15 +62,16 @@ function runOne {
              mv "results/$NAME.$TYP" "results/$NAME.$TYP.old"
     done
 
+    set +e
     printf "Running $NAME..."
     if "scripts/$NAME" > "results/$NAME.stdout" 2> "results/$NAME.stderr"
     then
-        PASSED=$(( $PASSED + 1))
+        PASSED=$(( $PASSED + 1 ))
         status
         echo "PASS"
     else
         CODE=1
-        FAILED=$(( $FAILED + 1))
+        FAILED=$(( $FAILED + 1 ))
         printf "$NAME\n" >> results/failures
         status
         echo "FAIL"
