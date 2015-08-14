@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+ERR=0
+for script in ~/.tests/*.sh ~/.tests/scripts/* ~/warbo-utilities/system/*
+do
+    SHEBANG=$(head -n 1 < "$script")
+    if echo "$SHEBANG" | grep "#![ ]*/bin/sh" > /dev/null
+    then
+        echo "#!/bin/sh in $script may break on Debian (dash)" >> /dev/stderr
+        ERR=1
+    fi
+    if echo "$SHEBANG" | grep "#![ ]*/bin/bash" > /dev/null
+    then
+        echo "#!/bin/bash in $script won't work on NixOS" >> /dev/stderr
+        ERR=1
+    fi
+    if echo "$SHEBANG" | grep "#![ ]*/usr/bin" > /dev/null &&
+     ! echo "$SHEBANG" | grep "/usr/bin/env" > /dev/null
+    then
+        echo "Shebang for $script may not work on NixOS"
+        ERR=1
+    fi
+done
+
+exit "$ERR"

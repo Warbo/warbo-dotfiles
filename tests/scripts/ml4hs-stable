@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 check_install ml4hs
 
 nix-shell -p which -p ml4hs --pure --command 'which ml4hs' &&
