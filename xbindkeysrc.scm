@@ -34,3 +34,6 @@
 ;; Screen switching
 (xbindkey "XF86Forward" "xdotool key super+Right")
 (xbindkey "XF86Back"    "xdotool key super+Left")
+
+;; Command hotkeys
+(xbindkey "XF86Calculator" "run_tests")
