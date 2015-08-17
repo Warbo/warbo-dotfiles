@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 cd ~/Programming/Haskell/MLSpec
-cabal build
+nix-shell --run "cabal configure --enable-tests"
 cabal test

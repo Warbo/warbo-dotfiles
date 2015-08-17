@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd ~/Programming/Haskell/QuickSpecMeasure
+nix-shell --run "cabal configure --enable-tests"
+nix-shell --run "cabal test"

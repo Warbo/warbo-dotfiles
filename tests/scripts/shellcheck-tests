@@ -1,13 +1,18 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -p bash -p haskellPackages.ShellCheck -i bash
 
+function skip {
+    # Skip Python and Haskell
+    INPUT=$(grep "^#!")
+    echo "$INPUT" | grep "python" || echo "$INPUT" | grep "haskell"
+}
+
 shopt -s nullglob
 ERR=0
 for script in ~/.tests/*.sh ~/.tests/scripts/* ~/warbo-utilities/system/*
 do
-    if head -n 1 < "$script" | grep "python" > /dev/null
+    if skip < "$script" > /dev/null
     then
-        # Skip Python scripts
         continue
     fi
     shellcheck -e SC1008 "$script" || ERR=1

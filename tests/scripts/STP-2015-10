@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cd ~/Writing/STP-2015-10
+
+for F in slides.md
+do
+    [[ -e "$F" ]] || { echo "No $F" >> /dev/stderr ; exit 1; }
+done

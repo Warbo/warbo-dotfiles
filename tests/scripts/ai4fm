@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cd ~/Writing/AI4FM
+
+for F in article.tex slides.md
+do
+    [[ -e "$F" ]] || { echo "No $F" >> /dev/stderr ; exit 1; }
+done
