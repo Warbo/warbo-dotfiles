@@ -1,0 +1,18 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -p bash -p xidel -i bash
+
+TOTAL='th[contains(text(),"Program Coverage Total")]'
+PERCENT='following-sibling::td[1]/text()'
+
+ERR=0
+while IFS= read -r -d $'\0' file
+do
+    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$file")
+    if ! [[ "x$RESULT" = "x100%" ]]
+    then
+        echo "'$RESULT' coverage for '$file'" >> /dev/stderr
+        ERR=1
+    fi
+done < <(find ~/Programming/Haskell -name "hpc_index.html" -print0)
+
+exit "$ERR"
