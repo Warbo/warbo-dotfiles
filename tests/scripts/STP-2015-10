@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
-cd ~/Writing/STP-2015-10
+function fail {
+    echo "$1" >> /dev/stderr
+    exit 1
+}
 
-for F in slides.md
-do
-    [[ -e "$F" ]] || { echo "No $F" >> /dev/stderr ; exit 1; }
-done
+# Check the sites
+
+[[ -e ~/Writing/STP/sites/stp/2015/10/index.md ]] || fail "2015/10 has no index"
+
+(cd ~/Writing/STP/sites; ./render.sh) || fail "Couldn't render sites"
+
+# Check the talks
+[[ -e ~/Writing/STP/talks/2015/10/slides.md ]] || fail "2015/10 has no slides"
+
+(cd ~/Writing/STP/talks; ./render.sh) || fail "Couldn't render talks"
