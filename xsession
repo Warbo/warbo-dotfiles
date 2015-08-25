@@ -1,8 +1,9 @@
 #!/bin/sh
-st -e dvtm -M -m ^b &
+st -e shell &
 conkeror &
 basket &
 emacs &
 xmobar &
+gnome-keyring-daemon &
 nm-applet &
 xmonad
