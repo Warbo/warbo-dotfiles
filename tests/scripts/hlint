@@ -1,37 +1,20 @@
 #! /usr/bin/env nix-shell
-#! nix-shell -p ghcTurtle -p haskellPackages.hlint -i runhaskell
-{-# LANGUAGE OverloadedStrings #-}
+#! nix-shell -p bash haskellPackages.hlint -i bash
 
-import Data.List
-import Data.Maybe
-import Filesystem.Path.CurrentOS hiding (empty)
-import Prelude hiding (FilePath)
-import Turtle
+# Run hlint on (almost) everything in ~/Programming/Haskell
 
--- Run hlint on (almost) everything in ~/Programming/Haskell
+function hs {
+    my_haskell
+    for FILE in ~/Programming/Haskell/*.hs ~/Programming/Haskell/*.lhs
+    do
+        echo "$FILE"
+    done
+}
 
--- Skip other people's projects which we can't fix
-skipDirs = ["AI", "tip-tools", "Botworld", "IsaHipster", "AlgorithmsAndAI",
-            "hipspec", "LazySmallCheck2012", "hbmc", "quickspec",
-            "lambdapi", "hip", "ghc", "structural-induction", "ebc",
-            "unification", "LC"]
+ERR=0
+while IFS= read -r HASKELL
+do
+    hlint -XNoCPP "$HASKELL" || ERR=1
+done < <(hs)
 
-keepDir :: FilePath -> Bool
-keepDir x = not $ any (`elem` skipDirs) (splitDirectories x)
-
-keepFile :: FilePath -> Bool
-keepFile x = extension x `elem` [Just "hs", Just "lhs"]
-
-hsDirs :: Shell FilePath
-hsDirs = do x <- ls "/home/chris/Programming/Haskell"
-            d <- testdir  x
-            f <- testfile x
-            if (d && keepDir x) || (f && keepFile x)
-               then return x
-               else empty
-
-main = sh $ do
-  d <- hsDirs
-  proc "hlint" ["-XNoCPP", pathText d] empty
-
-pathText = fromString . encodeString
+exit "$ERR"

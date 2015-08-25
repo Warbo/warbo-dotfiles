@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+ERR=1
+for DIR in my_haskell
+do
+    for CABAL in "$DIR"/*.cabal
+    do
+        cd "$DIR"
+        hsConfig || { echo "Can't hsConfig in '$DIR'" >> /dev/stderr; ERR=1; }
+    done
+done
+
+exit "$ERR"

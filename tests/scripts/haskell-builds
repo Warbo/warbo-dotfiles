@@ -1,0 +1,17 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -p bash -i bash
+
+ERR=0
+while IFS= read -r DIR
+do
+    cd "$DIR"
+    if ! hsConfig
+    then
+        echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
+        ERR=1
+        continue
+    fi
+    cabal build || ERR=1
+done < <(my_haskell)
+
+exit "$ERR"

@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-check_install warbo-utilities
+check_install warbo-utilities || exit 1
+
+cd ~/warbo-utilities
+./test.sh
