@@ -4,6 +4,14 @@ function isGit {
     (cd "$1"; git rev-parse --show-toplevel 1> /dev/null 2> /dev/null)
 }
 
+function getDir {
+    while read -r LINE
+    do
+        [[ -f "$LINE" ]] || continue
+        dirname "$LINE"
+    done
+}
+
 # Make sure everything in ~/Programming is version controlled
 COUNT=10 # Stop early if we find this many unversioned things
 ERR=0
@@ -17,7 +25,6 @@ do
     ERR=1
     COUNT=$(( COUNT - 1 ))
     [[ "$COUNT" -eq 0 ]] && break
-done < <(find ~/Programming -type f -exec dirname {} \; | uniq)
+done < <(locate '/home/chris/Programming/*' | getDir | uniq)
 
-pkill find # Prevent dirname spawning over and over
 exit "$ERR"

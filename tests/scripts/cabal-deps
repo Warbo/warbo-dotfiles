@@ -1,6 +1,6 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -p haskellPackages.packunused -p bash -i bash
-
+exit 1
 function fail {
     echo "$1" >> /dev/stderr
     ERR=1

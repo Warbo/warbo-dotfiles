@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Bail out if we're not connected to Dundee Uni WiFi
-if !nmcli c show --active | grep "UoD" > /dev/null
+if ! nmcli c show --active | grep "UoD" > /dev/null
 then
     echo "Not on UoD_Wifi, so not checking VPN or samba"
     exit 0

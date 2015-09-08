@@ -12,11 +12,11 @@ function gitClean {
 
 ERR=0
 COUNT=10
-while IFS= read -r -d $'\0' REPO
+while IFS= read -r REPO
 do
     DIR=$(dirname "$REPO")
     gitClean "$DIR"
     [[ "$COUNT" -eq 0 ]] && break
-done < <(find ~/Programming -type d -name ".git" -print0)
+done < <(locate '/home/chris/Programming/*/.git')
 
 exit "$ERR"

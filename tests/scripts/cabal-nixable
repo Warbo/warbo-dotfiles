@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 ERR=1
-for DIR in my_haskell
+while read -r DIR
 do
     for CABAL in "$DIR"/*.cabal
     do
+        [[ -x "$CABAL" ]]
         cd "$DIR"
         hsConfig || { echo "Can't hsConfig in '$DIR'" >> /dev/stderr; ERR=1; }
     done
-done
+done < <(my_haskell)
 
 exit "$ERR"

@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 nix-store --clear-failed-paths paths
 
-nix-shell '<nixpkgs>' -A cwNet --command "true" &&
-echo "Can make build environment for chriswarbo.net"
+ERR=0
+if nix-shell '<nixpkgs>' -A cwNet --command "true"
+then
+    echo "Can make build environment for chriswarbo.net"
+else
+    ERR=1
+fi
 
-nix-shell '<nixpkgs>' -A cwNet \
-  --command 'echo "import Hakyll; main = return ()" | runhaskell' &&
-echo "Hakyll library is available to chriswarbo.net"
+cd ~/blog
+./render test || ERR=1
+
+exit "$ERR"

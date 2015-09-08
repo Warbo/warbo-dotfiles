@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
 cd /home/chris/Programming/Haskell/AstPlugin
-rm shell.nix || true
 hsConfig
 cabal test
