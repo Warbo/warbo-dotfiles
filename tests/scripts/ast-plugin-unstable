@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install te-unstable.AstPlugin
+grep "^ *te-unstable.AstPlugin$" default.nix

@@ -1,8 +1,12 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -p bash haskellPackages.hlint -i bash
+#!/usr/bin/env bash
+
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
 
 # Run hlint on (almost) everything in ~/Programming/Haskell
 
+CACHE="results/data/hlint"
 function hs {
     my_haskell
     for FILE in ~/Programming/Haskell/*.hs ~/Programming/Haskell/*.lhs
@@ -11,10 +15,24 @@ function hs {
     done
 }
 
+function cached {
+    mkdir -p results/data
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    then
+        cat "$CACHE"
+    else
+        hs | tee "$CACHE"
+    fi
+}
+
 ERR=0
 while IFS= read -r HASKELL
 do
-    hlint -XNoCPP "$HASKELL" || ERR=1
-done < <(hs)
+    if ! hlint -XNoCPP "$HASKELL"
+    then
+        ERR=1
+        [[ "$FULL" -eq 1 ]] || exit 1
+    fi
+done < <(cached)
 
 exit "$ERR"

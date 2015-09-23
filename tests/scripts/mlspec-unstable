@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install te-unstable.mlspec
+grep "^ *te-unstable.mlspec$" default.nix

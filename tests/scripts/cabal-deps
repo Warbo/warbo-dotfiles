@@ -1,5 +1,4 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -p haskellPackages.packunused -p bash -i bash
+#!/usr/bin/env bash
 exit 1
 function fail {
     echo "$1" >> /dev/stderr
@@ -17,7 +16,7 @@ do
         continue
     fi
 
-    rm -f *.imports
+    rm -f ./*.imports
     if ! cabal build --ghc-options="-ddump-minimal-imports"
     then
         fail "cabal build in '$DIR'"

@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
-check_install te-unstable.treefeatures
+grep "^ *te-unstable.treefeatures$" default.nix

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
 ERR=0
 for script in ~/.tests/*.sh ~/.tests/scripts/* ~/warbo-utilities/system/*
 do
@@ -20,6 +24,7 @@ do
         echo "Shebang for $script may not work on NixOS"
         ERR=1
     fi
+    [[ "$ERR" -eq 0 ]] || [[ "$FULL" -eq 1 ]] || exit 1
 done
 
 exit "$ERR"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-check_install warbo-utilities || exit 1
+grep "^ *warbo-utilities$" default.nix
 
 cd ~/warbo-utilities
 ./test.sh

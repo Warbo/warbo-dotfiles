@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-check_install panpipe
-
-nix-shell -p which -p panpipe --pure --command 'which panpipe' &&
-echo "panpipe binary is installed"
+which panpipe && echo "panpipe binary is installed"

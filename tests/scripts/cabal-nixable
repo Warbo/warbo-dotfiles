@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
 
-ERR=1
-while read -r DIR
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
+ERR=0
+while read -r PROJECT
 do
-    for CABAL in "$DIR"/*.cabal
+    DIR=""
+    for FILE in "$PROJECT"/*.cabal
     do
-        [[ -x "$CABAL" ]]
-        cd "$DIR"
-        hsConfig || { echo "Can't hsConfig in '$DIR'" >> /dev/stderr; ERR=1; }
+        DIR=$(dirname "$FILE")
     done
+    [[ -n "$DIR" ]] || continue
+
+    if ! (cd "$DIR" && hsConfig)
+    then
+        ERR=1
+        [[ "$FULL" -eq 1 ]] || exit 1
+    fi
 done < <(my_haskell)
 
 exit "$ERR"

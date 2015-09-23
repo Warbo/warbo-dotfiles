@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install weka
+grep "^ *weka$" default.nix

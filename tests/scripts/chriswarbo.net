@@ -1,15 +1,3 @@
 #!/usr/bin/env bash
-nix-store --clear-failed-paths paths
-
-ERR=0
-if nix-shell '<nixpkgs>' -A cwNet --command "true"
-then
-    echo "Can make build environment for chriswarbo.net"
-else
-    ERR=1
-fi
-
 cd ~/blog
-./render test || ERR=1
-
-exit "$ERR"
+./render test

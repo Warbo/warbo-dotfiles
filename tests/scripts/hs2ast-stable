@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-check_install HS2AST
+
+grep "^ *HS2AST$" default.nix

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install get_iplayer
+grep "^ *get_iplayer$" default.nix

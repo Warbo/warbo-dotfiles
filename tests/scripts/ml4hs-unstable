@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
-check_install te-unstable.ml4hs
+grep "^ *te-unstable.ml4hs$" default.nix

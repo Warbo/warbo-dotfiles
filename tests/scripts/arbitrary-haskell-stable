@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install ArbitraryHaskell
+grep "^ *ArbitraryHaskell$" default.nix

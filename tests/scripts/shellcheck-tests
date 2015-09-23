@@ -1,10 +1,15 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -p bash -p haskellPackages.ShellCheck -i bash
+#! /usr/bin/env bash
+
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
 
 function skip {
-    # Skip Python and Haskell
+    # Skip Python, Haskell and makefiles
     INPUT=$(grep "^#!")
-    echo "$INPUT" | grep "python" || echo "$INPUT" | grep "haskell"
+    echo "$INPUT" | grep "python"  ||
+    echo "$INPUT" | grep "haskell" ||
+    echo "$INPUT" | grep "gnumake"
 }
 
 shopt -s nullglob
@@ -15,7 +20,11 @@ do
     then
         continue
     fi
-    shellcheck -e SC1008 "$script" || ERR=1
+    if ! shellcheck -e SC1008 -e SC2001 "$script"
+    then
+        ERR=1
+        [[ "$FULL" -eq 1 ]] || exit 1
+    fi
 done
 
 exit "$ERR"

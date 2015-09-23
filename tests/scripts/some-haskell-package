@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install "haskellPackages.random"
+grep "^ *haskellPackages\." default.nix

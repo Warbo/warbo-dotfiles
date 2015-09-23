@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install ml4pg
+grep "^ *ml4pg$" default.nix

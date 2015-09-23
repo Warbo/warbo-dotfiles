@@ -1,5 +1,24 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -p bash -p xidel -i bash
+#!/usr/bin/env bash
+
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
+CACHE="results/data/hpc-coverage"
+
+function data {
+    locate -0 "hpc_index.html"
+}
+
+function cached {
+    mkdir -p results/data
+    if [[ -e "$CACHE" && test $(find "$CACHE" -mmin 60) ]]
+    then
+        cat "$CACHE"
+    else
+        data | tee "$CACHE"
+    fi
+}
 
 TOTAL='th[contains(text(),"Program Coverage Total")]'
 PERCENT='following-sibling::td[1]/text()'
@@ -12,7 +31,8 @@ do
     then
         echo "'$RESULT' coverage for '$file'" >> /dev/stderr
         ERR=1
+        [[ "$FULL" -eq 1 ]] || exit 1
     fi
-done < <(find ~/Programming/Haskell -name "hpc_index.html" -print0)
+done < <(cached)
 
 exit "$ERR"

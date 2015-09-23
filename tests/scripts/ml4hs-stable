@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-check_install ml4hs
-
-nix-shell -p which -p ml4hs --pure --command 'which ml4hs' &&
-    echo "ml4hs script is installed"
+which ml4hs && echo "ml4hs script is installed"

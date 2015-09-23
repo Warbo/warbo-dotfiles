@@ -1,22 +1,39 @@
 #!/usr/bin/env bash
 
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
+function data {
+    locate '/home/chris/Programming/*/.git' |
+    grep -v "/git-html/"
+}
+
+CACHE="results/data/all-committed"
+function cached {
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    then
+        cat "$CACHE"
+    else
+        data | tee "$CACHE"
+    fi
+}
+
 function gitClean {
     cd "$1"
-    if git status | grep "nothing to commit, working directory clean" > /dev/null
+    if ! git status | grep "nothing to commit, working directory clean" > /dev/null
     then
         ERR=1
-        COUNT=$((COUNT - 1))
         echo "Uncommited things in '$1'" >> /dev/stderr
+        [[ "$FULL" -eq 1 ]] || exit 1
     fi
 }
 
 ERR=0
-COUNT=10
 while IFS= read -r REPO
 do
     DIR=$(dirname "$REPO")
     gitClean "$DIR"
-    [[ "$COUNT" -eq 0 ]] && break
-done < <(locate '/home/chris/Programming/*/.git')
+done < <(cached)
 
 exit "$ERR"

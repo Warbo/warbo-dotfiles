@@ -1,8 +1,8 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -p gnumake bash -i bash
-make -k -j2 -f <(tail -n+4 "$0") "$@"; exit "$?"
+#!/usr/bin/env bash
+make -k -j2 -f <(tail -n+3 "$0") "$@"; exit "$?"
 
-# The shebang trickery above means we can do ./Makefile
+# The shell trickery above means we can do ./run to execute this Makefile
+
 # All filenames from scripts/
 tests := $(notdir $(wildcard scripts/*))
 
@@ -14,12 +14,14 @@ all : $(passes)
 
 # Each dummy file depends on its associated script
 $(passes) : $(addprefix scripts/, $(notdir $@))
-	mkdir -p results/pass results/stdout results/stderr
-	scripts/$(notdir $@) 1> results/stdout/$(notdir $@) \
-	                     2> results/stderr/$(notdir $@)
-	touch $@
+	mkdir -p results/pass results/stdout results/stderr results/time
+	command time --output=results/time/$(notdir $@) \
+	             scripts/$(notdir $@) 1> results/stdout/$(notdir $@) \
+	                                  2> results/stderr/$(notdir $@)
+	cp results/time/$(notdir $@) $@
 
 clean :
 	rm -f results/pass/*
 	rm -f results/stdout/*
 	rm -f results/stderr/*
+	rm -f results/time/*

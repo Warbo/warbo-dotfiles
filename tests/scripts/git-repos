@@ -1,7 +1,23 @@
 #!/usr/bin/env bash
 
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
 function isGit {
     (cd "$1"; git rev-parse --show-toplevel 1> /dev/null 2> /dev/null)
+}
+
+function isSvn {
+    if OUT=$(cd "$1"; svn status --depth=empty 2>&1)
+    then
+        true
+    fi
+    echo "$OUT" | grep "E155036" > /dev/null
+}
+
+function isVC {
+    isGit "$1" || isSvn "$1"
 }
 
 function getDir {
@@ -12,19 +28,46 @@ function getDir {
     done
 }
 
+function skip {
+    FOUND=""
+    while read -r LINE
+    do
+        if ! echo "$FOUND" | grep "$LINE" > /dev/null
+        then
+            FOUND=$(printf '%s\n%s' "$FOUND" "$LINE")
+            echo "$LINE"
+        fi
+    done |
+    grep -v "Programming/CIL" |
+    grep -v "Programming/CCOD"
+}
+
+function data {
+    locate '/home/chris/Programming/*' | getDir | skip
+}
+
+CACHE="results/data/git-repos"
+function cached {
+    mkdir -p results/data
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    then
+        cat "$CACHE"
+    else
+        data | tee "$CACHE"
+    fi
+}
+
 # Make sure everything in ~/Programming is version controlled
-COUNT=10 # Stop early if we find this many unversioned things
 ERR=0
 while IFS= read -r DIR
 do
     # Skip if any check passes
-    isGit "$DIR" && continue
+    isVC "$DIR" && continue
 
     # No check passed, so make a note
     echo "$DIR doesn't seem to be version controlled" >> /dev/stderr
     ERR=1
-    COUNT=$(( COUNT - 1 ))
-    [[ "$COUNT" -eq 0 ]] && break
-done < <(locate '/home/chris/Programming/*' | getDir | uniq)
+    [[ "$FULL" -eq 1 ]] || exit 1
+done < <(cached)
 
 exit "$ERR"

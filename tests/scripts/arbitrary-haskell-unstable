@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-check_install te-unstable.ArbitraryHaskell
+grep "^ *te-unstable.ArbitraryHaskell$" default.nix

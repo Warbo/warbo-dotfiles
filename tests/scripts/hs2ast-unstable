@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
-check_install te-unstable.HS2AST
+grep "^ *te-unstable.HS2AST$" default.nix
