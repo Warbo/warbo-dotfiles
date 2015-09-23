@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-cd ~/Programming/Haskell/QuickSpecMeasure
-hsConfig
-cabal test
