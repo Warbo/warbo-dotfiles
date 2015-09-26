@@ -6,41 +6,5 @@ require('gmail');
 require('github');
 require('duckduckgo');
 
-// Make browsing SimpleTest results easier
-
-// Adjusts the current SimpleTest result number
-var simpletest_nav = function(n) {
-  return function(I) {
-    var url = I.buffer.display_uri_string;
-    var m   = parseInt(url.match(/(\d+).html/)[1]);
-    load_url_in_current_buffer(
-      url.replace(
-        /\d+\.html/,
-        (m + n) + '.html'));
-  };
-};
-
-interactive(
-  'simpletest-next',
-  'Go to the next result',
-  simpletest_nav(1));
-
-interactive(
-  'simpletest-prev',
-  'Go to the previous result',
-  simpletest_nav(-1));
-
-define_keymap('simpletest_keymap', $display_name = "simpletest");
-define_key(simpletest_keymap, 'left',  'simpletest-prev');
-define_key(simpletest_keymap, 'right', 'simpletest-next');
-define_keymaps_page_mode(
-  'simpletest-mode',
-  /.*simpletest\/verbose.*/,
-  { normal: simpletest_keymap },
-  $display_name = 'SimpleTest');
-
-page_mode_activate(simpletest_mode);
-provide('simpletest');
-
 io_service.manageOfflineStatus = false;
 io_service.offline = false;
