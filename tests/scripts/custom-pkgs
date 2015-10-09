@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Pass in the argument "full" to keep going after a failure
+FULL=0
+[[ "x$1" = "xfull" ]] && FULL=1
+
+PKGS=( ArbitraryHaskell
+       AstPlugin
+       coalp
+       get_iplayer
+       haskellPackages.random
+       HS2AST
+       ml4pg
+       mlspec
+       quickspec
+       te-unstable.ArbitraryHaskell
+       te-unstable.AstPlugin
+       te-unstable.HS2AST
+       te-unstable.ml4hs
+       te-unstable.mlspec
+       te-unstable.treefeatures
+       treefeatures
+       warbo-utilities
+       weka )
+
+ERR=0
+for PKG in "${PKGS[@]}"
+do
+    if ! nix-shell -p "$PKG" --run true
+    then
+        ERR=1
+        [[ "$FULL" -eq 1 ]] || exit 1
+done
+
+exit "$ERR"
