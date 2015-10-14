@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+cd /home/chris/Writing/TransferReport
+ERR=0
+
+if grep TODO < report.tex
+then
+    echo "Found TODOs in report.tex" >> /dev/stderr
+    ERR=1
+fi
+
+if grep CITE < report.tex
+then
+    echo "Missing citations in report.tex" >> /dev/stderr
+    ERR=1
+fi
+
+
+echo "Rendering report.tex" >> /dev/stderr
+./render.sh > /dev/null || {
+    echo "Couldn't render report.tex"
+    ERR=1
+}
+
+if [[ -e report.pdf ]]
+then
+    PAGES=$(pdfinfo report.pdf | grep Pages | grep -o "[0-9]*$")
+    TOTAL=60
+    REMAINING=$(( TOTAL - PAGES ))
+    NOW=$(date +%s)
+    DEADLINE=$(date -d "2015-12-01" +%s)
+    DAYS=$(( (DEADLINE - NOW) / (60 * 60 * 24) ))
+    SHOULD=$(( TOTAL - DAYS ))
+    if [[ "$REMAINING" -gt "$DAYS" ]]
+    then
+        ERR=1
+        echo "report.pdf should have $SHOULD pages by now, only has $PAGES" >> /dev/stderr
+    else
+        echo "Page target is $SHOULD, you have $PAGES!"
+    fi
+fi
+
+exit "$ERR"
