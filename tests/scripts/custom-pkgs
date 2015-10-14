@@ -1,35 +1,50 @@
 #!/usr/bin/env bash
 
-# Pass in the argument "full" to keep going after a failure
-FULL=0
-[[ "x$1" = "xfull" ]] && FULL=1
+function skip {
+    grep -v "te-unstable" |
+    grep -v "haskellPackages"
+}
 
-PKGS=( ArbitraryHaskell
-       AstPlugin
-       coalp
-       get_iplayer
-       haskellPackages.random
-       HS2AST
-       ml4pg
-       mlspec
-       quickspec
-       te-unstable.ArbitraryHaskell
-       te-unstable.AstPlugin
-       te-unstable.HS2AST
-       te-unstable.ml4hs
-       te-unstable.mlspec
-       te-unstable.treefeatures
-       treefeatures
-       warbo-utilities
-       weka )
+# Get the package to test from our invocation name
+PKG=$(basename "$0" | cut -c 12-)
 
 ERR=0
-for PKG in "${PKGS[@]}"
-do
+if [[ -z "$PKG" ]]
+then
+    # No package given, make sure we have all of them
+
+    # All config.nix definitions should have a test
+    while read -r PKG
+    do
+        echo "Checking '$PKG'"
+        [[ -e "scripts/custom-pkg.$PKG" ]] || {
+            echo "'$PKG' doesn't have a test" >> /dev/stderr
+            ERR=1
+        }
+    done < <(grep -v " *#" < ~/.nixpkgs/config.nix |
+                    grep "^    [^ ].*="                   |
+                    sed -e 's/^ *\([^ ][^=]*\)=.*/\1/g'   |
+                    skip)
+
+    # All tests must correspond to a config.nix definition
+    for SCRIPT in scripts/custom-pkg.*
+    do
+        echo "Checking '$SCRIPT'"
+        PKG=$(basename "$SCRIPT" | cut -c 12-)
+        FOUND=$(nix-instantiate \
+                    --eval \
+                    --expr "let pkgs = import <nixpkgs> {}; in pkgs ? $PKG")
+        [[ "x$FOUND" = "xtrue" ]] || {
+            echo "'$PKG' doesn't seem to be a package" >> /dev/stderr
+            ERR=1
+        }
+    done
+    exit "$ERR"
+else
+    # Got a package, check it
     if ! nix-shell -p "$PKG" --run true
     then
-        ERR=1
-        [[ "$FULL" -eq 1 ]] || exit 1
-done
-
-exit "$ERR"
+        echo "Couldn't invoke nix-shell for '$PKG'" >> /dev/stderr
+        exit 1
+    fi
+fi

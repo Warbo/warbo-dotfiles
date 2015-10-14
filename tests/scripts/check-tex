@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+DIR="/home/chris/Documents/ArchivedPapers"
+
+function exists {
+    [[ -e "$DIR/$1" ]] || {
+        echo "Could not find $DIR/$1" >> /dev/stderr
+        exit 1
+    }
+}
+
+exists "Bibtex.bib"
+
+while read -r FILE
+do
+    exists "$FILE"
+done < <(cat "$DIR/Bibtex.bib"        |
+        grep -o 'localfile=".*"' |
+        grep -o '".*"'           |
+        grep -o '[^"]*')
+
+
+exit 0
+
+# Tools to try:
+lacheck
+ChkTeX
+"http://www.ctan.org/tex-archive/support/check/"
+bibclean
