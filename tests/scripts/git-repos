@@ -11,21 +11,29 @@ function isGit {
 }
 
 function isSvn {
-    if OUT=$(cd "$1"; svn status --depth=empty 2>&1)
-    then
-        true
-    fi
-    echo "$OUT" | grep "E155036" > /dev/null
+    svn info "$1" 2> /dev/null 1> /dev/null
 }
 
 function isDarcs {
     (cd "$1"; darcs show files > /dev/null 2> /dev/null)
 }
 
-function isVC {
-    isGit "$1" || isSvn "$1" || isDarcs "$1"
+function isHg {
+    hg --cwd "$1" root 2> /dev/null 1> /dev/null
 }
 
+function isBzr {
+    if bzr check --tree "$1" 2>&1 |
+       grep "No working tree found at specified location." > /dev/null
+    then
+        return 1
+    fi
+    return 0
+}
+
+function isVC {
+    isGit "$1" || isSvn "$1" || isDarcs "$1" || isHg "$1" || isBzr "$1"
+}
 
 function skip {
     grep -v "Programming/git-html" |
@@ -36,6 +44,7 @@ function skip {
     grep -v "Programming/Coq/PACO" |
     grep -v "Programming/CUDA"     |
     grep -v "Programming/Djabberd" |
+    grep -v "Programming/repos"    |
     while read -r LINE
     do
         #if [[ $(( RANDOM % 4 )) -eq 0 ]]
