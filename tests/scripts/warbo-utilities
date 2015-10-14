@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-grep "^ *warbo-utilities$" default.nix
-
-cd ~/warbo-utilities
-./test.sh

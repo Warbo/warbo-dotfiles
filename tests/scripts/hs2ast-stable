@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-grep "^ *HS2AST$" default.nix
