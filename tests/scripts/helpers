@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+ERR=0
+
+function fail {
+    echo "$1" >> /dev/stderr
+    ERR=1
+}
+
+./helpers/getIndex.sh ./scripts/cabal-nixable cabal-nixable &&
+    fail "Didn't flag non-index"
+
+IDX=$(./helpers/getIndex.sh ./scripts/4.cabal-nixable cabal-nixable) ||
+    fail "Didn't get index"
+
+[[ "x$IDX" = "x4" ]] || fail "Got wrong index ('$IDX' rather than 4)"
+
+for CACHE in results/data/*
+do
+    NAME=$(basename "$CACHE")
+    [[ -e "scripts/1.$NAME" ]] || continue
+    ./helpers/checkCache.sh "$NAME" < <(cat "$CACHE") ||
+        fail "Cache didn't match itself for '$CACHE'"
+done
+
+exit "$ERR"
