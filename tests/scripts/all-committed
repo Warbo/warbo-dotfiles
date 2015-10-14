@@ -6,7 +6,8 @@ FULL=0
 
 function data {
     locate '/home/chris/Programming/*/.git' |
-    grep -v "/git-html/"
+    grep -v "/git-html/" |
+    grep -v "/ATS/aos"
 }
 
 CACHE="results/data/all-committed"

@@ -4,22 +4,49 @@
 FULL=0
 [[ "x$1" = "xfull" ]] && FULL=1
 
+CACHE="results/data/haskell-builds"
+function cached {
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    then
+        cat "$CACHE"
+    else
+        my_haskell | tee "$CACHE"
+    fi
+}
+
 ERR=0
 while IFS= read -r DIR
 do
-    cd "$DIR"
-    if ! hsConfig
+    pushd "$DIR"
+    if test -n "$(find . -maxdepth 1 -type f -name '*.cabal' -print -quit)"
     then
-        echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
-        ERR=1
-        [[ "$FULL" -eq 1 ]] || exit 1
-        continue
+        echo "Found Cabal filein '$DIR', trying to configure and build project"
+        if ! hsConfig
+        then
+            echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
+            ERR=1
+            [[ "$FULL" -eq 1 ]] || exit 1
+            continue
+        fi
+        if ! cabal build
+        then
+            ERR=1
+            [[ "$FULL" -eq 1 ]] || exit 1
+        fi
+    else
+        echo "No Cabal file in '$DIR', type-checking any individual files"
+        shopt -s nullglob
+        for HS in *.hs *.lhs
+        do
+            echo "Type-checking '$HS'"
+            if ! ghc "$HS" -e 'return ()'
+            then
+                ERR=1
+                [[ "$FULL" -eq 1 ]] || exit 1
+            fi
+        done
     fi
-    if ! cabal build
-    then
-        ERR=1
-        [[ "$FULL" -eq 1 ]] || exit 1
-    fi
-done < <(my_haskell)
+    popd
+done < <(cached)
 
 exit "$ERR"

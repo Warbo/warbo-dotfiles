@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 
-# Pass in the argument "full" to keep going after a failure
-FULL=0
-[[ "x$1" = "xfull" ]] && FULL=1
-
-CACHE="results/data/hpc-coverage"
-
 function data {
-    locate -0 "hpc_index.html"
+    locate -e "/home/chris/Programming/*/hpc_index.html"
 }
 
+CACHE="results/data/hpc-coverage"
 function cached {
     mkdir -p results/data
-    if [[ -e "$CACHE" && test $(find "$CACHE" -mmin 60) ]]
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin 60)
     then
         cat "$CACHE"
     else
@@ -20,19 +15,28 @@ function cached {
     fi
 }
 
-TOTAL='th[contains(text(),"Program Coverage Total")]'
-PERCENT='following-sibling::td[1]/text()'
-
-ERR=0
-while IFS= read -r -d $'\0' file
-do
-    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$file")
+# Check how we were called
+IDX=$(basename "$0" .hpc)
+if [[ "x$IDX" = "xhpc-coverage" ]]
+then
+    # No index given, check indices match up
+    CACHECOUNT=$(cached | wc -l)
+    FILECOUNT=$(ls scripts/*.hpc | wc -l)
+    if [[ "$CACHECOUNT" -eq "$FILECOUNT" ]]
+    then
+        echo "Got enough tests to cover hpc counts"
+    else
+        echo "Have $FILECOUNT test(s) for $CACHECOUNT files" >> /dev/stderr
+        exit 1
+    fi
+else
+    file=$(cached | tail -n"$IDX" | head -n1)
+    TOTAL='th[contains(text(),"Program Coverage Total")]'
+    PERCENT='following-sibling::td[1]/text()'
+    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$file" | tr -d '%')
     if ! [[ "x$RESULT" = "x100%" ]]
     then
         echo "'$RESULT' coverage for '$file'" >> /dev/stderr
-        ERR=1
-        [[ "$FULL" -eq 1 ]] || exit 1
+        exit 1
     fi
-done < <(cached)
-
-exit "$ERR"
+fi

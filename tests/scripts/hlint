@@ -15,20 +15,25 @@ function hs {
     done
 }
 
+function skip {
+    grep -v "/Haskell/quickcheck$"
+}
+
 function cached {
     mkdir -p results/data
     if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
     then
         cat "$CACHE"
     else
-        hs | tee "$CACHE"
+        hs | skip | tee "$CACHE"
     fi
 }
 
 ERR=0
 while IFS= read -r HASKELL
 do
-    if ! hlint -XNoCPP "$HASKELL"
+    echo "Processing '$HASKELL'"
+    if ! hlint -XNoCPP "--ignore=Parse error" "$HASKELL"
     then
         ERR=1
         [[ "$FULL" -eq 1 ]] || exit 1

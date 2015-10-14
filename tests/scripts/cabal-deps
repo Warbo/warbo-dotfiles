@@ -1,32 +1,60 @@
 #!/usr/bin/env bash
-exit 1
+
 function fail {
     echo "$1" >> /dev/stderr
     ERR=1
 }
 
-ERR=0
-while read -r DIR
-do
+CACHE="results/data/cabal-deps"
+function cached {
+    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    then
+        cat "$CACHE"
+    else
+        my_haskell | tee "$CACHE"
+    fi
+}
+
+IDX=$(basename "$0" .cabal-dep)
+if [[ "x$IDX" = "xcabal-deps" ]]
+then
+    # No index give, check indices match up
+    CACHECOUNT=$(cached | wc -l)
+    FILECOUNT=$(ls scripts/*.cabal-dep | wc -l)
+    if [[ "$CACHECOUNT" -eq "$FILECOUNT" ]]
+    then
+        echo "Got enough tests to cover cabal-dep counts"
+    else
+        echo "Have $FILECOUNT test(s) for $CACHECOUNT files" >> /dev/stderr
+        exit 1
+    fi
+else
+    DIR=$(cached | tail -n"$IDX" | head -n1)
     cd "$DIR"
-    rm -rf dist/
+    CABAL=0
+    for C in *.cabal
+    do
+        CABAL=1
+    done
+    [[ "$CABAL" -eq 1 ]] || exit
+
+    #rm -rf dist/
     if ! hsConfig
     then
         fail "hsConfig in '$DIR'"
-        continue
+        exit 1
     fi
 
     rm -f ./*.imports
     if ! cabal build --ghc-options="-ddump-minimal-imports"
     then
         fail "cabal build in '$DIR'"
-        continue
+        exit 1
     fi
 
     if ! packunused
     then
         fail "packunused in '$DIR'"
+        exit 1
     fi
-done < <(my_haskell)
-
-exit "$ERR"
+fi
