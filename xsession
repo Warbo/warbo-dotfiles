@@ -10,7 +10,7 @@ st -e shell &
 conkeror &
 basket &
 emacs &
-xmobar &
+xmb &
 gnome-keyring-daemon &
 nm-applet &
 xmonad
