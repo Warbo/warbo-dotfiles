@@ -49,11 +49,7 @@ function skip {
     grep -v "Programming/Coq/PACO" |
     grep -v "Programming/CUDA"     |
     grep -v "Programming/Djabberd" |
-    grep -v "Programming/repos"    |
-    while read -r LINE
-    do
-        echo "$LINE"
-    done
+    grep -v "Programming/repos"
 }
 
 FAILS="results/data/git-repos"

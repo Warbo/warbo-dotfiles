@@ -3,10 +3,9 @@
 # Takes two arguments: a script name $1 and a filename suffix $2
 # If the script name has the form "foo.$2" then the prefix, in this case "foo",
 # is returned. If not, we give a non-zero exit code.
-ABS=$(readlink -f "$1")
-FILE=$(basename "$ABS")
+FILE=$(basename "$1")
 IDX=$(basename "$FILE" ".$2")
-echo "Extracted index '$IDX' from '$1'" >> /dev/stderr
+echo "Got '$IDX' from '$1' (FILE '$FILE', '$2')" >> /dev/stderr
 
 if [[ "x$IDX" = "x$FILE" ]]
 then

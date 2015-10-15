@@ -1,52 +1,46 @@
 #!/usr/bin/env bash
 
-# Pass in the argument "full" to keep going after a failure
-FULL=0
-[[ "x$1" = "xfull" ]] && FULL=1
-
-CACHE="results/data/haskell-builds"
 function cached {
-    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    ./helpers/cache.sh "haskell-builds" < <(my_haskell)
+}
+
+function cabalBuild {
+    if ! hsConfig
     then
-        cat "$CACHE"
-    else
-        my_haskell | tee "$CACHE"
+        echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
+        exit 1
+    fi
+    if ! cabal build
+    then
+        exit 1
     fi
 }
 
-ERR=0
-while IFS= read -r DIR
-do
-    pushd "$DIR"
+function buildFiles {
+    shopt -s nullglob
+    ERR=0
+    for HS in *.hs *.lhs
+    do
+        echo "Type-checking '$HS'"
+        if ! ghc "$HS" -e 'return ()'
+        then
+            ERR=1
+        fi
+    done
+    exit "$ERR"
+}
+
+if DIR=$(./helpers/nthLine.sh "$0" "haskell-builds")
+then
+    cd "$DIR"
     if test -n "$(find . -maxdepth 1 -type f -name '*.cabal' -print -quit)"
     then
-        echo "Found Cabal filein '$DIR', trying to configure and build project"
-        if ! hsConfig
-        then
-            echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
-            ERR=1
-            [[ "$FULL" -eq 1 ]] || exit 1
-            continue
-        fi
-        if ! cabal build
-        then
-            ERR=1
-            [[ "$FULL" -eq 1 ]] || exit 1
-        fi
+        echo "Found Cabal file in '$DIR', trying to configure and build project"
+        cabalBuild
     else
         echo "No Cabal file in '$DIR', type-checking any individual files"
-        shopt -s nullglob
-        for HS in *.hs *.lhs
-        do
-            echo "Type-checking '$HS'"
-            if ! ghc "$HS" -e 'return ()'
-            then
-                ERR=1
-                [[ "$FULL" -eq 1 ]] || exit 1
-            fi
-        done
+        buildFiles
     fi
-    popd
-done < <(cached)
-
-exit "$ERR"
+else
+    ./helpers/checkCache.sh "haskell-builds" < <(cached)
+fi

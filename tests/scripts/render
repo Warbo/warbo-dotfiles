@@ -1,34 +1,21 @@
 #!/usr/bin/env bash
 
-# Pass in the argument "full" to keep going after a failure
-FULL=0
-[[ "x$1" = "xfull" ]] && FULL=1
-
 function data {
     locate "render.sh" | grep "/Writing/"
 }
 
-CACHE="results/data/render"
 function cached {
-    mkdir -p $(dirname "$CACHE")
-    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
-    then
-        cat "$CACHE"
-    else
-        data | tee "$CACHE"
-    fi
+    ./helpers/cache.sh "render" < <(data)
 }
 
-ERR=0
-while read -r SCRIPT
-do
+if SCRIPT=$(./helpers/nthLine.sh "$0" "render")
+then
     DIR=$(dirname "$SCRIPT")
     if ! (cd "$DIR" && "./render.sh")
     then
-        ERR=1
         echo "$SCRIPT failed" >> /dev/stderr
-        [[ "$FULL" -eq 1 ]] || exit 1
+        exit 1
     fi
-done < <(cached)
-
-exit "$ERR"
+else
+    ./helpers/checkCache.sh "render" < <(cached)
+fi
