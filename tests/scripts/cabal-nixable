@@ -19,6 +19,7 @@ then
     echo "Trying $FILE"
     DIR=$(dirname "$FILE")
     cd "$DIR"
+    cabal clean
     hsConfig || exit 1
 else
     # No index given, check indices match up

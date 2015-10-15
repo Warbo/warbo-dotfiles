@@ -12,32 +12,12 @@ function data {
              grep -v "/ghc/")
 }
 
-CACHE="results/data/cabal-test"
 function cached {
-    mkdir -p $(dirname "$CACHE")
-    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
-    then
-        cat "$CACHE"
-    else
-        data | tee "$CACHE"
-    fi
+    ./helpers/cache.sh "cabal-test" < <(data)
 }
 
-IDX=$(basename "$0" .cabal-test)
-if [[ "x$IDX" = "xcabal-test" ]]
+if CBL=$(./helpers/nthLine.sh "$0" "cabal-test")
 then
-    # No index give, check indices match up
-    CACHECOUNT=$(cached | wc -l)
-    FILECOUNT=$(ls scripts/*.cabal-test | wc -l)
-    if [[ "$CACHECOUNT" -eq "$FILECOUNT" ]]
-    then
-        echo "Got enough tests to cover cabal-test counts"
-    else
-        echo "Have $FILECOUNT test(s) for $CACHECOUNT files" >> /dev/stderr
-        exit 1
-    fi
-else
-    CBL=$(cached | tail -n"$IDX" | head -n1)
     echo "Testing '$CBL'"
     DIR=$(dirname "$CBL")
     FILE=$(basename "$CBL")
@@ -58,4 +38,15 @@ else
         }
     done < <(grep "test-suite" < "$FILE" | sed -e 's/^test-suite *\(.*\)$/\1/g')
     exit "$ERR"
+else
+    # No index give, check indices match up
+    CACHECOUNT=$(cached | wc -l)
+    FILECOUNT=$(ls scripts/*.cabal-test | wc -l)
+    if [[ "$CACHECOUNT" -eq "$FILECOUNT" ]]
+    then
+        echo "Got enough tests to cover cabal-test counts"
+    else
+        echo "Have $FILECOUNT test(s) for $CACHECOUNT files" >> /dev/stderr
+        exit 1
+    fi
 fi

@@ -4,15 +4,8 @@ function data {
     locate -e "/home/chris/Programming/*/hpc_index.html"
 }
 
-CACHE="results/data/hpc-coverage"
 function cached {
-    mkdir -p results/data
-    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin 60)
-    then
-        cat "$CACHE"
-    else
-        data | tee "$CACHE"
-    fi
+    ./helpers/cache.sh "hpc-coverage" < <(data)
 }
 
 # Check how we were called
@@ -34,7 +27,7 @@ else
     TOTAL='th[contains(text(),"Program Coverage Total")]'
     PERCENT='following-sibling::td[1]/text()'
     RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$file" | tr -d '%')
-    if ! [[ "x$RESULT" = "x100%" ]]
+    if ! [[ "$RESULT" -lt "70" ]]
     then
         echo "'$RESULT' coverage for '$file'" >> /dev/stderr
         exit 1
