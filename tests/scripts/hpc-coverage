@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 function data {
-    locate -e "/home/chris/Programming/*/hpc_index.html"
+    while read -r DIR
+    do
+        [[ -d "$DIR/dist" ]] || continue
+        find "$DIR/dist" -name "hpc_index.html"
+    done < <(my_haskell)
 }
 
 function cached {
@@ -9,27 +13,18 @@ function cached {
 }
 
 # Check how we were called
-IDX=$(basename "$0" .hpc)
-if [[ "x$IDX" = "xhpc-coverage" ]]
+if FILE=$(./helpers/nthLine.sh "$0" "hpc-coverage")
 then
-    # No index given, check indices match up
-    CACHECOUNT=$(cached | wc -l)
-    FILECOUNT=$(ls scripts/*.hpc | wc -l)
-    if [[ "$CACHECOUNT" -eq "$FILECOUNT" ]]
+    echo "Checking $FILE" >> /dev/stderr
+    TOTAL='th[contains(text(),"Program Coverage Total")]'
+    PERCENT='following-sibling::td[1]/text()'
+    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$FILE" | tr -d '%')
+    if [[ "$RESULT" -lt "70" ]]
     then
-        echo "Got enough tests to cover hpc counts"
-    else
-        echo "Have $FILECOUNT test(s) for $CACHECOUNT files" >> /dev/stderr
+        echo "'$RESULT' coverage for '$FILE'" >> /dev/stderr
         exit 1
     fi
 else
-    file=$(cached | tail -n"$IDX" | head -n1)
-    TOTAL='th[contains(text(),"Program Coverage Total")]'
-    PERCENT='following-sibling::td[1]/text()'
-    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$file" | tr -d '%')
-    if ! [[ "$RESULT" -lt "70" ]]
-    then
-        echo "'$RESULT' coverage for '$file'" >> /dev/stderr
-        exit 1
-    fi
+    # No index given, check indices match up
+    ./helpers/checkCache.sh "hpc-coverage" < <(cached)
 fi

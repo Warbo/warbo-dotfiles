@@ -23,4 +23,26 @@ do
         fail "Cache didn't match itself for '$CACHE'"
 done
 
+FOOS=0
+BARS=0
+ITERATIONS=0
+while [[ $ITERATIONS -lt 10 ]]
+do
+    ITERATIONS=$(( ITERATIONS + 1 ))
+    OUT=$(echo -e "0:01.00 foo\n0:02.00 bar" | ./helpers/choose.hs)
+    if [[ "x$OUT" = "xfoo" ]]
+    then
+        FOOS=$(( FOOS + 1 ))
+    else
+        if [[ "x$OUT" = "xbar" ]]
+        then
+            BARS=$(( BARS + 1 ))
+        else
+            fail "Got '$OUT' instead of 'foo' or 'bar'"
+        fi
+    fi
+done
+
+[[ $FOOS -gt $BARS ]] || fail "'$FOOS' should be twice as big as '$BARS'"
+
 exit "$ERR"
