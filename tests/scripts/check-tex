@@ -1,23 +1,113 @@
 #!/usr/bin/env bash
+
 DIR="/home/chris/Documents/ArchivedPapers"
 
 function exists {
-    [[ -e "$DIR/$1" ]] || {
-        echo "Could not find $DIR/$1" >> /dev/stderr
-        exit 1
-    }
+    if [[ -e "$1" ]]
+    then
+        return
+    fi
+
+    if [[ -e "$DIR/$1" ]]
+    then
+        return
+    fi
+
+    FILE=$(basename "$1")
+    for PREFIX in "/home/chris/Documents" "/home/chris/Documents/ArchivedPapers"
+    do
+        if [[ -e "$PREFIX/$FILE" ]]
+        then
+            echo "No such file '$1', but did find '$PREFIX/$FILE'"
+            exit 1
+        fi
+    done
+
+    echo "Could not find $1" >> /dev/stderr
+    exit 1
 }
 
-exists "Bibtex.bib"
+echo "Checking localfiles exist" >> /dev/stderr
+
+BIB="/home/chris/Writing/Bibtex.bib"
+
+exists "$BIB"
 
 while read -r FILE
 do
     exists "$FILE"
-done < <(cat "$DIR/Bibtex.bib"        |
-        grep -o 'localfile=".*"' |
-        grep -o '".*"'           |
-        grep -o '[^"]*')
+done < <(cat "$BIB"                           |
+         grep -o 'localfile[ \t]*=[ \t]*".*"' |
+         grep -o '".*"'                       |
+         grep -o '[^"]*')
 
+echo "Trying bibclean" >> /dev/stderr
+
+RAWBIB=$(nix-shell -p bibclean \
+                   --run "bibclean -output-file /dev/null 2>&1 < $BIB") || {
+    echo "RAWBIB: $RAWBIB"
+    exit 1
+}
+
+# Remove stuff we don't care about; if there's anything remaining, fail
+KEEP=$(echo "$RAWBIB"                         |
+      grep "[^ ]"                            |
+      grep -v "ISBN"                         |
+      grep -v "http://dx.doi.org"            |
+      grep -v "Unexpected value in ..pages"  |
+      grep -v "Unexpected value in ..volume" |
+      grep -v "Unexpected value in ..month")
+
+[[ -z "$KEEP" ]] || {
+    echo "Nonempty stderr: '$KEEP'"
+    exit 1
+}
+
+# Even though we haven't failed, we still show everything, for completeness
+echo "$RAWBIB"
+
+echo "Trying bibtool"
+
+RAWBIB=$(nix-shell -p bibtool --run "bibtool < $BIB 2>&1 1> /dev/null") || {
+    echo "RAWBIB: $RAWBIB"
+    exit 1
+}
+
+[[ -z "$RAWBIB" ]] || {
+    echo "Nonempty stderr: '$RAWBIB'"
+    exit 1
+}
+
+echo "Trying bibtex"
+
+TMP="/tmp/check-tex-temp"
+[[ -e "$TMP" ]] && rmdir -rf "$TMP"
+
+mkdir -p "$TMP"
+pushd "$TMP"
+
+cat << 'EOF' > "check-tex.tex"
+\documentclass{article}
+\begin{document}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{/home/chris/Writing/Bibtex}
+\end{document}
+EOF
+
+{ latex check-tex && bibtex check-tex; } || {
+    echo "Error running latex and/or bibtex"
+    exit 1
+}
+
+popd
+
+echo "Checking for dodgy keys"
+
+grep "^@misc{zzzzz" < "$BIB" && {
+    echo "Dodgy keys found; either look up a proper citation, or remove them"
+    exit 1
+}
 
 exit 0
 
@@ -25,4 +115,3 @@ exit 0
 lacheck
 ChkTeX
 "http://www.ctan.org/tex-archive/support/check/"
-bibclean
