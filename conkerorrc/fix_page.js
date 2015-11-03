@@ -1,19 +1,10 @@
 // Fix white-on-white pages
 
-function fixContrast(window, buffer, elem) {
-    // Skip non-Elements
-    if (!(elem instanceof window.Element)) {
-        return;
-    }
+var invert, fixContrast;
 
-    // Skip nodes with no text
-    if (!Array.prototype.some.call(elem.childNodes, function(c) {
-        return c.nodeType === window.Node.TEXT_NODE && /\S/.test(c.nodeValue);
-    })) {
-        return;
-    }
+(function() {
 
-    function colorOf(prop, el) {
+    function colorOf(window, buffer, prop, el) {
         var cs = function cs(x) {
             return window.getComputedStyle(x).getPropertyValue(prop);
         };
@@ -25,9 +16,9 @@ function fixContrast(window, buffer, elem) {
                 return [];
             }
             try {
-                return colorOf(prop, el.parentNode);
+                return colorOf(window, buffer, prop, el.parentNode);
             } catch (e) {
-                return colorOf
+                return
             }
         }
         return [s];
@@ -44,37 +35,76 @@ function fixContrast(window, buffer, elem) {
         return Math.sqrt(square(x[0] - y[0]) + square(x[1] - y[1]) + square(x[2] - y[2]));
     }
 
-    function invert(c) {
+    function invertC(c) {
         return c.map(function(x) { return 255 - x; });
     }
 
-    var p  = buffer.document.getElementsByTagName('p')[0];
-    var fg = colorOf('color', elem);
-    var bg = colorOf('background-color', elem);
+    function walk(window, buffer, elem, func) {
+        // Skip non-Elements
+        if (!(elem instanceof window.Element)) {
+            return;
+        }
 
-    if (fg.length === 0) {
-        fg = ['rgb(255, 255, 255)'];
+        var fg = colorOf(window, buffer, 'color', elem);
+        var bg = colorOf(window, buffer, 'background-color', elem);
+
+        if (fg.length === 0) {
+            fg = ['rgb(255, 255, 255)'];
+        }
+
+        if (bg.length === 0) {
+            bg = ['rgb(0, 0, 0)'];
+        }
+
+        fg  = parseColor(fg[0]);
+        bg  = parseColor(bg[0]);
+
+        func(fg, bg, elem);
     }
 
-    if (bg.length === 0) {
-        bg = ['rgb(0, 0, 0)'];
-    }
+    invert = function invert(window, buffer, elem) {
+        walk(window, buffer, elem, function(fg, bg, elem) {
+            var fgi = invertC(fg);
+            var bgi = invertC(bg);
+            elem.style['color'] = 'rgb(' + fgi.join(', ') + ')';
+            elem.style['background-color'] = 'rgb(' + bgi.join(', ') + ')';
+        });
+    };
 
-    fg  = parseColor(fg[0]);
-    bg  = parseColor(bg[0]);
-    fgi = invert(fg);
+    fixContrast = function fixContrast(window, buffer, elem) {
+        walk(window, buffer, elem, function(fg, bg, elem) {
+            // Skip nodes with no text
+            if (!Array.prototype.some.call(elem.childNodes, function(c) {
+                return c.nodeType === window.Node.TEXT_NODE && /\S/.test(c.nodeValue);
+            })) {
+                return;
+            }
 
-    if (euclidDistance(fg, bg) < euclidDistance(fgi, bg)) {
-        // We gain more contrast by inverting one colour. Go for dark on light.
-        elem.style['color'] = 'rgb(' + fgi.join(', ') + ')';
-    }
-}
+            var fgi = invertC(fg);
+            if (euclidDistance(fg, bg) < euclidDistance(fgi, bg)) {
+                // We gain more contrast by inverting one colour. Go for dark on light.
+                elem.style['color'] = 'rgb(' + fgi.join(', ') + ')';
+            }
+        });
+    };
+}());
 
 function fixNode(window, buffer) {
     return function(x) {
         fixContrast(window, buffer, x);
         Array.prototype.slice.call(x.childNodes).map(fixNode(window, buffer));
     }
+}
+
+function invertNode(window, buffer) {
+    return function(x) {
+        invert(window, buffer, x);
+        Array.prototype.slice.call(x.childNodes).map(invertNode(window, buffer));
+    }
+}
+
+function invert_page(I) {
+    invertNode(I.window, I.buffer)(I.buffer.document.getElementsByTagName('body')[0]);
 }
 
 function fix_page (I) {
@@ -85,6 +115,8 @@ function fix_all_pages(buffer) {
     buffer.window.minibuffer.message("Ping");
     fixNode(buffer.window, buffer)(buffer.document.getElementsByTagName('body')[0]);
 }
+
+interactive("invert-page", "Flip the contrast of every element.", invert_page);
 
 interactive("fix-page", "Flip the contrast on unreadable text.", fix_page);
 
