@@ -9,23 +9,35 @@ function data {
         fi
     done < <(locate "/home/chris/Programming/*.cabal" |
              grep -v "/git-html/"                     |
-             grep -v "/ghc/")
+             grep -v "/ghc/"                          |
+             grep -v "/quickspec")
 }
 
 function cached {
     ./helpers/cache.sh "cabal-test" < <(data)
 }
 
-if CBL=$(./helpers/nthLine.sh "$0" "cabal-test")
+cached > /dev/null
+
+if CBL=$(./helpers/nthLine.sh "$0" "cabal-test" < <(cached))
 then
     echo "Testing '$CBL'"
     DIR=$(dirname "$CBL")
     FILE=$(basename "$CBL")
-    cd "$DIR"
+
+    TMP=$(mktemp -d "cabal-test-temp-XXXXX")
+    pushd "$TMP"
+    SUB=$(git clone "$DIR" 2>&1 1> /dev/null |
+          grep "Cloning into"                |
+          sed -e "s/^.*'\([^']*\)'.*$/\1/g")
+
+    pushd "$SUB"
+
+    git remote rm origin
 
     if ! hsConfig
     then
-        fail "hsConfig in '$DIR'"
+        echo "hsConfig in '$DIR'" >> /dev/stderr
         exit 1
     fi
 
@@ -37,6 +49,12 @@ then
             ERR=1
         }
     done < <(grep "test-suite" < "$FILE" | sed -e 's/^test-suite *\(.*\)$/\1/g')
+
+    popd
+    popd
+
+    rm -rf "$TMP"
+
     exit "$ERR"
 else
     # No index give, check indices match up

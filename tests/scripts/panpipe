@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 which panpipe && echo "panpipe binary is installed"
+
+nix-shell -p panpipe-unstable

@@ -30,7 +30,7 @@ function buildFiles {
     exit "$ERR"
 }
 
-if DIR=$(./helpers/nthLine.sh "$0" "haskell-builds")
+if DIR=$(./helpers/nthLine.sh "$0" "haskell-builds" < <(cached))
 then
     cd "$DIR"
     if test -n "$(find . -maxdepth 1 -type f -name '*.cabal' -print -quit)"

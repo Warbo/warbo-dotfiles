@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 which panhandle && echo "panhandle binary is installed"
+
+nix-shell -p panhandle-unstable

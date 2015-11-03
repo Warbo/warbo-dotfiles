@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
 function data {
-    locate "render.sh" | grep "/Writing/"
+    locate -e "render.sh" | grep "/Writing/"
 }
 
 function cached {
     ./helpers/cache.sh "render" < <(data)
 }
 
+cached > /dev/null
 if SCRIPT=$(./helpers/nthLine.sh "$0" "render")
 then
     DIR=$(dirname "$SCRIPT")
-    if ! (cd "$DIR" && "./render.sh")
+    pushd "$DIR"
+    if ! ./render.sh
     then
         echo "$SCRIPT failed" >> /dev/stderr
         exit 1

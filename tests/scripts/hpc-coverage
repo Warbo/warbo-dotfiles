@@ -12,6 +12,8 @@ function cached {
     ./helpers/cache.sh "hpc-coverage" < <(data)
 }
 
+cached > /dev/null
+
 # Check how we were called
 if FILE=$(./helpers/nthLine.sh "$0" "hpc-coverage")
 then
