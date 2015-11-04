@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-function skip {
-    grep -v "te-unstable" |
-    grep -v "haskellPackages"
+function mktest {
+    NAME="custom-pkg.$1"
+    (cd scripts; ln -s custom-pkgs "$NAME") &&
+    touch "results/stderr/$NAME" &&
+    touch "results/stdout/$NAME"
 }
 
 # Get the package to test from our invocation name
@@ -14,22 +16,21 @@ then
     # No package given, make sure we have all of them
 
     # All config.nix definitions should have a test
-    while read -r PKG
+    for FILE in ~/.nixpkgs/local/*.nix
     do
-        echo "Checking '$PKG'"
+        echo "Found '$FILE'"
+        PKG=$(basename "$FILE" .nix)
+        echo "Checking we have a test for '$PKG'"
         [[ -e "scripts/custom-pkg.$PKG" ]] || {
             echo "'$PKG' doesn't have a test" >> /dev/stderr
-            ERR=1
+            mktest "$PKG" || ERR=1
         }
-    done < <(grep -v " *#" < ~/.nixpkgs/config.nix |
-                    grep "^    [^ ].*="                   |
-                    sed -e 's/^ *\([^ ][^=]*\)=.*/\1/g'   |
-                    skip)
+    done
 
-    # All tests must correspond to a config.nix definition
+    # All tests must correspond to a package
     for SCRIPT in scripts/custom-pkg.*
     do
-        echo "Checking '$SCRIPT'"
+        echo "Checking there is a package for '$SCRIPT'"
         PKG=$(basename "$SCRIPT" | cut -c 12-)
         FOUND=$(nix-instantiate \
                     --eval \
