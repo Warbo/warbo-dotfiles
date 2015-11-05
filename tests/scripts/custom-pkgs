@@ -16,7 +16,7 @@ then
     # No package given, make sure we have all of them
 
     # All config.nix definitions should have a test
-    for FILE in ~/.nixpkgs/local/*.nix
+    for FILE in ~/.nixpkgs/pkgs/*.nix ~/.nixpkgs/imports/*.nix
     do
         echo "Found '$FILE'"
         PKG=$(basename "$FILE" .nix)
