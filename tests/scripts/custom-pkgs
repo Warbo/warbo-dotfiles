@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+shopt -s nullglob
 
 function mktest {
+    echo "Making test for '$1'"
     NAME="custom-pkg.$1"
-    (cd scripts; ln -s custom-pkgs "$NAME") &&
+    pushd scripts                &&
+    ln -s custom-pkgs "$NAME"    &&
+    popd                         &&
     touch "results/stderr/$NAME" &&
     touch "results/stdout/$NAME"
 }
@@ -16,7 +20,7 @@ then
     # No package given, make sure we have all of them
 
     # All config.nix definitions should have a test
-    for FILE in ~/.nixpkgs/pkgs/*.nix ~/.nixpkgs/imports/*.nix
+    for FILE in ~/.nixpkgs/imports/pkgs/*.nix ~/.nixpkgs/imports/*.nix
     do
         echo "Found '$FILE'"
         PKG=$(basename "$FILE" .nix)
@@ -32,8 +36,9 @@ then
     do
         echo "Checking there is a package for '$SCRIPT'"
         PKG=$(basename "$SCRIPT" | cut -c 12-)
-        FOUND=$(nix-instantiate \
-                    --eval \
+        FOUND=$(nix-instantiate  \
+                    --show-trace \
+                    --eval       \
                     --expr "let pkgs = import <nixpkgs> {}; in pkgs ? $PKG")
         [[ "x$FOUND" = "xtrue" ]] || {
             echo "'$PKG' doesn't seem to be a package" >> /dev/stderr
