@@ -1,5 +1,5 @@
 // Fix white-on-white pages
-
+return;
 var invert, fixContrast;
 
 (function() {
