@@ -8,7 +8,6 @@ FULL=0
 
 # Run hlint on (almost) everything in ~/Programming/Haskell
 
-CACHE="results/data/hlint"
 function hs {
     my_haskell
     for FILE in ~/Programming/Haskell/*.hs ~/Programming/Haskell/*.lhs

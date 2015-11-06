@@ -36,9 +36,8 @@ exists "$BIB"
 while read -r FILE
 do
     exists "$FILE"
-done < <(cat "$BIB"                           |
-         grep -o 'localfile[ \t]*=[ \t]*".*"' |
-         grep -o '".*"'                       |
+done < <(grep -o 'localfile[ \t]*=[ \t]*".*"' < "$BIB" |
+         grep -o '".*"'                                |
          grep -o '[^"]*')
 
 echo "Trying bibclean" >> /dev/stderr

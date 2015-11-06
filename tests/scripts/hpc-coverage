@@ -18,7 +18,7 @@ mkdir -p ~/Programming/coverage
 # Check how we were called
 if NAME=$(./helpers/getName.sh "$0")
 then
-    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
+    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || exit 1
     while read -r LINE
     do
         TOTAL='th[contains(text(),"Program Coverage Total")]'

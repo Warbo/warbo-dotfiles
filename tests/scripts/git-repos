@@ -56,7 +56,7 @@ FAILS="results/data/git-repos"
 function cached {
     mkdir -p results/data
 
-    if [[ -e "$FAILS" ]] && test $(find "$FAILS" -mmin -60)
+    if [[ -e "$FAILS" ]] && test "$(find "$FAILS" -mmin -60)"
     then
         cat "$FAILS"
     fi

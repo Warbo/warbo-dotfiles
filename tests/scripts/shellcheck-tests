@@ -1,30 +1,90 @@
 #! /usr/bin/env bash
 
+shopt -s nullglob
+
 # Pass in the argument "full" to keep going after a failure
 FULL=0
 [[ "x$1" = "xfull" ]] && FULL=1
 
-function skip {
-    # Skip Python, Haskell and makefiles
-    INPUT=$(grep "^#!")
-    echo "$INPUT" | grep "python"  ||
-    echo "$INPUT" | grep "haskell" ||
-    echo "$INPUT" | grep "gnumake"
+function ext {
+    echo "$1" | rev | cut -d '.' -f 1 | rev | tr '[:upper:]' '{;lower:]'
 }
 
-shopt -s nullglob
+function skip {
+    # Skip directories
+    [[ -d "$1" ]] && return
+
+    # Skip only-uppercase (LICENSE, README, etc.)
+    BASE=$(basename "$1")
+    { echo "$BASE" | grep -- "[a-z]"; } || {
+        true
+        return
+    }
+
+    # Skip hidden files
+    FIRST=$(echo "$BASE" | cut -c 1)
+    [[ "x$FIRST" = "x." ]] && return
+
+    # Skip obvious Python, Haskell, etc.
+    EXT=$(ext "$1")
+    for NOPE in py hs lhs nix
+    do
+        [[ "x$EXT" = "x$NOPE" ]] && return
+    done
+
+    # Skip non-bash interpreters
+    CONTENT=$(grep "^#!" < "$1")
+    for NOPE in python haskell make
+    do
+        # /usr/bin/env lines
+        echo "$CONTENT" | grep -- "/usr/bin.*$NOPE" && return
+        # nix-shell interpreters
+        echo "$CONTENT" | grep -- "-i $NOPE"  && return
+    done
+
+    return 1
+}
+
+function getAll {
+    find ~/.tests/scripts
+    find ~/.tests -name "*.sh"
+    find ~/warbo-utilities -type f -not -iwholename '*.git*'
+}
+
+function noLinks {
+    while read -r LINE
+    do
+        ABS=$(readlink -f "$LINE")
+        skip "$ABS" > /dev/null || echo "$ABS"
+    done < <(getAll)
+}
+
+function data {
+    sort -u < <(noLinks)
+}
+
+function rawCached {
+    ./helpers/cache.sh "shellcheck-tests" < <(data)
+}
+
+function cached {
+    # Our skippable criteria might have changed since we cached
+    while read -r LINE
+    do
+        skip "$LINE" > /dev/null || echo "$LINE"
+    done < <(rawCached)
+}
+
+cached > /dev/null
+
 ERR=0
-for script in ~/.tests/*.sh ~/.tests/scripts/* ~/warbo-utilities/system/*
+while read -r script
 do
-    if skip < "$script" > /dev/null
-    then
-        continue
-    fi
-    if ! shellcheck -e SC1008 -e SC2001 "$script"
-    then
+    echo "Checking '$script'"
+    shellcheck -e SC1008 -e SC2001 -e SC2029 "$script" || {
         ERR=1
         [[ "$FULL" -eq 1 ]] || exit 1
-    fi
-done
+    }
+done < <(cached)
 
 exit "$ERR"
