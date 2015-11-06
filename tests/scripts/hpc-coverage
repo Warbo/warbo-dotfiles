@@ -12,21 +12,55 @@ function cached {
     ./helpers/cache.sh "hpc-coverage" < <(data)
 }
 
+function mkName {
+    echo "$1" | tr 'A-Z' 'a-z' | sed -e 's/[^a-z0-9][^a-z0-9]*/_/g'
+}
+
+# Prime the cache
 cached > /dev/null
 
 # Check how we were called
-if FILE=$(./helpers/nthLine.sh "$0" "hpc-coverage")
+NAME=$(basename "$0" | cut -c 14-)
+
+ERR=0
+if [[ -z "$NAME" ]]
 then
-    echo "Checking $FILE" >> /dev/stderr
-    TOTAL='th[contains(text(),"Program Coverage Total")]'
-    PERCENT='following-sibling::td[1]/text()'
-    RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$FILE" | tr -d '%')
-    if [[ "$RESULT" -lt "70" ]]
-    then
-        echo "'$RESULT' coverage for '$FILE'" >> /dev/stderr
-        exit 1
-    fi
+    echo "No index given, check names match up"
+    while read -r LINE
+    do
+        GOT=$(mkName "$LINE")
+        echo "Looking for test for '$LINE'"
+        FILE="hpc-coverage.$GOT"
+        [[ -e "scripts/$FILE" ]] || {
+            echo "No such file '$FILE', making it"
+            pushd scripts                &&
+            ln -s hpc-coverage "$FILE"   &&
+            popd                         &&
+            touch "results/stdout/$FILE" &&
+            touch "results/stderr/$FILE"
+        } || ERR=1
+    done < <(cached)
 else
-    # No index given, check indices match up
-    ./helpers/checkCache.sh "hpc-coverage" < <(cached)
+    echo "Checking $NAME" >> /dev/stderr
+    EXIST=0
+    while read -r LINE
+    do
+        FOUND=$(mkName "$LINE")
+        [[ "x$FOUND" = "x$NAME" ]] || continue
+        EXIST=1
+        TOTAL='th[contains(text(),"Program Coverage Total")]'
+        PERCENT='following-sibling::td[1]/text()'
+        RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$LINE" | tr -d '%')
+        if [[ "$RESULT" -lt "70" ]]
+        then
+            echo "'$RESULT' coverage for '$LINE'" >> /dev/stderr
+            ERR=1
+        fi
+    done < <(cached)
+    [[ "$EXIST" -eq 1 ]] || {
+        echo "Couldn't find coverage report for '$NAME'" >> /dev/stderr
+        ERR=1
+    }
 fi
+
+exit "$ERR"
