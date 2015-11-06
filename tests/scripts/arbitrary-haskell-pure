@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-cd ~/Programming/Haskell/ArbitraryHaskell
-hsConfig
-cabal test pure
