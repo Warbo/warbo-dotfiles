@@ -30,17 +30,24 @@ function buildFiles {
     exit "$ERR"
 }
 
-if DIR=$(./helpers/nthLine.sh "$0" "haskell-builds" < <(cached))
+cached > /dev/null
+
+# Check how we were called
+if NAME=$(./helpers/getName.sh "$0")
 then
-    cd "$DIR"
-    if test -n "$(find . -maxdepth 1 -type f -name '*.cabal' -print -quit)"
-    then
-        echo "Found Cabal file in '$DIR', trying to configure and build project"
-        cabalBuild
-    else
-        echo "No Cabal file in '$DIR', type-checking any individual files"
-        buildFiles
-    fi
+    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
+    while read -r DIR
+    do
+        cd "$DIR"
+        if test -n "$(find . -maxdepth 1 -type f -name '*.cabal' -print -quit)"
+        then
+            echo "Found Cabal file in '$DIR', trying to configure and build project"
+            cabalBuild
+        else
+            echo "No Cabal file in '$DIR', type-checking any individual files"
+            buildFiles
+        fi
+    done < <(echo "$LINES")
 else
-    ./helpers/checkCache.sh "haskell-builds" < <(cached)
+    ./helpers/namesMatch.sh "haskell-builds" < <(cached) || exit 1
 fi

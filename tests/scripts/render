@@ -9,15 +9,20 @@ function cached {
 }
 
 cached > /dev/null
-if SCRIPT=$(./helpers/nthLine.sh "$0" "render")
+
+if NAME=$(./helpers/getName.sh "$0")
 then
-    DIR=$(dirname "$SCRIPT")
-    pushd "$DIR"
-    if ! ./render.sh
-    then
-        echo "$SCRIPT failed" >> /dev/stderr
-        exit 1
-    fi
+    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
+    while read -r SCRIPT
+    do
+        DIR=$(dirname "$SCRIPT")
+        pushd "$DIR"
+        if ! ./render.sh
+        then
+            echo "$SCRIPT failed" >> /dev/stderr
+            exit 1
+        fi
+    done < <(echo "$LINES")
 else
-    ./helpers/checkCache.sh "render" < <(cached)
+    ./helpers/namesMatch.sh "render" < <(cached) || exit 1
 fi
