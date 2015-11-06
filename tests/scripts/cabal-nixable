@@ -12,40 +12,18 @@ function cached {
 }
 
 # Check how we were called
-NAME=$(basename "$0" | cut -c 15-)
-
-ERR=0
-if [[ -z "$NAME" ]]
+if NAME=$(./helpers/getName.sh "$0")
 then
-    echo "No name given, check names match up"
+    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
     while read -r LINE
     do
-        GOT=$(./helpers/mkName.sh "$LINE")
-        echo "Looking for test for '$LINE'"
-        FILE="cabal-nixable.$GOT"
-        [[ -e "scripts/$FILE" ]] || {
-            echo "No such file '$FILE', making it"
-            pushd scripts                &&
-                ln -s cabal-nixable "$FILE"  &&
-                popd                         &&
-                touch "results/stdout/$FILE" &&
-                touch "results/stderr/$FILE"
-        } || ERR=1
-    done < <(cached)
-else
-    echo "Checking '$NAME'" >> /dev/stderr
-    EXIST=0
-    while read -r LINE
-    do
-        FOUND=$(./helpers/mkName.sh "$LINE")
-        [[ "x$FOUND" = "x$NAME" ]] || continue
         echo "Trying $LINE"
         DIR=$(dirname "$LINE")
         pushd "$DIR"
         cabal clean
         hsConfig || exit 1
         popd
-    done < <(cached)
+    done < <(echo "$LINES")
+else
+    ./helpers/namesMatch.sh "cabal-nixable" < <(cached) || exit 1
 fi
-
-exit "$ERR"
