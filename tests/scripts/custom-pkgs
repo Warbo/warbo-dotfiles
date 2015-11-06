@@ -20,7 +20,7 @@ then
     # No package given, make sure we have all of them
 
     # All config.nix definitions should have a test
-    for FILE in ~/.nixpkgs/imports/pkgs/*.nix ~/.nixpkgs/imports/*.nix
+    for FILE in ~/.nixpkgs/imports/*.nix ~/.nixpkgs/imports/local/*.nix
     do
         echo "Found '$FILE'"
         PKG=$(basename "$FILE" .nix)
@@ -48,7 +48,8 @@ then
     exit "$ERR"
 else
     # Got a package, check it
-    if ! nix-shell -p "$PKG" --run true
+    if ! nix-shell --show-trace --run true \
+                   -p "if builtins.isAttrs ($PKG) then ($PKG) else bash"
     then
         echo "Couldn't invoke nix-shell for '$PKG'" >> /dev/stderr
         exit 1

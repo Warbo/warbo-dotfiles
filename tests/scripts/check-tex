@@ -81,7 +81,7 @@ RAWBIB=$(nix-shell -p bibtool --run "bibtool < $BIB 2>&1 1> /dev/null") || {
 echo "Trying bibtex"
 
 TMP="/tmp/check-tex-temp"
-[[ -e "$TMP" ]] && rmdir -rf "$TMP"
+[[ -e "$TMP" ]] && rm -rf "$TMP"
 
 mkdir -p "$TMP"
 pushd "$TMP"
