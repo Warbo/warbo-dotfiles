@@ -12,7 +12,7 @@ function data {
 
 CACHE="results/data/all-committed"
 function cached {
-    if [[ -e "$CACHE" ]] && test $(find "$CACHE" -mmin -60)
+    if [[ -e "$CACHE" ]] && test "$(find "$CACHE" -mmin -60)"
     then
         cat "$CACHE"
     else
