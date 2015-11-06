@@ -3,62 +3,32 @@
 shopt -s nullglob
 
 function data {
-    # Echo out directories containing Cabal files with test-suite entries
-    while read -r DIR
-    do
-        TESTS=0
-        for CBL in "$DIR"/*.cabal
-        do
-            grep "^test-suite" < "$CBL" > /dev/null && TESTS=1
-        done
-        [[ "$TESTS" -eq 1 ]] && echo "$DIR"
-    done < <(my_haskell)
+    # When a test suite passes, it should store its coverage report here
+    find ~/Programming/coverage -name "hpc_index.html"
 }
 
 function cached {
     ./helpers/cache.sh "hpc-coverage" < <(data)
 }
 
-function reports {
-    find . -name "hpc_index.html"
-}
-
 # Prime the cache
 cached > /dev/null
+mkdir -p ~/Programming/coverage
 
 # Check how we were called
 if NAME=$(./helpers/getName.sh "$0")
 then
     LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
-    while read -r DIR
+    while read -r LINE
     do
-        pushd "$DIR"
-
-        if [[ -z $(reports) ]]
+        TOTAL='th[contains(text(),"Program Coverage Total")]'
+        PERCENT='following-sibling::td[1]/text()'
+        RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$LINE" | tr -d '%')
+        if [[ "$RESULT" -lt "70" ]]
         then
-            echo "No coverage report found for '$DIR', trying to generate one"
-            { hsConfig && cabal test; } || {
-                echo "Failed to produce coverage for '$DIR'" >> /dev/stderr
-                exit 1
-            }
-        fi
-        # There should definitely be a report now
-        if [[ -z $(reports) ]]
-        then
-            echo "No coverage report generated for '$DIR'" >> /dev/stderr
+            echo "'$RESULT' coverage for '$LINE'" >> /dev/stderr
             exit 1
         fi
-        while read -r LINE
-        do
-            TOTAL='th[contains(text(),"Program Coverage Total")]'
-            PERCENT='following-sibling::td[1]/text()'
-            RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$LINE" | tr -d '%')
-            if [[ "$RESULT" -lt "70" ]]
-            then
-                echo "'$RESULT' coverage for '$LINE'" >> /dev/stderr
-                exit 1
-            fi
-        done < <(reports)
     done < <(echo "$LINES")
 else
     ./helpers/namesMatch.sh "hpc-coverage" < <(cached) || exit 1
