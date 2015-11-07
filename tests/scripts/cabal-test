@@ -22,7 +22,7 @@ cached > /dev/null
 ERR=0
 if NAME=$(./helpers/getName.sh "$0")
 then
-    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || ERR=1
+    LINES=$(./helpers/checkNames.sh "$NAME" < <(cached)) || exit 1
     while read -r CBL
     do
         echo "Testing '$CBL'"

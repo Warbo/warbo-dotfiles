@@ -24,7 +24,12 @@ then
         TOTAL='th[contains(text(),"Program Coverage Total")]'
         PERCENT='following-sibling::td[1]/text()'
         RESULT=$(xidel - --extract "//${TOTAL}/${PERCENT}" < "$LINE" | tr -d '%')
-        if [[ "$RESULT" -lt "70" ]]
+        if echo "$RESULT" | grep "[^0-9]" > /dev/null
+        then
+            # 0 shows up as "-", so fix it
+            RESULT=0
+        fi
+        if [[ "$RESULT" -lt "30" ]]
         then
             echo "'$RESULT' coverage for '$LINE'" >> /dev/stderr
             exit 1
