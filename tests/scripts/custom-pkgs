@@ -47,9 +47,9 @@ then
     done
     exit "$ERR"
 else
-    # Got a package, check it
+    # Got a package, try to build it; "? src" ensures $PKG is actually a package
     if ! nix-shell --show-trace --run true \
-                   -p "if builtins.isAttrs ($PKG) then ($PKG) else bash"
+                   -p "if ($PKG) ? src then ($PKG) else bash"
     then
         echo "Couldn't invoke nix-shell for '$PKG'" >> /dev/stderr
         exit 1

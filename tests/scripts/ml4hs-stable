@@ -1,2 +1,3 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p bash which ml4hs
 which ml4hs && echo "ml4hs script is installed"

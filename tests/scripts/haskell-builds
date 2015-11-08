@@ -5,15 +5,7 @@ function cached {
 }
 
 function cabalBuild {
-    if ! hsConfig
-    then
-        echo "Couldn't hsConfig in '$DIR'" >> /dev/stderr
-        exit 1
-    fi
-    if ! cabal build
-    then
-        exit 1
-    fi
+    cabal build || exit 1
 }
 
 function buildFiles {
