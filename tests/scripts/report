@@ -5,22 +5,25 @@ ERR=0
 
 if grep TODO < report.tex
 then
-    echo "Found TODOs in report.tex" >> /dev/stderr
+    NUM=$(grep -c TODO < report.tex)
+    echo "Found $NUM TODOs in report.tex" >> /dev/stderr
     ERR=1
 fi
 
 if grep CITE < report.tex
 then
-    echo "Missing citations in report.tex" >> /dev/stderr
+    NUM=$(grep -c CITE < report.tex)
+    echo "Found $NUM missing citations in report.tex" >> /dev/stderr
     ERR=1
 fi
-
 
 echo "Rendering report.tex" >> /dev/stderr
 ./render.sh > /dev/null || {
     echo "Couldn't render report.tex"
     ERR=1
 }
+
+exit "$ERR"
 
 if [[ -e report.pdf ]]
 then

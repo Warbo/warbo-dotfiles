@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+function repos {
+    # Find git repos based on their .git directories
+    grep -v "/git-html" < <(grep -v "/Backups/" < <(locate -e "/home/chris/*/.git"))
+
+    # Include all our bare repos
+    ls -d1 /home/chris/Programming/repos/*.git
+}
+
+function data {
+    while read -r GITDIR
+    do
+        dirname "$GITDIR"
+    done < <(repos)
+}
+
+function cached {
+    ./helpers/cache.sh "git-pushed" < <(data)
+}
+
+cached > /dev/null
+
+ERR=0
+
+while read -r REPO
+do
+    # `git status` also lists unpushed commits but it doesn't work in bare repos
+
+    pushd "$REPO" > /dev/null
+
+    # Skip repos with no remote
+    [[ -z "$(git remote)" ]] && continue
+
+    # Lists unpushed commits and untracked branches
+    UNPUSHED=$(git cherry 2>&1) || {
+        echo "Untracked branches in '$REPO'" >> /dev/stderr
+    }
+    echo "$UNPUSHED" | grep "^+" > /dev/null && {
+        ERR=1
+        echo "Unpushed commits in '$REPO'" >> /dev/stderr
+    }
+    popd > /dev/null
+done < <(cached)
+
+exit "$ERR"

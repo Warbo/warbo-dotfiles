@@ -41,6 +41,7 @@ function isVC {
 
 function skip {
     grep -v "Programming/git-html" |
+    grep -v "Programming/coverage" |
     grep -v "\.git"                |
     grep -v "\.svn"                |
     grep -v "CVS"                  |

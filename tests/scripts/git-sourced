@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function files {
+    # Find .git/config files
+    grep -v "/git-html" < <(
+        grep -v "/Backups/" < <(
+            grep ".git" < <(
+                locate -e "/home/chris/*/config")))
+}
+
+function data {
+    # Find URLs mentioned in .git/config files
+    while read -r FILE
+    do
+        grep "^\s*url\s*=" < "$FILE"
+    done < <(files)
+}
+
+function cached {
+    ./helpers/cache.sh "git-sourced" < <(data)
+}
+
+cached > /dev/null
+
+ERR=0
+
+shopt -s nullglob
+for REPO in /home/chris/Programming/repos/*.git
+do
+    echo "Looking for a source of '$REPO'"
+    cached | grep "$REPO" > /dev/null || {
+        echo "No source found for '$REPO'" >> /dev/stderr
+        ERR=1
+    }
+done
+
+exit "$ERR"
