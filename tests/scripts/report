@@ -14,11 +14,16 @@ do
         ERR=1
     fi
 
+    NOW=$(date +%s)
     while read -r TODO
     do
         D=$(echo "$TODO" | sed -e 's/.*{\(.*\)\}/\1/g')
-        echo "Found TODO dated '$D' in '$FILE'" >> /dev/stderr
-    done < <(grep "TODO{[^}]*}" < "$FILE")
+        S=$(date --date="$D" +%s)
+        [[ "$S" -gt "$NOW" ]] || {
+            ERR=1
+            echo "Found TODO dated '$D' in '$FILE'" >> /dev/stderr
+        }
+    done < <(grep -o "TODO{[^}]*}" < "$FILE")
 
     if grep CITE < $FILE > /dev/null
     then
