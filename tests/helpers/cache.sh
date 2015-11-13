@@ -29,5 +29,6 @@ then
     cat "$CACHE"
 else
     # No, take stdin instead
-    tee "$CACHE"
+    touch "$CACHE"
+    tee   "$CACHE"
 fi

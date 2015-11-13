@@ -2,10 +2,9 @@
 
 function repos {
     # Find git repos based on their .git directories
-    grep -v "/git-html" < <(grep -v "/Backups/" < <(locate -e "/home/chris/*/.git"))
-
-    # Include all our bare repos
-    ls -d1 /home/chris/Programming/repos/*.git
+    locate -e "/home/chris/*/.git" |
+    grep -v "/Backups/"            |
+    grep -v "/git-html"
 }
 
 function data {
@@ -13,6 +12,9 @@ function data {
     do
         dirname "$GITDIR"
     done < <(repos)
+
+    # Include all our bare repos
+    ls -d1 /home/chris/Programming/repos/*.git
 }
 
 function cached {
@@ -33,13 +35,20 @@ do
     [[ -z "$(git remote)" ]] && continue
 
     # Lists unpushed commits and untracked branches
-    UNPUSHED=$(git cherry 2>&1) || {
-        echo "Untracked branches in '$REPO'" >> /dev/stderr
-    }
-    echo "$UNPUSHED" | grep "^+" > /dev/null && {
-        ERR=1
-        echo "Unpushed commits in '$REPO'" >> /dev/stderr
-    }
+    while read -r BRANCH
+    do
+        while read -r REMOTE
+        do
+            UNPUSHED=$(git cherry "$BRANCH" "$REMOTE/$BRANCH" 2>&1) || {
+                echo "Untracked branches in '$REPO' '$REMOTE/$BRANCH'" >> /dev/stderr
+            }
+            echo "$UNPUSHED" | grep "^+" > /dev/null && {
+                ERR=1
+                echo "Unpushed commits in '$REPO' '$REMOTE/$BRANCH'" >> /dev/stderr
+            }
+        done < <(git remote)
+    done < <(git branch | cut -c 3-)
+
     popd > /dev/null
 done < <(cached)
 

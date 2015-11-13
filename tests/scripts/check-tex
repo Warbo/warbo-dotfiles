@@ -36,6 +36,17 @@ exists "$BIB"
 while read -r FILE
 do
     exists "$FILE"
+    NORM=$(basename "$FILE" | tr '[:upper:]' '[:lower:]')
+    EXT=$(echo "$NORM" | rev | cut -d '.' -f 1   | rev)
+    ALLOWED=0
+    for OKEXT in pdf html
+    do
+        [[ "x$EXT" = "x$OKEXT" ]] && ALLOWED=1
+    done
+    [[ "$ALLOWED" -eq 1 ]] || {
+        echo "Filename '$FILE' indicates an invalid format" >> /dev/stderr
+        exit 1
+    }
 done < <(grep -o 'localfile[ \t]*=[ \t]*".*"' < "$BIB" |
          grep -o '".*"'                                |
          grep -o '[^"]*')
