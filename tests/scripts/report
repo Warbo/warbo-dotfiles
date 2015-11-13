@@ -3,27 +3,77 @@
 cd /home/chris/Writing/TransferReport
 ERR=0
 
-if grep TODO < report.tex
-then
-    NUM=$(grep -c TODO < report.tex)
-    echo "Found $NUM TODOs in report.tex" >> /dev/stderr
-    ERR=1
-fi
+ALL="" # Build up the whole TeX document
+for FILE in *.tex
+do
+    ALL=$(echo "$ALL"; cat "$FILE")
+    if grep "TODO[^{]" < "$FILE" > /dev/null
+    then
+        NUM=$(grep -c TODO < "$FILE")
+        echo "Found $NUM undated TODOs in $FILE" >> /dev/stderr
+        ERR=1
+    fi
 
-if grep CITE < report.tex
-then
-    NUM=$(grep -c CITE < report.tex)
-    echo "Found $NUM missing citations in report.tex" >> /dev/stderr
-    ERR=1
-fi
+    while read -r TODO
+    do
+        D=$(echo "$TODO" | sed -e 's/.*{\(.*\)\}/\1/g')
+        echo "Found TODO dated '$D' in '$FILE'" >> /dev/stderr
+    done < <(grep "TODO{[^}]*}" < "$FILE")
+
+    if grep CITE < $FILE > /dev/null
+    then
+        NUM=$(grep -c CITE < "$FILE")
+        echo "Found $NUM missing citations in $FILE" >> /dev/stderr
+        ERR=1
+    fi
+
+    for MACRO in qcheck qspec hspec
+    do
+        if grep -v "newcommand" < "$FILE" | grep "\\${MACRO}[^{]" > /dev/null
+        then
+            echo "Put {} after \\$MACRO in $FILE"
+            ERR=1
+        fi
+    done
+done
 
 echo "Rendering report.tex" >> /dev/stderr
-./render.sh > /dev/null || {
+RENDER=$(./render.sh 2>&1) || {
     echo "Couldn't render report.tex"
     ERR=1
 }
 
-exit "$ERR"
+echo "Checking output of renderer" >> /dev/stderr
+BIBSTART=$(echo "$RENDER" | grep -n "RUNNING bibtex" | head -n1 | cut -d ':' -f 1)
+if [[ -z "$BIBSTART" ]]
+then
+    echo "$RENDER"
+    ERR=1
+    echo "Bibtex didn't run?" >> /dev/stderr
+else
+    WARNINGS=$(echo "$RENDER" | tail -n$BIBSTART | grep -ai "warning")
+
+    # Citations take two passes, so double-check
+    CITES=$(echo "$WARNINGS" | grep 'Citation `'  | sed -e 's/.*`\(.*\)'"'.*/\1/g")
+    while read -r CITE
+    do
+        grep "^@[^{]*{$CITE,$" < ~/Writing/Bibtex.bib > /dev/null ||
+        {
+            ERR=1
+            echo "Citation '$CITE' missing" >> /dev/stderr
+        }
+    done < <(echo "$CITES")
+
+    # Check for non-citation warnings
+    NONCIT=$(echo "$WARNINGS" | grep -v 'Citation `'                      |
+                                grep -v "There were undefined citations." |
+                                grep -v "Citation(s) may have changed.")
+    [[ -z "$NONCIT" ]] || {
+        ERR=1
+        echo "$NONCIT" >> /dev/stderr
+        echo "There were warnings from the renderer" >> /dev/stderr
+    }
+fi
 
 if [[ -e report.pdf ]]
 then
@@ -36,7 +86,6 @@ then
     SHOULD=$(( TOTAL - DAYS ))
     if [[ "$REMAINING" -gt "$DAYS" ]]
     then
-        ERR=1
         echo "report.pdf should have $SHOULD pages by now, only has $PAGES" >> /dev/stderr
     else
         echo "Page target is $SHOULD, you have $PAGES!"
