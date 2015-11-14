@@ -7,6 +7,7 @@ then
 fi
 
 st -e shell &
+compton -c &
 conkeror &
 basket &
 emacs &
