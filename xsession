@@ -6,7 +6,7 @@ then
     rm -f ~/.abduco/default*nixos
 fi
 
-st -e shell &
+st -e shell -f "Droid Sans Mono" &
 compton -c &
 conkeror &
 basket &
