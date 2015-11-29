@@ -3,3 +3,5 @@
 	email = chriswarbo@gmail.com
 [core]
 	editor = emacsclient
+[push]
+	default = matching
