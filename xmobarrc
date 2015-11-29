@@ -3,9 +3,10 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
         fgColor      = "grey",
         position     = TopW C 100,
         lowerOnStart = True,
-        commands     = [Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
+        commands     = [Run Date "%a %b %_d %Y %H:%M:%S"    "date"  10,
                         Run Com  "failed_tests" []          "tests" 2,
-                        Run Com  "gmailunread"  ["-xmobar"] "mail"  5000],
+                        Run Com  "gmailunread"  ["-xmobar"] "mail"  3000,
+                        Run Com  "quota"        []          "quota" 2000],
        sepChar        = "%",
        alignSep       = "}{",
-       template       = "%tests% }{ %mail% <fc=#ee9a00>%date%</fc>"}
+       template       = "%tests% }{ <fc=#009aee>%quota%</fc> %mail% <fc=#ee9a00>%date%</fc>"}
