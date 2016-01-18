@@ -37,3 +37,4 @@
 
 ;; Command hotkeys
 (xbindkey "XF86Calculator" "run_tests")
+(xbindkey "Menu"           "inv")
