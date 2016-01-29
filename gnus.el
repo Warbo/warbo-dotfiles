@@ -3,22 +3,10 @@
 
 ;; Incoming mail via IMAP
 (setq gnus-secondary-select-methods
-      '((nnimap "dd"
-                 (nnimap-address "outlook.office365.com")
-                 (nnimaxsp-server-port 993)
-                 (nnimap-stream ssl)
-                 (nnimap-authinfo-file "~/.authinfo")
-                 ;(nnimap-list-pattern ("INBOX" "*"))
-                 ;(nnimap-expunge-on-close always)
-                 ;(gnus-check-new-newsgroups nil)
-                 ;(gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]")
-                 )
-
-        (nnimap "home"
-                (nnimap-address "imap.gmail.com")
-                (nnimap-server-port 993)
-                (nnimap-stream ssl)
-                (nnimap-authinfo-file "~/.authinfo"))))
+      '((nnmaildir "home"  (directory "~/Mail/gmail"))
+        (nnmaildir "dd"    (directory "~/Mail/dundee"))
+        (nnmaildir "feeds" (directory "~/.imm-feeds")
+                           (directory-files nnheader-directory-files-safe))))
 
 ;; Outgoing mail via SMTP
 
