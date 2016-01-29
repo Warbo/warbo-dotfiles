@@ -4,9 +4,8 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
         position     = TopW C 100,
         lowerOnStart = True,
         commands     = [Run Date "%a %_d %b %Y %H:%M:%S"    "date"  10,
-                        Run Com  "failed_tests" []          "tests" 2,
-                        Run Com  "gmailunread"  ["-xmobar"] "mail"  3000
-                        --Run Com  "quota"        []          "quota" 2000
+                        Run Com  "failed_tests" []          "tests" 50,
+                        Run Com  "gmailunread"  ["-xmobar"] "mail"  50
                        ],
        sepChar        = "%",
        alignSep       = "}{",
