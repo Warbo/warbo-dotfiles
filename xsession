@@ -1,12 +1,6 @@
 #!/bin/sh
-
-# If abduco isn't running, remove sockets
-if ! pgrep abduco
-then
-    rm -f ~/.abduco/default*nixos
-fi
-
-st -e /home/chris/warbo-utilities/system/shell -f "Droid Sans Mono" &
+feh --bg-fill ~/Pictures/Backgrounds/01141_hal9000_1280x1024.jpg
+st -e shell -f "Droid Sans Mono" &
 compton -c &
 conkeror &
 basket &
