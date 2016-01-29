@@ -79,10 +79,9 @@
 #<custom>
 127.0.0.1 facebook.com
 127.0.0.1 twitter.com
-127.0.0.1 tumblr.com
-127.0.0.1 reddit.com
-127.0.0.1 ycombinator.com
-127.0.0.1 news.ycombinator.com
+#127.0.0.1 reddit.com
+#127.0.0.1 ycombinator.com
+#127.0.0.1 news.ycombinator.com
 127.0.0.1 slashdot.org
 127.0.0.1 slashdot.com
 127.0.0.1 lesswrong.com
