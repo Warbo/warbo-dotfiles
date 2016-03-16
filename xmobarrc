@@ -5,8 +5,9 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
         lowerOnStart = True,
         commands     = [Run Date "%a %_d %b %Y %H:%M:%S"    "date"  10,
                         Run Com  "failed_tests" []          "tests" 50,
-                        Run Com  "gmailunread"  ["-xmobar"] "mail"  50
+                        Run Com  "gmailunread"  ["-xmobar"] "mail"  50,
+                        Run Com  "agenda"       ["head"]    "cal"   9000
                        ],
        sepChar        = "%",
        alignSep       = "}{",
-       template       = "%tests% }{ %mail% <fc=#ee9a00>%date%</fc>"}
+       template       = "%tests% } %cal% { %mail% <fc=#ee9a00>%date%</fc>"}
