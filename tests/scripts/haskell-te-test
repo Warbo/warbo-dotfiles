@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-cd ~/System/Packages/haskell-te
-./test.sh

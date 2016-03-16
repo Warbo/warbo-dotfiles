@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-cd ~/Programming/Haskell/HS2AST
-hsConfig
-cabal test
