@@ -27,8 +27,17 @@ myUris =  map snd [
   ("Intelligence: Born Smart, Born Equal, Born Different",
    "http://www.bbc.co.uk/programmes/b042q944/episodes/downloads.rss"),
 
+  ("iPlayer Comedy",
+   "http://localhost:8888/iplayer_feeds/comedy.rss"),
+
+  ("iPlayer Films",
+   "http://localhost:8888/iplayer_feeds/films.rss"),
+
+  ("iPlayer Science/Nature",
+   "http://localhost:8888/iplayer_feeds/scinat.rss"),
+
   ("Lambda the Ultimate",
-   "http://lambda-the-ultimate.org/rss.xml")
+   "http://lambda-the-ultimate.org/rss.xml"),
 
   ("Linear Digressions",
    "http://feeds.feedburner.com/udacity-linear-digressions"),
@@ -67,7 +76,16 @@ myUris =  map snd [
    "http://xkcd.com/rss.xml"),
 
   ("XKCD What If",
-   "http://what-if.xkcd.com/feed.atom")
+   "http://what-if.xkcd.com/feed.atom"),
+
+  ("YouTube - Computerphile",
+   "http://localhost:8888/rss/computerphile.rss"),
+
+  ("YouTube - Numberphile",
+   "http://localhost:8888/rss/numberphile.rss"),
+
+  ("YouTube - Matt Parker",
+   "http://localhost:8888/rss/standupmaths.rss")
   ]
 
 config :: Config -> Config
