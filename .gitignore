@@ -2,3 +2,15 @@
 *.hi
 xmonad/xmonad.errors
 xmonad/xmonad-i386-linux
+
+# Looks like state, rather than config
+config/vlc/vlc-qt-interface.conf
+config/imm/state
+
+# Cluttered with data and cache
+config/Clementine
+
+# Pretty huge...
+config/banshee-1
+config/chromium
+config/libreofficedev
