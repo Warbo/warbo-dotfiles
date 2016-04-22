@@ -1,0 +1,17 @@
+[server]
+meta-server=pioneers.debian.net
+port=5556
+register=0
+overridden-hostname=
+random-seating-order=0
+
+[game]
+name=SmallEurope
+random-terrain=0
+num-players=2
+victory-points=18
+check-victory-at-end-of-turn=0
+sevens-rule=0
+use-pirate=0
+strict-trade=0
+domestic-trade=1

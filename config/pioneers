@@ -1,0 +1,14 @@
+[settings]
+toolbar_show_accelerators=1
+legend_page=1
+
+[favorites]
+server0name=localhost
+server0port=5556
+
+[connect]
+server=localhost
+port=5556
+meta-server=pioneers.debian.net
+name=chris
+viewer=0

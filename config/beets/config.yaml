@@ -1,0 +1,7 @@
+directory: ~/Music
+library: ~/.cache/beets/musiclibrary.blb
+
+import:
+    move: yes
+
+plugins: chroma fromfilename missing duplicates

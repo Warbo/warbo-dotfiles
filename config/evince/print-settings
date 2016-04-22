@@ -1,0 +1,33 @@
+[Print Settings]
+cover-after=none
+print-at=now
+resolution=300
+print-at-time=
+resolution-x=300
+resolution-y=300
+cups-job-sheets=none,none
+evince-print-setting-page-size=false
+cups-ColorModel=Gray
+cups-InputSlot=Tray
+cups-MediaType=Plain
+cups-job-priority=50
+default-source=Tray
+media-type=Plain
+evince-print-setting-page-autorotate=true
+cups-Resolution=300dpi
+evince-print-setting-page-scale=1
+n-copies=1
+cover-before=none
+printer=HP_Deskjet_D1600_series
+cups-number-up=1
+
+[Page Setup]
+PPDName=A4
+DisplayName=A4
+Width=210
+Height=297
+MarginTop=6.3499999999999996
+MarginBottom=14.224
+MarginLeft=6.3499999999999996
+MarginRight=6.3499999999999996
+Orientation=portrait
