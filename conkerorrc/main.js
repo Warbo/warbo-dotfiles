@@ -8,5 +8,7 @@ require('duckduckgo');
 require('xkcd');
 xkcd_add_title = true;
 
+define_webjump('imdb', 'http://www.imdb.com/find?q=%s');
+
 //io_service.manageOfflineStatus = false;
 //io_service.offline = false;
