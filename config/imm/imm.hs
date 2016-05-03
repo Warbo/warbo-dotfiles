@@ -36,6 +36,9 @@ myUris =  map snd [
   ("iPlayer Science/Nature",
    "http://localhost:8888/iplayer_feeds/scinat.rss"),
 
+  ("Kurzweil AI",
+   "http://localhost:8888/rss/kurzweilai.rss"),
+
   ("Lambda the Ultimate",
    "http://lambda-the-ultimate.org/rss.xml"),
 
