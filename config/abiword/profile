@@ -28,94 +28,64 @@
 
 	<Scheme
 		name="_builtin_"
-		StringSetDirectory="strings"
-		RulerUnits="cm"
-		SimpleBarVisible="0"
-		AutoLoadPlugins="1"
-		ColorRevision4="9eb345"
-		ParaVisible="0"
-		StringSet="en-GB"
-		ToolbarAppearance="icon"
-		AutoGrammarCheck="0"
-		KeyBindings="default"
-		MenuLayouts="Main"
-		ColorRevision5="0fb305"
-		ColorMargin="7f7f7f"
-		ToolbarLayouts="FileEditOps FormatOps TableOps ExtraOps"
-		EnableSmoothScrolling="1"
-		SaveContextGlyphs="0"
-		SpellCheckInternet="1"
-		SpellAutoReplace="0"
-		ColorRevision6="08b3f8"
-		CursorBlink="1"
-		AutoSpellCheck="1"
-		HTML_Export_Options="?xml,xmlns:awml,+CSS"
-		FormatBarVisible="1"
-		DefaultSaveFormat=".abw"
-		ColorRevision8="0485c3"
-		SpellCheckDirectory="dictionary"
 		InnerQuoteStyle="1"
-		ColorRevision7="04cec3"
 		AutoSaveFile="0"
 		ColorGrammarSquiggle="00bb00"
-		RemapGlyphsDefault="&#xb0;"
+		MenuLayouts="Main"
+		layoutMode="1"
+		ColorHdrFtr="000000"
 		ZoomPercentage="100"
 		ColorSquiggle="ff0000"
-		DefaultGraphics="0"
-		ColorHdrFtr="000000"
-		SmartQuotesEnable="1"
+		LockStyles="0"
 		ColorRevision9="0712c3"
-		RulerVisible="1"
-		ColorImage="0000ff"
+		StringSetDirectory="strings"
+		AlwaysPromptEncoding="0"
 		DirMarkerAfterClosingParenthesis="0"
 		LatinLigatures="0"
 		KeyBindingsCycle="0"
 		ColorRevision10="ff0000"
 		UseGlyphShapingForHebrew="0"
-		DefaultDirectionRtl="0"
 		TransparentColor="ffffff"
-		LockStyles="0"
 		/>
 
 	<Scheme
 		name="_custom_"
-		ZoomType="143"
 		ZoomPercentage="143"
-		layoutMode="2"
+		ZoomType="143"
 		/>
 
 	<Plugin
 		name="_AbiPaint_"
-		bLeaveImageAsPNG="1"
 		szImageEditor="gimp"
+		bLeaveImageAsPNG="1"
 		/>
 
 	<Recent
 		max="9"
-		name1="file:///home/chris/Marking/AAI/SchnellPhilipp/Report_P.Schnell.docx"
-		name2="file:///home/chris/Marking/AAI/NeelyCraig/AC21007%20Algorithms%20and%20AI%20-%20Cornwall%20search%20Graph.docx"
-		name3="file:///home/chris/Marking/AAI/MurrayAdam/AICoursework/Adam%20Murray%20AI%20Assignment1%20140011472.docx"
-		name4="file:///home/chris/Marking/AAI/MansellWarren/David/AC21007%20Algorithms%20and%20AI.docx"
-		name5="file:///home/chris/Marking/AAI/KostovKrasi/AI_assignment_KrasimirKostov/Report%20-%20AI%20assignment.docx"
-		name6="file:///home/chris/Marking/AAI/KinnairdDaniel/Kinnaird_Daniel_Report.docx"
-		name7="file:///home/chris/DELETEME/dd.docx"
-		name8="file:///home/chris/TMC%20-%20Student%20document.pdf"
-		name9="file:///home/chris/TMC%20-%20Student%20document.doc"
+		name1="file:///home/chris/Writing/PhDSymposium2016/questions.pdf"
+		name2="file:///home/chris/Writing/PhDSymposium2016/questions.abw"
+		name3="file:///home/chris/Documents/PhDSymposium2016/Reviews/Review-16.docx"
+		name4="file:///home/chris/Documents/PhDSymposium2016/Reviews/Review-13.docx"
+		name5="file:///home/chris/Documents/PhDSymposium2016/Reviews/Review-11.docx"
+		name6="file:///home/chris/Marking/ResearchMethodology/ValleeJean/AC52012_RM_Assignment.docx"
+		name7="file:///home/chris/Marking/AAI/SchnellPhilipp/Report_P.Schnell.docx"
+		name8="file:///home/chris/Marking/AAI/NeelyCraig/AC21007%20Algorithms%20and%20AI%20-%20Cornwall%20search%20Graph.docx"
+		name9="file:///home/chris/Marking/AAI/MurrayAdam/AICoursework/Adam%20Murray%20AI%20Assignment1%20140011472.docx"
 		/>
 
 	<Geometry
 		width="1022"
-		height="766"
-		posx="1"
-		posy="156"
+		height="748"
+		posx="33"
+		posy="141"
 		flags="2"
 		/>
 
 	<Log>
-	<!-- [Tue 05 Apr 2016 21:51:28 BST] message: XAP_ModuleManager::loadModule - (L104): loading /nix/store/bsrqddjwm0vnyj8wspbbgrw0i8h1901g-abiword-3.0.1/lib/abiword-3.0/plugins/openxml.so -->
-	<!-- [Tue 05 Apr 2016 21:51:28 BST] message: XAP_ModuleManager::loadModule - (L189): success /nix/store/bsrqddjwm0vnyj8wspbbgrw0i8h1901g-abiword-3.0.1/lib/abiword-3.0/plugins/openxml.so -->
-	<!-- [Tue 05 Apr 2016 21:51:28 BST] message: XAP_ModuleManager::loadModule - (L104): loading /nix/store/bsrqddjwm0vnyj8wspbbgrw0i8h1901g-abiword-3.0.1/lib/abiword-3.0/plugins/opendocument.so -->
-	<!-- [Tue 05 Apr 2016 21:51:28 BST] message: XAP_ModuleManager::loadModule - (L189): success /nix/store/bsrqddjwm0vnyj8wspbbgrw0i8h1901g-abiword-3.0.1/lib/abiword-3.0/plugins/opendocument.so -->
+	<!-- [Fri 20 May 2016 18:57:34 BST] message: XAP_ModuleManager::loadModule - (L104): loading /nix/store/9insqmzhp80c3d1vmrnsbfxmb4wczq0y-abiword-3.0.1/lib/abiword-3.0/plugins/openxml.so -->
+	<!-- [Fri 20 May 2016 18:57:34 BST] message: XAP_ModuleManager::loadModule - (L189): success /nix/store/9insqmzhp80c3d1vmrnsbfxmb4wczq0y-abiword-3.0.1/lib/abiword-3.0/plugins/openxml.so -->
+	<!-- [Fri 20 May 2016 18:57:34 BST] message: XAP_ModuleManager::loadModule - (L104): loading /nix/store/9insqmzhp80c3d1vmrnsbfxmb4wczq0y-abiword-3.0.1/lib/abiword-3.0/plugins/opendocument.so -->
+	<!-- [Fri 20 May 2016 18:57:34 BST] message: XAP_ModuleManager::loadModule - (L189): success /nix/store/9insqmzhp80c3d1vmrnsbfxmb4wczq0y-abiword-3.0.1/lib/abiword-3.0/plugins/opendocument.so -->
 	</Log>
 
 	<Fonts include="0">

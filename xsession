@@ -8,4 +8,5 @@ emacs &
 xmb &
 gnome-keyring-daemon &
 nm-applet &
+nix-shell -p synergy --run synergys &
 xmonad
