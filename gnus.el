@@ -3,10 +3,10 @@
 
 ;; Incoming mail via IMAP
 (setq gnus-secondary-select-methods
-      '((nnmaildir "home"  (directory "~/Mail/gmail"))
-        (nnmaildir "dd"    (directory "~/Mail/dundee"))
-        (nnmaildir "feeds" (directory "~/.imm-feeds")
-                           (directory-files nnheader-directory-files-safe))))
+      '((nnmaildir "home"   (directory "~/Mail/gmail"))
+        (nnmaildir "dd"     (directory "~/Mail/dundee"))
+        (nnmaildir "feeds"  (directory "~/.imm-feeds")
+                            (directory-files nnheader-directory-files-safe))))
 
 ;; Outgoing mail via SMTP
 

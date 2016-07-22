@@ -6,8 +6,8 @@
 ;; You can get event IDs using "xbindkeys -k"
 
 ;; Audio buttons
-(xbindkey "XF86AudioRaiseVolume" "amixer sset Master 1+")
-(xbindkey "XF86AudioLowerVolume" "amixer sset Master 1-")
+(xbindkey "XF86AudioRaiseVolume" "amixer -c 0 sset Master 1+")
+(xbindkey "XF86AudioLowerVolume" "amixer -c 0 sset Master 1-")
 (xbindkey-function
   "XF86AudioMute"
   (let ((muted #f)

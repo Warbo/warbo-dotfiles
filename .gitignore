@@ -6,6 +6,7 @@ xmonad/xmonad-i386-linux
 # Looks like state, rather than config
 config/vlc/vlc-qt-interface.conf
 config/imm/state
+config/Trolltech.conf
 
 # Cluttered with data and cache
 config/Clementine
