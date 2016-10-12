@@ -4,9 +4,15 @@ xmonad/xmonad.errors
 xmonad/xmonad-i386-linux
 
 # Looks like state, rather than config
+config/abiword/profile
+config/audacious
 config/vlc/vlc-qt-interface.conf
+config/vlc/vlcrc
 config/imm/state
+config/MusicBrainz/Picard.conf
 config/Trolltech.conf
+config/gtk-2.0/gtkfilechooser.ini
+config/gtk-3.0/settings.ini
 
 # Cluttered with data and cache
 config/Clementine
