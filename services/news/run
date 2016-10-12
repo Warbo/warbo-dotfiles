@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+HOME=/home/chris s6-setuidgid chris /home/chris/.nix-profile/bin/get-news
