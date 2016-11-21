@@ -4,10 +4,8 @@ st -e shell -f "Droid Sans Mono"    &
 compton -c                          &
 conkeror                            &
 basket                              &
-emacs                               &
+emacsclient -c                      &
 xmb                                 &
 gnome-keyring-daemon                &
 nm-applet                           &
-watch_network                       &
-nix-shell -p synergy --run synergys &
 xmonad
