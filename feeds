@@ -19,6 +19,8 @@ rss	HackerNews	http://feeds.feedburner.com/fullhackernews
 rss	ProgrammerPaintings	http://classicprogrammerpaintings.com/rss
 rss	BBCHeadlines	http://feeds.bbci.co.uk/news/rss.xml?edition=uk
 rss	ScienceStories	http://www.bbc.co.uk/programmes/b06vy2jd/episodes/downloads.rss
+rss	RedditHaskell	https://www.reddit.com/r/haskell/.rss
+rss	RedditStallmanWasRight	https://www.reddit.com/r/StallmanWasRight/.rss
 rss	RoyalInstitutionVideos	http://richannel.org/videos.rss
 rss	RutherfordAndFry	http://www.bbc.co.uk/programmes/b07dx75g/episodes/downloads.rss
 rss	InfiniteMonkeyCage	http://www.bbc.co.uk/programmes/b00snr0w/episodes/downloads.rss
@@ -40,3 +42,4 @@ youtube	veritasium	UCHnyfMqiRRG1u-2MsSQLbXA
 youtube	periodicvideos	UCtESv1e7ntJaLJYKIO1FoYw
 youtube	sixtysymbols	UCvBqzzvUBLCs8Y7Axb-jZew
 youtube	exurb1a	UCimiUgDLbi6P17BdaCZpVbg
+youtube	GoogleTechTalks	UCtXKDgv1AVoG88PLl8nGXmw
