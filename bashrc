@@ -109,3 +109,4 @@ fi
 export PATH=$PATH:~/System/Programs/bin:~/warbo-utilities/system:~/warbo-utilities/web
 export PAGER=cat
 
+export PULSE_SERVER=/run/user/1000/pulse/native
