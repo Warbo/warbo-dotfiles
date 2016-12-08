@@ -21,3 +21,6 @@ config/Clementine
 config/banshee-1
 config/chromium
 config/libreofficedev
+
+# Nope
+*keepassx*
