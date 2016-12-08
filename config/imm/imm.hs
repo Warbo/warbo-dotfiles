@@ -25,8 +25,5 @@ isRss = (".rss" `isSuffixOf`)
 
 filesInCache :: [FilePath]
 filesInCache = unsafePerformIO $ do
-  rss     <- getDirectoryContents "/home/chris/.cache/rss"
-  iplayer <- getDirectoryContents "/home/chris/.cache/iplayer_feeds"
-  let rss'     = map           ("rss/" ++) (filter isRss rss)
-      iplayer' = map ("iplayer_feeds/" ++) (filter isRss iplayer)
-  return (rss' ++ iplayer')
+  rss <- getDirectoryContents "/home/chris/.cache/rss"
+  return (map ("rss/" ++) (filter isRss rss))
