@@ -110,3 +110,5 @@ export PATH=$PATH:~/System/Programs/bin:~/warbo-utilities/system:~/warbo-utiliti
 export PAGER=cat
 
 export PULSE_SERVER=/run/user/1000/pulse/native
+
+export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
