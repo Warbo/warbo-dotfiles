@@ -11,6 +11,7 @@ iplayer	iPlayerFilms	http://www.bbc.co.uk/iplayer/categories/films/all?sort=date
 iplayer	iPlayerSciNat	http://www.bbc.co.uk/iplayer/categories/science-and-nature/all?sort=dateavailable
 rss	50Things	http://www.bbc.co.uk/programmes/p04b1g3c/episodes/downloads.rss
 rss	BornSmart,Equal,Different	http://www.bbc.co.uk/programmes/b042q944/episodes/downloads.rss
+rss	CodePodcast	http://codepodcast.com/feeds/all.rss.xml
 rss	ComputingBritain	http://www.bbc.co.uk/programmes/b06bq6j1/episodes/downloads.rss
 rss	ConorMcBride	https://pigworker.wordpress.com/feed/
 rss	CrowdScience	http://www.bbc.co.uk/programmes/p04d42rc/episodes/downloads.rss
@@ -18,6 +19,7 @@ rss	DailyWTF	http://syndication.thedailywtf.com/TheDailyWtf
 rss	Dave	http://freelanceflaneur.blogspot.com/feeds/posts/default?alt=rss
 rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
 rss	HackerNews	http://feeds.feedburner.com/fullhackernews
+rss	HaskellCast	http://www.haskellcast.com/feed.xml
 rss	HiddenHistoriesOfTheInformationAge	http://www.bbc.co.uk/programmes/b04mttrp/episodes/downloads.rss
 rss	InfiniteMonkeyCage	http://www.bbc.co.uk/programmes/b00snr0w/episodes/downloads.rss
 rss	InOurTimeScience	http://www.bbc.co.uk/programmes/p01gyd7j/episodes/downloads.rss
@@ -40,6 +42,7 @@ rss	ScienceStories	http://www.bbc.co.uk/programmes/b06vy2jd/episodes/downloads.r
 rss	ReithLectures	http://www.bbc.co.uk/programmes/b00729d9/episodes/downloads.rss
 rss	RoyalInstitutionVideos	http://richannel.org/videos.rss
 rss	RutherfordAndFry	http://www.bbc.co.uk/programmes/b07dx75g/episodes/downloads.rss
+rss	ScienceInAction	http://www.bbc.co.uk/programmes/p002vsnb/episodes/downloads.rss
 rss	ScienceBulletin	http://sciencebulletin.org/feed/
 rss	StronglyConnectedComponents	http://feeds.feedburner.com/acmescience/scc
 rss	Togelius	http://togelius.blogspot.com/feeds/posts/default?alt=rss
@@ -49,6 +52,7 @@ rss	TypeTheory	http://typetheorypodcast.com/feed/podcast
 rss	XKCD	http://xkcd.com/rss.xml
 tv	FamilyGuy	https://en.wikipedia.org/wiki/List_of_Family_Guy_episodes
 tv	LastWeekTonight	https://en.wikipedia.org/wiki/List_of_Last_Week_Tonight_with_John_Oliver_episodes
+tv	SiliconValley	https://en.wikipedia.org/wiki/List_of_Silicon_Valley_episodes
 tv	Supernatural	https://en.wikipedia.org/wiki/List_of_Supernatural_episodes
 tv	WalkingDead	https://en.wikipedia.org/wiki/List_of_The_Walking_Dead_episodes
 youtube	3blue1brown	UCYO_jab_esuFRV4b17AJtAw
