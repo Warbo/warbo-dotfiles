@@ -8,9 +8,8 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
                         Run Com  "gmailunread"  ["-xmobar"]           "mail"  50,
                         Run Com  "too_hot"      []                    "temp"  50,
                         Run Com  "head"         ["/home/chris/.next"] "next"  50,
-                        Run Com  "agenda"       ["head"]              "cal"   9000,
-                        Run Com  "beeminder"    []                    "bm"    3600
+                        Run Com  "agenda"       ["head"]              "cal"   9000
                        ],
        sepChar        = "%",
        alignSep       = "}{",
-       template       = "%temp%%tests% <fc=#ee9a00>%bm%</fc> } <fc=#009aee>%next%</fc> | %cal% { %mail% <fc=#ee9a00>%date%</fc>"}
+       template       = "%temp%%tests% } <fc=#009aee>%next%</fc> | %cal% { %mail% <fc=#ee9a00>%date%</fc>"}
