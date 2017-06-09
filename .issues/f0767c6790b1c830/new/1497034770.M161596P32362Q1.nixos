@@ -1,0 +1,10 @@
+From: Chris Warburton
+Date: Fri, 09 Jun 2017 19:58:24 +0100
+State: new
+Subject: Clean up or ignore junk
+Message-Id: <f0767c6790b1c830-0-artemis@nixos>
+
+There are a bunch of ever-changing files, which seem to contain
+machine-generated values rather than manually written/saved preferences.
+
+See which ones to add, which to .gitignore, etc.
