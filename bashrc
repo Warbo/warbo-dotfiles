@@ -114,3 +114,6 @@ export PULSE_SERVER=/run/user/1000/pulse/native
 export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
 
 export IPFS_PATH=/var/lib/ipfs/.ipfs
+
+export EDITOR=emacsclient
+export VISUAL=emacsclient
