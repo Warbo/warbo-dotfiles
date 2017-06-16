@@ -1,0 +1,14 @@
+From: Chris Warburton
+Date: Wed, 14 Jun 2017 00:28:54 +0100
+State: new
+Subject: coolDown getting command not found errors
+Message-Id: <abeecf76b12b7ae9-0-artemis@nixos>
+
+$ journalctl -u coolDown
+-- Logs begin at Tue 2017-06-13 21:29:19 BST, end at Wed 2017-06-14 00:20:27 BST. --
+Jun 13 21:29:19 nixos db1y8g6gs6xi49gvqqynzv40k26nljc0-cool-down[8075]: /nix/store/8b41s6amsfkla0pr6s1xymjn1maxby92-coolDown: line 15: hot: command not found
+Jun 13 21:29:19 nixos db1y8g6gs6xi49gvqqynzv40k26nljc0-cool-down[8075]: /nix/store/8b41s6amsfkla0pr6s1xymjn1maxby92-coolDown: line 6: pgrep: command not found
+...
+
+These appear over and over. pgrep is from the procps package, hot is
+from the warbo-utilities package.

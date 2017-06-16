@@ -1,0 +1,12 @@
+From: Chris Warburton
+Date: Wed, 14 Jun 2017 00:30:25 +0100
+Subject: Re: coolDown getting command not found errors
+Message-Id: <abeecf76b12b7ae9-cf238fcec1ed8121-artemis@nixos>
+References: <abeecf76b12b7ae9-0-artemis@nixos>
+In-Reply-To: <abeecf76b12b7ae9-0-artemis@nixos>
+
+Turns out we weren't wrapping the coolDown program properly: we'd used
+`--prefix PATH foo/bin` instead of `--prefix PATH : foo/bin`.
+
+Fixed this in warbo-utilities, and also added an extra wrapper to the
+service definition, so we can wrap coolDown in warbo-utilities' bin.
