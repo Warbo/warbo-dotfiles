@@ -18,6 +18,7 @@ rss	CrowdScience	http://www.bbc.co.uk/programmes/p04d42rc/episodes/downloads.rss
 rss	DailyWTF	http://syndication.thedailywtf.com/TheDailyWtf
 rss	Dave	http://freelanceflaneur.blogspot.com/feeds/posts/default?alt=rss
 rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
+rss	FunctionalGeekery	https://www.functionalgeekery.com/feed/
 rss	HackerNews	http://feeds.feedburner.com/fullhackernews
 rss	HaskellCast	http://www.haskellcast.com/feed.xml
 rss	HiddenHistoriesOfTheInformationAge	http://www.bbc.co.uk/programmes/b04mttrp/episodes/downloads.rss
@@ -32,6 +33,7 @@ rss	MIRI	http://feeds.feedburner.com/miriblog
 rss	MoreOrLess	http://www.bbc.co.uk/programmes/p02nrss1/episodes/downloads.rss
 rss	MorningPaper	https://blog.acolyer.org/feed/
 rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads.rss
+rss	NixOS	https://www.reddit.com/r/NixOS/.rss
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
 rss	SMBC	http://www.smbc-comics.com/rss.php
 rss	TalkingMachines	http://www.thetalkingmachines.com/blog/?format=RSS
