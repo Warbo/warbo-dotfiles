@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Tue, 27 Jun 2017 14:59:53 +0100
+Subject: Re: Cache location
+Message-Id: <f33ec622225b8780-df211b861b40f5ad-artemis@nixos>
+References: <f33ec622225b8780-0-artemis@nixos>
+In-Reply-To: <f33ec622225b8780-0-artemis@nixos>
+
+We now cache our location at /tmp/location

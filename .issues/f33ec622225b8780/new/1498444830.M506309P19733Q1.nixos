@@ -1,0 +1,20 @@
+From: Chris Warburton
+Date: Mon, 26 Jun 2017 03:33:41 +0100
+State: resolved
+Subject: Cache location
+Message-Id: <f33ec622225b8780-0-artemis@nixos>
+resolution: fixed
+
+atHome and atWork use WiFi network names to see where we are. These
+calls to nmcli can get quite CPU-intensive, so we should try to minimise
+them. How about:
+
+ - These scripts poll a single location, like /tmp/location, to see if
+   it's 'work' or 'home'
+ - A separate service maintains this file
+ - If a corresponding WiFi network is found, update the file and sleep
+   for a while (e.g. a couple of minutes), since it's unlikely to change
+   in that time
+ - If none is found, echo 'unknown' to the file and sleep for a short
+   time, e.g. 20 seconds, since it may be e.g. the WiFi card needing to
+   refresh
