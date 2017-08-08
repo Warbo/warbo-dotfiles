@@ -13,7 +13,9 @@ config/inkscape/
 config/vlc/vlc-qt-interface.conf
 config/vlc/vlcrc
 config/imm/state
+config/Kid3
 config/MusicBrainz/Picard.conf
+config/puddletag
 config/Trolltech.conf
 config/gtk-2.0/gtkfilechooser.ini
 config/gtk-3.0/settings.ini
