@@ -5,29 +5,30 @@ import           Data.Ratio ((%))
 import           System.Exit
 import           System.IO
 import           XMonad
+import           XMonad.Actions.CopyWindow
 import           XMonad.Actions.CycleWS
 import           XMonad.Actions.PhysicalScreens
+import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Hooks.FadeInactive
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers
 import           XMonad.Hooks.SetWMName
-import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.UrgencyHook
-import           XMonad.Hooks.FadeInactive
-import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Layout.Grid
+import           XMonad.Layout.IM
+import           XMonad.Layout.LayoutHints
+import           XMonad.Layout.LayoutModifier
 import           XMonad.Layout.NoBorders (smartBorders, noBorders)
 import           XMonad.Layout.PerWorkspace (onWorkspace, onWorkspaces)
 import           XMonad.Layout.Reflect (reflectHoriz)
-import           XMonad.Layout.IM
+import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SimpleFloat
 import           XMonad.Layout.Spacing
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.LayoutHints
-import           XMonad.Layout.LayoutModifier
-import           XMonad.Layout.Grid
 import           XMonad.Operations
 import           XMonad.Prompt
-import           XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
 import           XMonad.Prompt.AppendFile (appendFilePrompt)
+import           XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
 import qualified XMonad.StackSet as W
 import           XMonad.Util.Run
 import           XMonad.Util.EZConfig
@@ -56,9 +57,20 @@ main = do
 myWorkspaces = ["1:Term" , "2:Emacs", "3:Mail" , "4:Misc" , "5:Web",
                 "6:Music", "7:Seven", "8:Eight", "9:Nine"          ]
 
-myKeys     c = M.union (customKeys c) (keys defaultConfig c)
-customKeys c = mkKeymap c [("M-<Left>",  nextScreen),
-                           ("M-<Right>", nextScreen)]
+myKeys c = mkKeymap c customKeys      `M.union`
+           mkKeymap c copyToWorkspace `M.union`
+           keys defaultConfig c
+
+customKeys = [("M-<Left>",  nextScreen),          -- Toggle between 2 screens
+              ("M-<Right>", nextScreen),          -- Toggle between 2 screens
+              ("M-s",       windows copyToAll),   -- Sticky
+              ("M-S-s",     killAllOtherCopies)]  -- Unsticky
+
+-- Duplicate a window onto another workspace, e.g. copy to workspace 3
+copyToWorkspace = map makeKey [1..length myWorkspaces]
+  where doCopy  num windowSet = copy (map W.tag (W.workspaces windowSet) !! num)
+                                     windowSet
+        makeKey num           = ("M-S-C-" ++ show num, windows (doCopy (num - 1)))
 
 -- How to lay out the windows on a workspace
 myLayoutHook = avoidStruts $ layoutHook defaultConfig
