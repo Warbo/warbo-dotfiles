@@ -6,6 +6,7 @@ xmonad/xmonad-i386-linux
 # Looks like state, rather than config
 config/abiword/profile
 config/audacious
+config/cmus
 config/pavucontrol.ini
 config/pulse/cookie
 config/leafpad/leafpadrc

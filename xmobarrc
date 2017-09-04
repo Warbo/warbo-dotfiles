@@ -7,7 +7,7 @@ Config {font         = "-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*",
                         Run Com  "failed_tests" []                    "tests" 50,
                         Run Com  "gmailunread"  ["-xmobar"]           "mail"  50,
                         Run Com  "too_hot"      []                    "temp"  50,
-                        Run Com  "head"         ["/home/chris/.next"] "next"  50,
+                        Run Com  "next"         []                    "next"  600,
                         Run Com  "agenda"       ["head"]              "cal"   9000
                        ],
        sepChar        = "%",
