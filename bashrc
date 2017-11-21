@@ -106,8 +106,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export PATH=$PATH:~/System/Programs/bin:~/warbo-utilities/system:~/warbo-utilities/web
-export PAGER=cat
+export PATH=$PATH:~/System/Programs/bin
+export PAGER=pager
 
 export PULSE_SERVER=/run/user/1000/pulse/native
 
