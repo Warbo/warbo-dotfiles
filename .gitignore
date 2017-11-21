@@ -20,6 +20,7 @@ config/puddletag
 config/Trolltech.conf
 config/gtk-2.0/gtkfilechooser.ini
 config/gtk-3.0/settings.ini
+config/uGet
 
 # Cluttered with data and cache
 config/Clementine
