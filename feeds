@@ -19,7 +19,7 @@ rss	DailyWTF	http://syndication.thedailywtf.com/TheDailyWtf
 rss	Dave	http://freelanceflaneur.blogspot.com/feeds/posts/default?alt=rss
 rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
 rss	FunctionalGeekery	https://www.functionalgeekery.com/feed/
-rss	HackerNews	http://feeds.feedburner.com/fullhackernews
+rss	HackerNews	https://hnrss.org/frontpage
 rss	HaskellCast	http://www.haskellcast.com/feed.xml
 rss	HiddenHistoriesOfTheInformationAge	http://www.bbc.co.uk/programmes/b04mttrp/episodes/downloads.rss
 rss	InfiniteMonkeyCage	http://www.bbc.co.uk/programmes/b00snr0w/episodes/downloads.rss
@@ -37,13 +37,12 @@ rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads
 rss	NixOS	https://www.reddit.com/r/NixOS/.rss
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
 rss	SMBC	http://www.smbc-comics.com/rss.php
-rss	TalkingMachines	http://www.thetalkingmachines.com/blog/?format=RSS
+rss	TalkingMachines	https://rss.art19.com/talking-machines
 rss	TEDTalks	https://www.ted.com/talks/rss
 rss	ProgrammerPaintings	http://classicprogrammerpaintings.com/rss
 rss	PuttingScienceToWork	http://www.bbc.co.uk/programmes/b06t1y3z/episodes/downloads.rss
 rss	ScienceStories	http://www.bbc.co.uk/programmes/b06vy2jd/episodes/downloads.rss
 rss	ReithLectures	http://www.bbc.co.uk/programmes/b00729d9/episodes/downloads.rss
-rss	RoyalInstitutionVideos	http://richannel.org/videos.rss
 rss	RutherfordAndFry	http://www.bbc.co.uk/programmes/b07dx75g/episodes/downloads.rss
 rss	ScienceInAction	http://www.bbc.co.uk/programmes/p002vsnb/episodes/downloads.rss
 rss	ScienceBulletin	http://sciencebulletin.org/feed/
@@ -72,6 +71,7 @@ youtube	Kurzgesagt	UCsXVk37bltHxD1rDPwtNM8Q
 youtube	numberphile	UCoxcjq-8xIDTYp3uz647V5A
 youtube	periodicvideos	UCtESv1e7ntJaLJYKIO1FoYw
 youtube	RobMiles	UCLB7AzTwc6VFZrBsO2ucBMg
+youtube	RoyalInstitutionVideos	UCYeF244yNGuFefuFKqxIAXw
 youtube	sciencium	UCGRB1ZjIqAiaGwt-XLq9CnA
 youtube	sixtysymbols	UCvBqzzvUBLCs8Y7Axb-jZew
 youtube	SmarterEveryDay	UC6107grRI4m0o2-emgoDnAA
