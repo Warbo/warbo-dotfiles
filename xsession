@@ -2,11 +2,12 @@
 setBg
 st -e shell -f "Droid Sans Mono" &
 compton -c                       &
-conkeror                         &
+xsettingsd                       &
 basket                           &
 emacsclient -c                   &
 xmb                              &
 gnome-keyring-daemon             &
 nm-applet                        &
 pidgin                           &
+conkeror                         &
 xmonad
