@@ -1,0 +1,63 @@
+From: Chris Warburton
+Date: Fri, 09 Feb 2018 12:36:16 +0000
+State: new
+Subject: Abstraction for polling services
+Message-Id: <d476eb927bcb83c7-0-artemis@nixos>
+
+We have a lot of services which just poll every now and again to see
+whether an action needs to be taken. Examples include:
+
+ - SSH port forwarding
+ - X2X
+ - SSHFS mounts
+ - Plugging in/out an external monitor
+ - Running keybindings (not yet written, but should be)
+ - etc.
+
+There's a lot of boilerplate involved in this. We should try to abstract
+this out. Some things which are desirable:
+
+ - User. This will tell systemd which user to run the scripts as.
+ - Poll interval. This will be the 'restart seconds' argument to
+   systemd.
+ - Condition script. If this exits successfully, the action will be
+   performed. If not, we exit successfully to await the next poll.
+ - Action script. This will perform the necessary action (binding,
+   mounting, etc.). It should probably exit afterwards, rather than
+   being long-running.
+ - All env vars, including PATH, should be baked into the scripts e.g.
+   using 'wrap', rather than being given to systemd.
+
+Once we have this in place, we can then make another abstraction, for
+services which need monitoring:
+
+ - Take a condition script, which only says when the service should be
+   running. It specifically *does not* check if the service is already
+   running or not.
+ - A script to check if the service is running or not (e.g. looking for
+   a particular process, or a particular mount point, etc.).
+ - A script to start the service.
+ - A script to stop the service.
+
+The resulting service will poll, as before, but this time the logic for
+running is different:
+
+ - We check to see if we should run and whether we are running.
+ - If both are consistent, we exit successfully.
+ - If we're not running when we should be, run the start script.
+ - If we're running when we shouldn't be, run the stop script.
+ - After starting, we should check that the 'is running' script exits
+   successfully.
+ - After stopping, we should check that the 'is running' script exits
+   with failure.
+ - We should add a restart script, which checks if we're running, runs
+   the stop script if so, checks if we should run, and runs the start
+   script if so. This way, we can 'unstick' a service by calling
+   systemctl.
+ - Note that we should *not* provide two services, e.g. the service
+   itself and a monitoring service. Why? Because that opens up a whole
+   can of race condition worms.
+
+NOTE: It may be easier to write the second, more general case; then have
+the first be a special-case (e.g. with 'true' for the 'should it be
+running?' script)
