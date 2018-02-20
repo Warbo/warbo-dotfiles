@@ -1,0 +1,21 @@
+From: Chris Warburton
+Date: Tue, 20 Feb 2018 15:25:17 +0000
+State: new
+Subject: Clean up old news
+Message-Id: <dceb0344e21679be-0-artemis@nixos>
+
+mu/mu4e is getting quite slow at indexing. We want to keep our emails,
+but news can pile up, especially from feeds like the BBC and HackerNews.
+
+We should (already?) remove files from ~/Mail/feeds/foo which are
+e.g. older than a certain date, or whatever. We aren't currently
+removing them from the mu index database.
+
+The 'mu remove' command will hopefully do this for us:
+
+  https://man.voidlinux.eu/man1/mu-remove.1
+
+It seems to require a filename, which doesn't have to exist. We could,
+for example, do a search for all BBC news items, loop through each one
+in bash and check if the file exists; if not, do mu remove to drop it
+from the index. And so on for other high-volume feeds.

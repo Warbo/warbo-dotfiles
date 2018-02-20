@@ -1,8 +1,9 @@
 From: Chris Warburton
 Date: Fri, 09 Feb 2018 12:36:16 +0000
-State: new
+State: resolved
 Subject: Abstraction for polling services
 Message-Id: <d476eb927bcb83c7-0-artemis@nixos>
+resolution: fixed
 
 We have a lot of services which just poll every now and again to see
 whether an action needs to be taken. Examples include:

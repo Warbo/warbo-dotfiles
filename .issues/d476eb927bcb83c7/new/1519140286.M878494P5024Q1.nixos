@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Tue, 20 Feb 2018 15:24:29 +0000
+Subject: Re: Abstraction for polling services
+Message-Id: <d476eb927bcb83c7-f7e6a8bdb06f1a3e-artemis@nixos>
+References: <d476eb927bcb83c7-0-artemis@nixos>
+In-Reply-To: <d476eb927bcb83c7-0-artemis@nixos>
+
+Added functions and ported a bunch of services to them
