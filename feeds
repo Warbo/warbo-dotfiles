@@ -5,7 +5,6 @@ atom	Neo900	http://neo900.org/feeds/news.atom.xml
 atom	RedditHaskell	https://www.reddit.com/r/haskell/.rss
 atom	RedditStallmanWasRight	https://www.reddit.com/r/StallmanWasRight/.rss
 atom	RedLanguage	http://www.red-lang.org/feeds/posts/default
-atom	ScottishTech	http://opentechcalendar.co.uk/api1/area/59/events.before.atom?days=7
 iplayer	iPlayerComedy	http://www.bbc.co.uk/iplayer/categories/comedy/all?sort=dateavailable
 iplayer	iPlayerFilms	http://www.bbc.co.uk/iplayer/categories/films/all?sort=dateavailable
 iplayer	iPlayerSciNat	http://www.bbc.co.uk/iplayer/categories/science-and-nature/all?sort=dateavailable
