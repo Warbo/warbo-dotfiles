@@ -1,0 +1,23 @@
+From: Chris Warburton
+Date: Mon, 26 Feb 2018 10:16:44 +0000
+State: new
+Subject: Set env for systemctl --user
+Message-Id: <f282d3b37540a06c-0-artemis@nixos>
+
+The pulseaudio service runs as the current user (chris), so if it fails
+(e.g. missing bluez, jackd, whatever) it needs to be restarted with:
+
+    systemctl --user restart pulseaudio
+
+This doesn't work, since it says "can't connect to bus".
+
+The solution given here works https://askubuntu.com/a/813644/470416
+
+Basically, we need to set the XDG_RUNTIME_DIR env var:
+
+    XDG_RUNTIME_DIR=/run/user/1000 systemctl --user restart pulseaudio
+
+The above command works.
+
+So, we should ensure that this env var is set in the user's
+environment/shell/profile/whatever.
