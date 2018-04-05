@@ -1,0 +1,12 @@
+From: Chris Warburton
+Date: Thu, 05 Apr 2018 14:33:42 +0100
+State: new
+Subject: Textual alternative to Pidgin
+Message-Id: <c3818be7f3cbfecc-0-artemis@nixos>
+
+Maybe use something like bitlbee to expose a bunch of accounts on a
+single standard like IRC, since we can then use a variety of clients
+like ERC or even Pidgin.
+
+We could expose IRC over XMPP, but I've yet to find a decent (minimal
+fuss, reliable, etc.) XMPP client for the console or Emacs.
