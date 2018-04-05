@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Tue, 27 Mar 2018 01:59:18 +0100
+State: new
+Subject: Make emacs survive nixos-rebuild switch
+Message-Id: <cfc3c4ce49a46746-0-artemis@nixos>
+
+The Emacs process seems to exit or crash when we switch configurations.
+Find out why and prevent it (it didn't do so a while ago).

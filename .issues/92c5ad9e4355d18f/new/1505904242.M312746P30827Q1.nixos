@@ -1,8 +1,9 @@
 From: Chris Warburton
 Date: Wed, 20 Sep 2017 11:42:37 +0100
-State: new
+State: resolved
 Subject: Make virtual consoles work
 Message-Id: <92c5ad9e4355d18f-0-artemis@nixos>
+resolution: fixed
 
 We currently don't have virtual consoles. This is really frustrating
 when we want to kill some errant X process (e.g. x2x with a hung SSH

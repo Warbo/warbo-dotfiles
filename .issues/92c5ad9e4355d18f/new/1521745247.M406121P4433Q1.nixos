@@ -1,0 +1,9 @@
+From: Chris Warburton
+Date: Thu, 22 Mar 2018 19:00:23 +0000
+Subject: Re: Make virtual consoles work
+Message-Id: <92c5ad9e4355d18f-db547d2805de03a2-artemis@nixos>
+References: <92c5ad9e4355d18f-0-artemis@nixos>
+In-Reply-To: <92c5ad9e4355d18f-0-artemis@nixos>
+
+These seem to work now. Maybe config related, maybe due to upgrading to
+nixpkgs 1709
