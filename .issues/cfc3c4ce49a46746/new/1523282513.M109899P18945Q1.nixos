@@ -1,0 +1,9 @@
+From: Chris Warburton
+Date: Mon, 09 Apr 2018 15:01:15 +0100
+Subject: Re: Make emacs survive nixos-rebuild switch
+Message-Id: <cfc3c4ce49a46746-96fbfbdbcdff7f52-artemis@nixos>
+References: <cfc3c4ce49a46746-0-artemis@nixos>
+In-Reply-To: <cfc3c4ce49a46746-0-artemis@nixos>
+
+This was due to requiring local-fs.target. That gets turned off and on
+again during nixos-rebuild switch, and hence so was emacs.
