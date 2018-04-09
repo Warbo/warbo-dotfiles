@@ -10,7 +10,7 @@ require('duckduckgo');
 require('xkcd');
 xkcd_add_title = true;
 
-define_webjump('imdb', 'http://www.imdb.com/find?q=%s');
+// Webjumps
 
 // Rename google webjump to realgoogle, so it doesn't pollute the tab
 // completions for "g" (which is a nice default key, since it's the 'go to URL'
@@ -22,6 +22,22 @@ delete webjumps.google;
 // Put a copy of duckduckgo as webjump "g", so we can just hit "gg" to get ddg
 webjumps.g      = webjumps.duckduckgo;
 webjumps.g.name = "g";
+
+// Useful webjumps from http://conkeror.org/Webjumps
+define_webjump('imdb', 'http://www.imdb.com/find?q=%s');
+define_webjump('youtube',
+               'http://www.youtube.com/results?search_query=%s&search=Search');
+define_webjump("trans", "http://translate.google.com/translate_t#auto|en|%s");
+define_webjump("thesaurus","http://www.thefreedictionary.com/%s#Thesaurus");
+define_webjump("wayback", function (url) {
+    if (url) {
+        return "http://web.archive.org/web/*/" + url;
+    } else {
+        return "javascript:window.location.href='http://web.archive.org/web/*/'+window.location.href;";
+    }
+});
+define_webjump("stackoverflow","http://stackoverflow.com/search?q=%s",
+               $alternative="http://stackoverflow.com");
 
 // Stop sites like github from disabling our browser keys
 require("key-kill");
