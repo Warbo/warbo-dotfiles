@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Fri, 06 Apr 2018 13:46:10 +0100
+State: new
+Subject: Fix DuckDuckGo scrolling in Conkeror
+Message-Id: <e5adbc02c9916b2e-0-artemis@nixos>
+
+Some JS is trying to hijack scrolling, either from DDG or a duckduckgo
+mode for conkeror. Either way, stop it!

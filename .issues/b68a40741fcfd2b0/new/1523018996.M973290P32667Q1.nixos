@@ -1,0 +1,16 @@
+From: Chris Warburton
+Date: Fri, 06 Apr 2018 13:47:16 +0100
+State: new
+Subject: Make DuckDuckGo an easier default
+Message-Id: <b68a40741fcfd2b0-0-artemis@nixos>
+
+Currently we can type "g" to 'go to URL', and if we type "g<TAB>" it
+will autocomplete to "google " ready for a search query.
+
+We should really be using DuckDuckGo, but there are two problems:
+firstly it is called "duckduckgo", which means we can't just hit the
+same key repeatedly. Second, we can't even use "d<TAB>" to autocomplete
+since "dictionary" also begins with "d".
+
+How about we change the "duckduckgo" entry to just "g", and change
+"google" to "realgoogle" (as opposed to "!g" via duckduckgo).
