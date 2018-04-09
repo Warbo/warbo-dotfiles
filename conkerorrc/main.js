@@ -12,6 +12,17 @@ xkcd_add_title = true;
 
 define_webjump('imdb', 'http://www.imdb.com/find?q=%s');
 
+// Rename google webjump to realgoogle, so it doesn't pollute the tab
+// completions for "g" (which is a nice default key, since it's the 'go to URL'
+// key)
+webjumps.realgoogle      = webjumps.google;
+webjumps.realgoogle.name = "realgoogle";
+delete webjumps.google;
+
+// Put a copy of duckduckgo as webjump "g", so we can just hit "gg" to get ddg
+webjumps.g      = webjumps.duckduckgo;
+webjumps.g.name = "g";
+
 // Stop sites like github from disabling our browser keys
 require("key-kill");
 key_kill_mode.test.push(build_url_regexp($domain = "github"));

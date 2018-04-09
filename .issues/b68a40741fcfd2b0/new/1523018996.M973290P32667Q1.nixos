@@ -1,8 +1,9 @@
 From: Chris Warburton
 Date: Fri, 06 Apr 2018 13:47:16 +0100
-State: new
+State: resolved
 Subject: Make DuckDuckGo an easier default
 Message-Id: <b68a40741fcfd2b0-0-artemis@nixos>
+resolution: fixed
 
 Currently we can type "g" to 'go to URL', and if we type "g<TAB>" it
 will autocomplete to "google " ready for a search query.
