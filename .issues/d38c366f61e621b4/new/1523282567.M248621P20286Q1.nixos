@@ -1,0 +1,9 @@
+From: Chris Warburton
+Date: Mon, 09 Apr 2018 15:02:22 +0100
+Subject: Re: run-keys makes a .mount service?
+Message-Id: <d38c366f61e621b4-bf897478a1e9e138-artemis@nixos>
+References: <d38c366f61e621b4-0-artemis@nixos>
+In-Reply-To: <d38c366f61e621b4-0-artemis@nixos>
+
+Looks like a false alarm. Our service is called 'keys', so I assume this
+one is for encrypted volumes or something.
