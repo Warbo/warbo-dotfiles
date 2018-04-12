@@ -6,7 +6,6 @@ homepage = "http://localhost:3000";
 // Load some useful modes
 require('gmail');
 //require('github');
-require('duckduckgo');
 require('xkcd');
 xkcd_add_title = true;
 
@@ -19,9 +18,12 @@ webjumps.realgoogle      = webjumps.google;
 webjumps.realgoogle.name = "realgoogle";
 delete webjumps.google;
 
-// Put a copy of duckduckgo as webjump "g", so we can just hit "gg" to get ddg
-webjumps.g      = webjumps.duckduckgo;
-webjumps.g.name = "g";
+// Remove default duckduckgo, since it disables their keys (via 'kk=-1' param)
+delete webjumps.duckduckgo;
+
+// Add a duckduckgo webjump which doesn't disable keys. Use name "g" for ease.
+define_webjump("g", "http://duckduckgo.com/?q=%s",
+               $alternative = "http://duckduckgo.com");
 
 // Useful webjumps from http://conkeror.org/Webjumps
 define_webjump('imdb', 'http://www.imdb.com/find?q=%s');
