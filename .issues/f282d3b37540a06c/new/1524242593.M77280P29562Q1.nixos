@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Fri, 20 Apr 2018 17:42:53 +0100
+Subject: Re: Set env for systemctl --user
+Message-Id: <f282d3b37540a06c-dd47197c2c2ae822-artemis@nixos>
+References: <f282d3b37540a06c-0-artemis@nixos>
+In-Reply-To: <f282d3b37540a06c-0-artemis@nixos>
+
+No longer using pulseaudio as a user-level daemon

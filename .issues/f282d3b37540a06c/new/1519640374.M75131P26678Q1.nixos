@@ -1,8 +1,9 @@
 From: Chris Warburton
 Date: Mon, 26 Feb 2018 10:16:44 +0000
-State: new
+State: resolved
 Subject: Set env for systemctl --user
 Message-Id: <f282d3b37540a06c-0-artemis@nixos>
+resolution: fixed
 
 The pulseaudio service runs as the current user (chris), so if it fails
 (e.g. missing bluez, jackd, whatever) it needs to be restarted with:

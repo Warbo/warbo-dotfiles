@@ -1,4 +1,6 @@
 #!/bin/sh
+source "$HOME/.profile"
+source "$HOME/.bashrc"
 setBg
 st -e shell -f "Droid Sans Mono" &
 compton -c                       &

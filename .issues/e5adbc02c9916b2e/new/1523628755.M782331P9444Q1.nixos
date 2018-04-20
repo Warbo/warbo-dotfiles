@@ -1,0 +1,9 @@
+From: Chris Warburton
+Date: Fri, 13 Apr 2018 15:12:02 +0100
+Subject: Re: Fix DuckDuckGo scrolling in Conkeror
+Message-Id: <e5adbc02c9916b2e-8ff4fa8d4a9b1ef2-artemis@nixos>
+References: <e5adbc02c9916b2e-0-artemis@nixos>
+In-Reply-To: <e5adbc02c9916b2e-0-artemis@nixos>
+
+Turn off duckduckgo mode and replace webjump with one that doesn't
+disable their keyboard JS

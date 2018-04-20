@@ -109,7 +109,9 @@ fi
 export PATH=$PATH:~/System/Programs/bin
 export PAGER=pager
 
-export PULSE_SERVER=/run/user/1000/pulse/native
+export XDG_RUNTIME_DIR=/run/user/1000
+
+export PULSE_SERVER=/var/run/pulse/native
 
 export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
 
