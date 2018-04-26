@@ -1,0 +1,11 @@
+From: Chris Warburton
+Date: Thu, 26 Apr 2018 11:43:53 +0100
+State: new
+Subject: Checkboxes/radios broken in Conkeror
+Message-Id: <f9c7378a2ce95ac8-0-artemis@nixos>
+
+Seems like a bug in Firefox, which was fixes in Firefox, but maybe the
+fix doesn't apply to Conkeror for some reason?
+
+Possibly related:
+https://jitblog.net/firefox-does-not-display-checkboxes-and-radio-buttons/
