@@ -2,9 +2,11 @@ atom	Nix	https://verssion.one/adhoc/atom.xml?p=Nix_package_manager
 atom	XKCDWhatIf	http://what-if.xkcd.com/feed.atom
 atom	PerryBibleFellowship	http://pbfcomics.com/feed/feed.xml
 atom	Neo900	http://neo900.org/feeds/news.atom.xml
+atom	NixOS	https://www.reddit.com/r/NixOS/.rss
 atom	RedditHaskell	https://www.reddit.com/r/haskell/.rss
 atom	RedditStallmanWasRight	https://www.reddit.com/r/StallmanWasRight/.rss
 atom	RedLanguage	http://www.red-lang.org/feeds/posts/default
+atom	RedditWorldNews	https://www.reddit.com/r/worldnews/.rss
 iplayer	iPlayerComedy	http://www.bbc.co.uk/iplayer/categories/comedy/all?sort=dateavailable
 iplayer	iPlayerFilms	http://www.bbc.co.uk/iplayer/categories/films/all?sort=dateavailable
 iplayer	iPlayerSciNat	http://www.bbc.co.uk/iplayer/categories/science-and-nature/all?sort=dateavailable
@@ -31,7 +33,6 @@ rss	MIRI	http://feeds.feedburner.com/miriblog
 rss	MoreOrLess	http://www.bbc.co.uk/programmes/p02nrss1/episodes/downloads.rss
 rss	MorningPaper	https://blog.acolyer.org/feed/
 rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads.rss
-rss	NixOS	https://www.reddit.com/r/NixOS/.rss
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
 rss	SMBC	http://www.smbc-comics.com/rss.php
 rss	TalkingMachines	https://rss.art19.com/talking-machines
