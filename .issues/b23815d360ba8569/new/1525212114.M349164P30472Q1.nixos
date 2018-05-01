@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Tue, 01 May 2018 23:01:42 +0100
+Subject: Re: checkLocation service dying
+Message-Id: <b23815d360ba8569-de776e357855cfa7-artemis@nixos>
+References: <b23815d360ba8569-0-artemis@nixos>
+In-Reply-To: <b23815d360ba8569-0-artemis@nixos>
+
+Seems to work with the new script arg

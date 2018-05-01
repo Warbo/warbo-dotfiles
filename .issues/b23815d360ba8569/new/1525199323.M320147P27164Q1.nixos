@@ -1,0 +1,9 @@
+From: Chris Warburton
+Date: Tue, 01 May 2018 19:28:04 +0100
+State: resolved
+Subject: checkLocation service dying
+Message-Id: <b23815d360ba8569-0-artemis@nixos>
+resolution: fixed
+
+Getting lots of log spam in journald aboud checkLocation dying (failing
+to start/stop).

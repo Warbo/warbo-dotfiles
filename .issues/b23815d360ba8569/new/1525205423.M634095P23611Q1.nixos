@@ -1,0 +1,28 @@
+From: Chris Warburton
+Date: Tue, 01 May 2018 19:53:30 +0100
+Subject: Re: checkLocation service dying
+Message-Id: <b23815d360ba8569-8efd34b762601dfd-artemis@nixos>
+References: <b23815d360ba8569-0-artemis@nixos>
+In-Reply-To: <b23815d360ba8569-0-artemis@nixos>
+
+Looks like this is caused by pollingService failing to satisfy the
+requirements of monitoredService.
+
+monitoredService takes 'shouldRun' and 'isRunning' scripts. If these are
+inconsistent (i.e. we're not running when we should be, or vice versa)
+then a start or stop action is taken.
+
+After taking an action, we check whether we're consistent, and 'fail' if
+not.
+
+The 'pollingService' is passing 'false' as the 'isRunning' command. This
+ensures that the 'start' script always gets called whenever 'shouldRun'
+gives true, which implements the polling behaviour quite nicely.
+
+However, forcing things to always be inconsistent in this way will cause
+the sanity check to fail, and hence we'll crash with a call to 'fail'.
+
+I've tried to fix this now, by adding an optional 'allGood' script to
+monitoredService. If given, this will be used as the sanity check
+instead of checking for consistency. This way, we can pass 'true' and
+avoid this problem.
