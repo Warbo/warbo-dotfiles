@@ -1,6 +1,8 @@
 *.o
 *.hi
+
 xmonad/xmonad.errors
+xmonad/xmonad.state
 xmonad/xmonad-i386-linux
 
 # Looks like state, rather than config
