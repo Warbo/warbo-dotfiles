@@ -54,8 +54,19 @@ main = do
       focusedBorderColor = "#6666CC",
       borderWidth        = 1        }
 
-myWorkspaces = ["1:Term" , "2:Emacs", "3:Mail" , "4:Misc" , "5:Web",
-                "6:Music", "7:Seven", "8:Eight", "9:Nine"          ]
+myWorkspaces = map fst workspaceWindows
+
+workspaceWindows = [("1:Term" , ["lxterminal", "Lxterminal", "st-256color"]),
+                    ("2:Emacs", ["emacs", "Emacs"                         ]),
+                    ("3:Mail" , ["Buddy List"                             ]),
+                    ("4:Misc" , [                                         ]),
+                    ("5:Web"  , ["Firefox", "Google-chrome", "Chromium",
+                                 "Chromium-browser", "chromium-browser"] ++
+                                 conkerorClasses                           ),
+                    ("6:Music", [                                         ]),
+                    ("7:Seven", [                                         ]),
+                    ("8:Notes", ["basket", "Basket"                       ]),
+                    ("9:Nine" , [                                         ])]
 
 myKeys c = mkKeymap c customKeys      `M.union`
            mkKeymap c copyToWorkspace `M.union`
@@ -76,42 +87,21 @@ copyToWorkspace = map makeKey [1..length myWorkspaces]
 myLayoutHook = avoidStruts $ layoutHook defaultConfig
 
 -- What to do when new windows are created
-myManageHook = manageHook defaultConfig {-<+> manageDocks-} <+> extras
-               where extras = composeAll . concat $ [
-                       -- Ignore these
-                       [resource     =? r --> doIgnore          | r <- ignore],
-                       -- Put terminals on 1
-                       [className    =? c --> doShift "1:Term"  | c <- terms ],
-                       -- Put Emacs on 2
-                       [className    =? c --> doShift "2:Emacs" | c <- emacs ],
-                       -- Put browsers on 5
-                       [className    =? c --> doShift "5:web"   | c <- webs  ],
-                       -- Put Basket on 8
-                       [className    =? c --> doShift "8:Notes" | c <- notes ],
-                       -- Floating windows
-                       [className    =? c --> doCenterFloat     | c <- floats],
-                       -- Fullscreen windows
-                       [definitelyFullscreen --> myDoFullFloat                ]]
+myManageHook = manageHook defaultConfig <+>
+               composeAll (concat [ignore, classMap, floats, fullscreen])
+  where classMap =
+          [className =? c --> doShift w | (w, cs) <- workspaceWindows,
+                                          c       <- cs]
 
-                     -- Predicates
-                     role = stringProperty "WM_WINDOW_ROLE"
-                     name = stringProperty "WM_NAME"
+        floats = [className =? c --> doCenterFloat |
+                  c <- ["MPlayer", "Xmessage", "XFontSel"]]
 
-                     -- Classes
-                     terms  = ["lxterminal", "Lxterminal", "st-256color"]
-                     emacs  = ["emacs", "Emacs"]
-                     webs   = ["Firefox", "Google-chrome", "Chromium",
-                               "Chromium-browser", "chromium-browser"] ++ conkerorClasses
-                     notes  = ["basket"]
-                     floats = ["MPlayer", "Xmessage", "XFontSel"]
+        ignore = [resource =? r --> doIgnore |
+                  r <- ["desktop", "desktop_window", "notify-osd",
+                        "stalonetray", "trayer"]]
 
-                     -- Resources
-                     ignore = ["desktop", "desktop_window", "notify-osd",
-                               "stalonetray", "trayer"]
-
-                     -- Fullscreen which still allows focusing of other windows
-                     myDoFullFloat :: ManageHook
-                     myDoFullFloat = doF W.focusDown <+> doFullFloat
+        -- Fullscreen which still allows focusing of other windows
+        fullscreen = [definitelyFullscreen  --> doF W.focusDown <+> doFullFloat]
 
 conkerorClasses = ["conkeror", "Conkeror", "Navigator"]
 
