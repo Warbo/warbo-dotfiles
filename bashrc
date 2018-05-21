@@ -106,7 +106,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export PATH=$PATH:~/System/Programs/bin
+export PATH=$PATH:~/System/Programs/bin:$HOME/desktop_scripts/for_laptop
 export PAGER=pager
 
 export XDG_RUNTIME_DIR=/run/user/1000

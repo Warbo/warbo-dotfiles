@@ -1,0 +1,13 @@
+From: Chris Warburton
+Date: Fri, 11 May 2018 16:47:23 +0100
+State: new
+Subject: Stop/minimise mu database locking
+Message-Id: <a060ce60ac7af002-0-artemis@nixos>
+
+The inboxen service runs mu index to ensure new messages are picked up.
+This will also pick up new news articles (inboxen runs more often, so we
+put the indexing in there).
+
+This can make mu4e unable to open messages for a time. This is annoying,
+so we should find a way around it (either avoiding the locking, reducing
+the time spent, allowing both to access, etc.).

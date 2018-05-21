@@ -1,0 +1,12 @@
+From: Chris Warburton
+Date: Fri, 11 May 2018 16:45:19 +0100
+Subject: Re: Clean up old news
+Message-Id: <dceb0344e21679be-e1e29ff074f699a9-artemis@nixos>
+References: <dceb0344e21679be-0-artemis@nixos>
+In-Reply-To: <dceb0344e21679be-0-artemis@nixos>
+
+I *think* we take care of this now, but this should be checked before
+closing.
+
+One extra thing that we should add is cleaning out old entries from
+/tmp/bbcnews-cached (e.g. older than 30 days).
