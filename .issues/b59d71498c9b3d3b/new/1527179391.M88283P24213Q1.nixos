@@ -1,0 +1,8 @@
+From: Chris Warburton
+Date: Thu, 24 May 2018 17:29:05 +0100
+State: new
+Subject: Better handling of TEDTalks
+Message-Id: <b59d71498c9b3d3b-0-artemis@nixos>
+
+TEDTalks feed seems to keep getting 'new' status for old
+posts. Especially annoying when we run "fetch".
