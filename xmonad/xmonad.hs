@@ -1,5 +1,3 @@
-import XMonad
-
 import qualified Data.Map as M
 import           Data.Ratio ((%))
 import           System.Exit
