@@ -35,7 +35,7 @@ import           XMonad.Util.EZConfig
 
 main = do
     -- ewmh is required to make things like xdotool work
-    xmonad $ ewmh $ defaultConfig {
+    xmonad $ docks $ ewmh $ defaultConfig {
       terminal   = "st"        ,
       workspaces = myWorkspaces,
       keys       = myKeys      ,
