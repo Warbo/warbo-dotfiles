@@ -2,6 +2,7 @@
 source "$HOME/.profile"
 source "$HOME/.bashrc"
 setBg
+keys
 st -e shell -f "Droid Sans Mono" &
 compton -c                       &
 xsettingsd                       &
