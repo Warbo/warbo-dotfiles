@@ -6,6 +6,7 @@ date '+%s' > /tmp/keys-last-ask
 st -e shell -f "Droid Sans Mono" &
 compton -c                       &
 xsettingsd                       &
+albert                           &
 basket                           &
 emacsclient -c                   &
 xmb                              &

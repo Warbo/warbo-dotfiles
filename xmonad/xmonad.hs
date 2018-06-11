@@ -31,15 +31,17 @@ import qualified XMonad.StackSet as W
 import           XMonad.Util.Run
 import           XMonad.Util.EZConfig
 
-main = do
-    -- ewmh is required to make things like xdotool work
-    xmonad $ docks $ ewmh $ defaultConfig {
+main = xmonad (docks (ewmh myConfig))
+
+-- ewmh is required to make things like xdotool work
+myConfig = rmDefaults $ defaultConfig {
       terminal   = "st"        ,
       workspaces = myWorkspaces,
       keys       = myKeys      ,
 
-      -- Fix Java crappiness
+      -- Fix Java crappiness and check keymap for parse errors
       startupHook = ewmhDesktopsStartup >> setWMName "LG3D",
+                                        -- >> checkKeymap myConfig (myKeys myConfig),
 
       -- Use super key as modifier
       modMask = mod4Mask,
@@ -51,6 +53,7 @@ main = do
       normalBorderColor  = "#666666",
       focusedBorderColor = "#6666CC",
       borderWidth        = 1        }
+  where rmDefaults c = removeKeysP c ["M-p"]
 
 myWorkspaces = map fst workspaceWindows
 
