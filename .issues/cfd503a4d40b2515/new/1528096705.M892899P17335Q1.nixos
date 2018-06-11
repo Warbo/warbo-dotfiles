@@ -1,0 +1,13 @@
+From: Chris Warburton
+Date: Mon, 04 Jun 2018 08:17:05 +0100
+State: new
+Subject: Sort out keys
+Message-Id: <cfd503a4d40b2515-0-artemis@nixos>
+
+Looks like we need to run 'keys' on monitor plug/unplug. I've updated
+the off and on scripts, but not tested them yet.
+
+We also need to run it on resume, which can probably be done with a udev
+rule.
+
+We should also test that key_poller is getting run during X startup.
