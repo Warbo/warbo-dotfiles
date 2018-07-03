@@ -81,6 +81,15 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Emacs shell-mode should use 'TERM=dumb' to avoid applications attempting to
+# use ncurses-like navigation (which won't work), but it still supports colour.
+# We spoof 'TERM' for the following applications to make them emit colour.
+if [[ "x$TERM" = "xdumb" ]] && [[ -n "$INSIDE_EMACS" ]]
+then
+    alias ls='TERM=xterm-256color ls --color=auto'
+    alias grep='TERM=xterm-256color grep --color=auto'
+fi
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
