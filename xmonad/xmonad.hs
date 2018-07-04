@@ -34,7 +34,7 @@ import           XMonad.Util.EZConfig
 main = xmonad (docks (ewmh myConfig))
 
 -- ewmh is required to make things like xdotool work
-myConfig = rmDefaults $ defaultConfig {
+myConfig = {-rmDefaults $-} defaultConfig {
       terminal   = "st"        ,
       workspaces = myWorkspaces,
       keys       = myKeys      ,
@@ -95,7 +95,7 @@ myManageHook = manageHook defaultConfig <+>
                                           c       <- cs]
 
         floats = [className =? c --> doCenterFloat |
-                  c <- ["MPlayer", "Xmessage", "XFontSel"]]
+                  c <- ["MPlayer", "Xmessage", "XFontSel", "krunner"]]
 
         ignore = [resource =? r --> doIgnore |
                   r <- ["desktop", "desktop_window", "notify-osd",
