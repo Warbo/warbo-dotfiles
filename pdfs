@@ -1,0 +1,6 @@
+# PDFs we'd like open. Used by 'pdfs' command, which will try to keep one copy
+# of each PDF open. The first column is a string to identify this PDF in the
+# output of 'ps auxww'; if it's found, along with 'mupdf-x11', we assume it's
+# already open. The second column is the PDF's path. For Nix build products, the
+# 'result' symlink can be used to ensure the latest version is always used.
+TEBenchmarkPaper	/home/chris/Writing/TEBenchmarkPaper/result/article.pdf
