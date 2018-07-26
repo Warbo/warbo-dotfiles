@@ -12,6 +12,6 @@ xmb                              &
 gnome-keyring-daemon             &
 nm-applet                        &
 pidgin                           &
-conkeror                         &
+conkeror 1>/dev/null 2>/dev/null &
 key_poller                       &
 xmonad
