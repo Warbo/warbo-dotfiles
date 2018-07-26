@@ -1,6 +1,8 @@
 *.o
 *.hi
 
+local
+
 xmonad/xmonad.errors
 xmonad/xmonad.state
 xmonad/xmonad-i386-linux
