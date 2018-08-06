@@ -1,0 +1,8 @@
+# Warbo's Dotfiles #
+
+Configuration for various applications. My convention is to remove the leading
+dot, but otherwise keep filenames the same. This way it's easy for scripts to
+put them in place.
+
+The `check.sh` script isn't a dotfile, it performs sanity checks and is useful
+as a git `pre-commit` hook.
