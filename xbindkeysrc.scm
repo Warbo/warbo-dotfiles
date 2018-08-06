@@ -5,25 +5,6 @@
 ;; Shell commands:   (xbindkey          '(event-id) "my-command")
 ;; You can get event IDs using "xbindkeys -k"
 
-;; Audio buttons
-(xbindkey "XF86AudioRaiseVolume" "amixer -c 0 sset Master 1+")
-(xbindkey "XF86AudioLowerVolume" "amixer -c 0 sset Master 1-")
-(xbindkey-function
-  "XF86AudioMute"
-  (let ((muted #f)
-        (cmd   (lambda (chan prefix)
-                       (run-command (string-concatenate) '("amixer sset "
-                                                           chan
-                                                           " "
-                                                           prefix
-                                                           "mute")))))
-       (lambda ()
-               (cmd "Master" (if muted "un" ""))
-               (set! muted (not muted))
-
-               ;; amixer always mutes Headphone too, so unmute it
-               (cmd "Headphone" "un"))))
-
 ;; Desktop switching
 (xbindkey "XF86Launch5" "xdotool key super+1")
 (xbindkey "XF86Launch6" "xdotool key super+2")
