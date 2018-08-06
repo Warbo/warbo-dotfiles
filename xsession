@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 source "$HOME/.profile"
 source "$HOME/.bashrc"
 setBg
@@ -7,7 +7,7 @@ st -e shell -f "Droid Sans Mono" &
 compton -c                       &
 xsettingsd                       &
 basket                           &
-emacsclient -c                   &
+(sleep 120; emacsclient -c)      &
 xmb                              &
 gnome-keyring-daemon             &
 nm-applet                        &
