@@ -11,10 +11,12 @@ iplayer	iPlayerComedy	https://www.bbc.co.uk/iplayer/categories/comedy/most-recen
 iplayer	iPlayerFilms	https://www.bbc.co.uk/iplayer/categories/films/most-recent?sort=dateavailable
 iplayer	iPlayerSciNat	https://www.bbc.co.uk/iplayer/categories/science-and-nature/most-recent?sort=dateavailable
 rss	50Things	http://www.bbc.co.uk/programmes/p04b1g3c/episodes/downloads.rss
+rss	AntiFascistNetwork	https://antifascistnetwork.org/feed
 rss	BornSmart,Equal,Different	http://www.bbc.co.uk/programmes/b042q944/episodes/downloads.rss
 rss	CodePodcast	http://codepodcast.com/feeds/all.rss.xml
 rss	ComputingBritain	http://www.bbc.co.uk/programmes/b06bq6j1/episodes/downloads.rss
 rss	ConorMcBride	https://pigworker.wordpress.com/feed/
+rss	CoRecursivePodcast	https://corecursive.com/feed
 rss	CrowdScience	http://www.bbc.co.uk/programmes/p04d42rc/episodes/downloads.rss
 rss	Dave	http://freelanceflaneur.blogspot.com/feeds/posts/default?alt=rss
 rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
@@ -27,17 +29,19 @@ rss	InOurTimeScience	http://www.bbc.co.uk/programmes/p01gyd7j/episodes/downloads
 rss	InsideScience	http://www.bbc.co.uk/programmes/b036f7w2/episodes/downloads.rss
 rss	LifeScientific	http://www.bbc.co.uk/programmes/b015sqc7/episodes/downloads.rss
 rss	LambdaTheUltimate	http://lambda-the-ultimate.org/rss.xml
+rss	LiveBrum	http://livebrum.co.uk/genres/rock.rss
 rss	Lobsters	https://lobste.rs/rss?token=vBoNHCPCqxS3S5LOUq9TsynJlwfTdfSUWXZrgDSbpQtJ3NbyaCjuWUGswy17
 rss	MathFactor	http://mathfactor.uark.edu/feed/
 rss	MIRI	http://feeds.feedburner.com/miriblog
 rss	MoreOrLess	http://www.bbc.co.uk/programmes/p02nrss1/episodes/downloads.rss
 rss	MorningPaper	https://blog.acolyer.org/feed/
 rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads.rss
+rss	NumberphilePodcast	https://www.numberphile.com/podcast?format=RSS
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
 rss	SMBC	http://www.smbc-comics.com/rss.php
 rss	TalkingMachines	https://rss.art19.com/talking-machines
-rss	TEDTalks	https://www.ted.com/talks/rss
 rss	ProgrammerPaintings	http://classicprogrammerpaintings.com/rss
+rss	TEDTalks	https://www.ted.com/feeds/talks.rss
 rss	PuttingScienceToWork	http://www.bbc.co.uk/programmes/b06t1y3z/episodes/downloads.rss
 rss	ScienceStories	http://www.bbc.co.uk/programmes/b06vy2jd/episodes/downloads.rss
 rss	ReithLectures	http://www.bbc.co.uk/programmes/b00729d9/episodes/downloads.rss
@@ -66,6 +70,7 @@ youtube	BraveWilderness	UC6E2mP01ZLH_kbAyeazCNdg
 youtube	CGPGrey	UC2C_jShtL725hvbm1arSV9w
 youtube	computerphile	UC9-y-6csu5WGm29I7JiwpnA
 youtube	CuriousDroid	UC726J5A0LLFRxQ0SZqr2mYQ
+youtube	DownTheRabbitHole	UCbWcXB0PoqOsAvAdfzWMf0w
 youtube	EugenePhysics	UCJ0yBou72Lz9fqeMXh9mkog
 youtube	exurb1a	UCimiUgDLbi6P17BdaCZpVbg
 youtube	GoogleTechTalks	UCtXKDgv1AVoG88PLl8nGXmw
@@ -77,7 +82,9 @@ youtube	PBSSpaceTime	UC7_gcs09iThXybpVgjHZ_7g
 youtube	periodicvideos	UCtESv1e7ntJaLJYKIO1FoYw
 youtube	RobMiles	UCLB7AzTwc6VFZrBsO2ucBMg
 youtube	RoyalInstitutionVideos	UCYeF244yNGuFefuFKqxIAXw
+youtube	SamONella	UC1DTYW241WD64ah5BFWn4JA
 youtube	sciencium	UCGRB1ZjIqAiaGwt-XLq9CnA
+youtube	SciShow	UCZYTClx2T1of7BRZ86-8fow
 youtube	ScottManley	UCxzC4EngIsMrPmbm6Nxvb-A
 youtube	sixtysymbols	UCvBqzzvUBLCs8Y7Axb-jZew
 youtube	SmarterEveryDay	UC6107grRI4m0o2-emgoDnAA
@@ -87,3 +94,4 @@ youtube	ThinkTwice	UC9yt3wz-6j19RwD5m5f6HSg
 youtube	TwoMinutePapers	UCbfYPyITQ-7l4upoX8nvctg
 youtube	veritasium	UCHnyfMqiRRG1u-2MsSQLbXA
 youtube	vsauce	UC6nSFpj9HTCZ5t-N3Rm3-HA
+youtube	Wendover	UC9RM-iSvTu1uPJb8X5yp3EQ
