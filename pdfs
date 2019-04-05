@@ -4,3 +4,7 @@
 # already open. The second column is the PDF's path. For Nix build products, the
 # 'result' symlink can be used to ensure the latest version is always used.
 TEBenchmarkPaper	/home/chris/Writing/TEBenchmarkPaper/result/article.pdf
+Bucketing	/home/chris/Writing/Bucketing/result/report.pdf
+PhDThesis	/home/chris/Writing/PhDThesis/result/thesis.pdf
+Understandability	
+/home/chris/Writing/UnderstandabilityPaper/result/iccc-science.pdf
