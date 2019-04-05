@@ -89,10 +89,16 @@ myLayoutHook = avoidStruts $ layoutHook defaultConfig
 
 -- What to do when new windows are created
 myManageHook = manageHook defaultConfig <+>
-               composeAll (concat [ignore, classMap, floats, fullscreen])
-  where classMap =
-          [className =? c --> doShift w | (w, cs) <- workspaceWindows,
-                                          c       <- cs]
+               composeAll (concat [ignore, classMap, titleMap, floats, fullscreen])
+  where classMap = [ className =? c --> doShift w 
+                   | (w, cs) <- workspaceWindows
+                   , c       <- cs
+                   ]
+
+        titleMap = [ title =? t --> doShift w
+                   | (w, ts) <- workspaceWindows
+                   , t       <- ts
+                   ]
 
         floats = [className =? c --> doCenterFloat |
                   c <- ["MPlayer", "Xmessage", "XFontSel", "krunner"]]
