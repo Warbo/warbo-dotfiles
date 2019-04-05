@@ -7,7 +7,7 @@ st -e shell -f "Droid Sans Mono" &
 compton -c                       &
 xsettingsd                       &
 basket                           &
-(sleep 120; emacsclient -c)      &
+emacsen                          &
 xmb                              &
 gnome-keyring-daemon             &
 nm-applet                        &
