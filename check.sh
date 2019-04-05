@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-[[ -e config/Trolltech.conf ]] || {
-    echo "config/Trolltech.conf not found" 1>&2
-    exit 1
-}
+for F in config/Trolltech.conf config/vlc/vlc-qt-interface.conf
+do
+    [[ -e "$F" ]] || {
+        echo "No $F found" 1>&2
+        exit 1
+    }
 
-[[ -w config/Trolltech.conf ]] && {
-    echo "config/Trolltech.conf should be read-only to prevent cruft" 1>&2
-    exit 1
-}
+    [[ -w "$F" ]] && {
+        echo "File $F should be read-only to prevent cruft" 1>&2
+        exit 1
+    }
+done
 
 exit 0

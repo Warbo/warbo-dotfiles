@@ -17,7 +17,6 @@ config/pavucontrol.ini
 config/pulse
 config/leafpad/leafpadrc
 config/inkscape/
-config/vlc/vlc-qt-interface.conf
 config/vlc/vlcrc
 config/imm/state
 config/Kid3
