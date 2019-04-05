@@ -7,9 +7,9 @@ atom	RedditHaskell	https://www.reddit.com/r/haskell/.rss
 atom	RedditStallmanWasRight	https://www.reddit.com/r/StallmanWasRight/.rss
 atom	RedLanguage	http://www.red-lang.org/feeds/posts/default
 atom	RedditWorldNews	https://www.reddit.com/r/worldnews/.rss
-iplayer	iPlayerComedy	http://www.bbc.co.uk/iplayer/categories/comedy/all?sort=dateavailable
-iplayer	iPlayerFilms	http://www.bbc.co.uk/iplayer/categories/films/all?sort=dateavailable
-iplayer	iPlayerSciNat	http://www.bbc.co.uk/iplayer/categories/science-and-nature/all?sort=dateavailable
+iplayer	iPlayerComedy	https://www.bbc.co.uk/iplayer/categories/comedy/most-recent?sort=dateavailable
+iplayer	iPlayerFilms	https://www.bbc.co.uk/iplayer/categories/films/most-recent?sort=dateavailable
+iplayer	iPlayerSciNat	https://www.bbc.co.uk/iplayer/categories/science-and-nature/most-recent?sort=dateavailable
 rss	50Things	http://www.bbc.co.uk/programmes/p04b1g3c/episodes/downloads.rss
 rss	BornSmart,Equal,Different	http://www.bbc.co.uk/programmes/b042q944/episodes/downloads.rss
 rss	CodePodcast	http://codepodcast.com/feeds/all.rss.xml
