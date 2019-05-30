@@ -23,6 +23,7 @@ rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
 rss	FunctionalGeekery	https://www.functionalgeekery.com/feed/
 rss	HackerNews	https://hnrss.org/frontpage
 rss	HaskellCast	http://www.haskellcast.com/feed.xml
+rss	HaskellWeekly	https://haskellweekly.news/podcast/feed.rss
 rss	HiddenHistoriesOfTheInformationAge	http://www.bbc.co.uk/programmes/b04mttrp/episodes/downloads.rss
 rss	InfiniteMonkeyCage	http://www.bbc.co.uk/programmes/b00snr0w/episodes/downloads.rss
 rss	InOurTimeScience	http://www.bbc.co.uk/programmes/p01gyd7j/episodes/downloads.rss
@@ -38,6 +39,7 @@ rss	MorningPaper	https://blog.acolyer.org/feed/
 rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads.rss
 rss	NumberphilePodcast	https://www.numberphile.com/podcast?format=RSS
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
+rss	RemainHub	https://remainhub.org.uk/feed
 rss	SMBC	http://www.smbc-comics.com/rss.php
 rss	TalkingMachines	https://rss.art19.com/talking-machines
 rss	TEDTalks	https://www.ted.com/feeds/talks.rss
@@ -72,6 +74,8 @@ youtube	DownTheRabbitHole	UCbWcXB0PoqOsAvAdfzWMf0w
 youtube	EugenePhysics	UCJ0yBou72Lz9fqeMXh9mkog
 youtube	exurb1a	UCimiUgDLbi6P17BdaCZpVbg
 youtube	GoogleTechTalks	UCtXKDgv1AVoG88PLl8nGXmw
+youtube	hbomberguy	UClt01z1wHHT7c5lKcU8pxRQ
+youtube	InnuendoStudios	UC5fdssPqmmGhkhsJi4VcckA
 youtube	IsaacArthur	UCZFipeZtQM5CKUjx6grh54g
 youtube	Kurzgesagt	UCsXVk37bltHxD1rDPwtNM8Q
 youtube	LeiosOS	UCd0dc7kQA1FUpJ76o1EjLqQ
@@ -88,6 +92,7 @@ youtube	sixtysymbols	UCvBqzzvUBLCs8Y7Axb-jZew
 youtube	SmarterEveryDay	UC6107grRI4m0o2-emgoDnAA
 youtube	standupmaths	UCSju5G2aFaWMqn-_0YBtq5A
 youtube	SteveMould	UCEIwxahdLz7bap-VDs9h35A
+youtube	TheraminTrees	UCJ-vHE5CrGaL_ITEg-n3OeA
 youtube	ThinkTwice	UC9yt3wz-6j19RwD5m5f6HSg
 youtube	TwoMinutePapers	UCbfYPyITQ-7l4upoX8nvctg
 youtube	veritasium	UCHnyfMqiRRG1u-2MsSQLbXA
