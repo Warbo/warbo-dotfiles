@@ -1,0 +1,12 @@
+# Tab-separated instructions for scraping podcasts:
+#  - The first column is the feed directory (we'll look for episodes in new/)
+#  - The second column is the audio directory, to save MP3s into
+#  - All remaining arguments are regular expressions, for narrowing down the URL
+#    of the MP3 to fetch. We look through each maildir entry for the first URL
+#    (normally the guid of that RSS item). We fetch that URL, then apply these
+#    regular expressions one by one to go from the HTML down to the MP3 URL.
+CoRecursivePodcast	Corecursive	"http[^"]*\.mp3"	http.*\.mp3
+FlyingColoursMaths	Wrong But Useful	href="http[^"]*\.mp3"	http.*mp3
+FunctionalGeekery	Functional Geekery	http[s]*://[^" ]*\.mp3
+NumberphilePodcast	NumberphilePodcast	data-url="http[^"]*\.mp3"	http[^"]*\.mp3
+HaskellWeekly	HaskellWeekly	http[s]*://[^" ]*\.mp3
