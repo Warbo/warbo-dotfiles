@@ -9,7 +9,9 @@ xmonad/xmonad-i386-linux
 
 # Looks like state, rather than config
 config/abiword/profile
+config/asunder
 config/audacious
+config/autostart
 config/cmus
 config/evince
 config/gajim
@@ -24,8 +26,11 @@ config/MusicBrainz
 config/puddletag
 config/gtk-2.0/gtkfilechooser.ini
 config/gtk-3.0/settings.ini
+config/sound-juicer
 config/sqlitebrowser
+config/transmission
 config/uGet
+config/youtube-dl
 
 # Cluttered with data and cache
 config/Clementine
