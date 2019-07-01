@@ -44,6 +44,7 @@ define_webjump("stackoverflow","http://stackoverflow.com/search?q=%s",
 // Stop sites like github from disabling our browser keys
 require("key-kill");
 key_kill_mode.test.push(build_url_regexp($domain = "github"));
+key_kill_mode.test.push(build_url_regexp($domain = "hackage"));
 
 view_source_use_external_editor = true;
 editor_shell_command = "emacsclient -c";
