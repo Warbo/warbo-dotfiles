@@ -34,7 +34,7 @@ import           XMonad.Util.EZConfig
 main = xmonad (docks (ewmh myConfig))
 
 -- ewmh is required to make things like xdotool work
-myConfig = {-rmDefaults $-} defaultConfig {
+myConfig = defaultConfig {
       terminal   = "st"        ,
       workspaces = myWorkspaces,
       keys       = myKeys      ,
@@ -53,7 +53,6 @@ myConfig = {-rmDefaults $-} defaultConfig {
       normalBorderColor  = "#666666",
       focusedBorderColor = "#6666CC",
       borderWidth        = 1        }
-  where rmDefaults c = removeKeysP c ["M-p"]
 
 myWorkspaces = map fst workspaceWindows
 
@@ -76,7 +75,10 @@ myKeys c = mkKeymap c customKeys      `M.union`
 customKeys = [("M-<Left>",  nextScreen),          -- Toggle between 2 screens
               ("M-<Right>", nextScreen),          -- Toggle between 2 screens
               ("M-s",       windows copyToAll),   -- Sticky
-              ("M-S-s",     killAllOtherCopies)]  -- Unsticky
+              ("M-S-s",     killAllOtherCopies),  -- Unsticky
+              ("M-p",       spawn runner)]        -- Run command prompt
+
+runner = "rofi -show combi window,run"
 
 -- Duplicate a window onto another workspace, e.g. copy to workspace 3
 copyToWorkspace = map makeKey [1..length myWorkspaces]
@@ -90,7 +92,7 @@ myLayoutHook = avoidStruts $ layoutHook defaultConfig
 -- What to do when new windows are created
 myManageHook = manageHook defaultConfig <+>
                composeAll (concat [ignore, classMap, titleMap, floats, fullscreen])
-  where classMap = [ className =? c --> doShift w 
+  where classMap = [ className =? c --> doShift w
                    | (w, cs) <- workspaceWindows
                    , c       <- cs
                    ]
