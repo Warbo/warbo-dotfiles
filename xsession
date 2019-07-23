@@ -16,7 +16,7 @@ nm-applet            &
 
 # Programs we want available immediately
 st -e shell -f "Droid Sans Mono" &
-conkeror 1>/dev/null 2>/dev/null &
+firefox 1>/dev/null 2>/dev/null &
 
 # Delay these to avoid problems or because they're low priority
 { sleep 40;  keys;    } &
