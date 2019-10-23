@@ -66,7 +66,7 @@ workspaceWindows = [("1:Term" , ["lxterminal", "Lxterminal", "st-256color"]),
                     ("6:Music", [                                         ]),
                     ("7:Seven", [                                         ]),
                     ("8:Notes", ["basket", "Basket"                       ]),
-                    ("9:Nine" , [                                         ])]
+                    ("9:Pass" , ["keepassxc"                              ])]
 
 myKeys c = mkKeymap c customKeys      `M.union`
            mkKeymap c copyToWorkspace `M.union`
