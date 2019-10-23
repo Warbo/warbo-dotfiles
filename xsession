@@ -19,9 +19,11 @@ st -e shell -f "Droid Sans Mono" &
 firefox 1>/dev/null 2>/dev/null &
 
 # Delay these to avoid problems or because they're low priority
-{ sleep 40;  keys;    } &
-{ sleep 90;  emacsen; } &
-{ sleep 300; basket;  } &
+{ sleep 10 ; keys      ; } &
+{ sleep 20 ; emacsen   ; } &
+{ sleep 30 ; keepassxc ; } &
+{ sleep 30 ; basket    ; } &
+{ sleep 5  ; fix_screen; } &
 
 # This takes control of the session from now on
 xmonad
