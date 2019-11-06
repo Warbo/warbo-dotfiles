@@ -75,6 +75,7 @@ mozilla/firefox/*/extensions
 mozilla/firefox/*/features
 mozilla/firefox/*/gmp-gmpopenh264
 mozilla/firefox/*/lock
+mozilla/firefox/*/mediacapabilities
 mozilla/firefox/*/minidumps
 mozilla/firefox/*/pkcs11.txt
 mozilla/firefox/*/revocations.txt
@@ -83,6 +84,7 @@ mozilla/firefox/*/safebrowsing
 mozilla/firefox/*/search.json.mozlz4
 mozilla/firefox/*/sessionCheckpoints.json
 mozilla/firefox/*/sessionstore-backups
+mozilla/firefox/*/shield-preference-experiments.json
 mozilla/firefox/*/startupCache
 mozilla/firefox/*/storage
 mozilla/firefox/*/times.json
