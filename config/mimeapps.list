@@ -1,25 +1,25 @@
 [Default Applications]
-x-scheme-handler/http=userapp-Firefox-3U78A0.desktop
-x-scheme-handler/https=userapp-Firefox-3U78A0.desktop
-x-scheme-handler/ftp=userapp-Firefox-3U78A0.desktop
-x-scheme-handler/chrome=userapp-Firefox-3U78A0.desktop
-text/html=userapp-Firefox-3U78A0.desktop
-application/x-extension-htm=userapp-Firefox-3U78A0.desktop
-application/x-extension-html=userapp-Firefox-3U78A0.desktop
-application/x-extension-shtml=userapp-Firefox-3U78A0.desktop
-application/xhtml+xml=userapp-Firefox-3U78A0.desktop
-application/x-extension-xhtml=userapp-Firefox-3U78A0.desktop
-application/x-extension-xht=userapp-Firefox-3U78A0.desktop
+x-scheme-handler/http=userapp-Firefox-EFD0D0.desktop
+x-scheme-handler/https=userapp-Firefox-EFD0D0.desktop
+x-scheme-handler/ftp=userapp-Firefox-EFD0D0.desktop
+x-scheme-handler/chrome=userapp-Firefox-EFD0D0.desktop
+text/html=userapp-Firefox-EFD0D0.desktop
+application/x-extension-htm=userapp-Firefox-EFD0D0.desktop
+application/x-extension-html=userapp-Firefox-EFD0D0.desktop
+application/x-extension-shtml=userapp-Firefox-EFD0D0.desktop
+application/xhtml+xml=userapp-Firefox-EFD0D0.desktop
+application/x-extension-xhtml=userapp-Firefox-EFD0D0.desktop
+application/x-extension-xht=userapp-Firefox-EFD0D0.desktop
 
 [Added Associations]
-x-scheme-handler/http=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-x-scheme-handler/https=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-x-scheme-handler/ftp=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-x-scheme-handler/chrome=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-text/html=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/x-extension-htm=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/x-extension-html=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/x-extension-shtml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/xhtml+xml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/x-extension-xhtml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
-application/x-extension-xht=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;
+x-scheme-handler/http=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+x-scheme-handler/https=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+x-scheme-handler/ftp=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+x-scheme-handler/chrome=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+text/html=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/x-extension-htm=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/x-extension-html=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/x-extension-shtml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/xhtml+xml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/x-extension-xhtml=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
+application/x-extension-xht=userapp-Firefox-4LBG5Z.desktop;userapp-Firefox-PQEB5Z.desktop;userapp-Firefox-0JBK6Z.desktop;userapp-Firefox-W1D16Z.desktop;userapp-Firefox-WIFE8Z.desktop;userapp-Firefox-M6BA9Z.desktop;userapp-Firefox-VU3N9Z.desktop;userapp-Firefox-3FJBA0.desktop;userapp-Firefox-3U78A0.desktop;userapp-Firefox-FI2BC0.desktop;userapp-Firefox-EFD0D0.desktop;
