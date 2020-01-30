@@ -18,7 +18,6 @@ rss	ConorMcBride	https://pigworker.wordpress.com/feed/
 rss	CoRecursivePodcast	https://corecursive.com/feed
 rss	CrowdScience	http://www.bbc.co.uk/programmes/p04d42rc/episodes/downloads.rss
 rss	Dave	http://freelanceflaneur.blogspot.com/feeds/posts/default?alt=rss
-rss	EvenMoreNews	http://evenmorenews.libsyn.com/rss
 rss	FlyingColoursMaths	http://www.flyingcoloursmaths.co.uk/feed/
 rss	FunctionalGeekery	https://www.functionalgeekery.com/feed/
 rss	HackerNews	https://hnrss.org/frontpage
@@ -30,7 +29,6 @@ rss	InOurTimeScience	http://www.bbc.co.uk/programmes/p01gyd7j/episodes/downloads
 rss	InsideScience	http://www.bbc.co.uk/programmes/b036f7w2/episodes/downloads.rss
 rss	LifeScientific	http://www.bbc.co.uk/programmes/b015sqc7/episodes/downloads.rss
 rss	LambdaTheUltimate	http://lambda-the-ultimate.org/rss.xml
-rss	LiveBrum	http://livebrum.co.uk/genres/rock.rss
 rss	Lobsters	https://lobste.rs/rss?token=vBoNHCPCqxS3S5LOUq9TsynJlwfTdfSUWXZrgDSbpQtJ3NbyaCjuWUGswy17
 rss	MathFactor	http://mathfactor.uark.edu/feed/
 rss	MIRI	http://feeds.feedburner.com/miriblog
@@ -38,9 +36,7 @@ rss	MoreOrLess	http://www.bbc.co.uk/programmes/p02nrss1/episodes/downloads.rss
 rss	MorningPaper	https://blog.acolyer.org/feed/
 rss	NaturalHistories	http://www.bbc.co.uk/programmes/p02s8ykn/episodes/downloads.rss
 rss	NumberphilePodcast	https://www.numberphile.com/podcast?format=RSS
-rss	PeoplesVote	http://www.peoples-vote.uk/news.rss
 rss	PlanetHaskell	http://planet.haskell.org/rss20.xml
-rss	RemainHub	https://remainhub.org.uk/feed
 rss	SMBC	http://www.smbc-comics.com/rss.php
 rss	TalkingMachines	https://rss.art19.com/talking-machines
 rss	TEDTalks	https://www.ted.com/feeds/talks.rss
@@ -96,7 +92,6 @@ youtube	RobMiles	UCLB7AzTwc6VFZrBsO2ucBMg
 youtube	RoyalInstitutionVideos	UCYeF244yNGuFefuFKqxIAXw
 youtube	SamONella	UC1DTYW241WD64ah5BFWn4JA
 youtube	sciencium	UCGRB1ZjIqAiaGwt-XLq9CnA
-youtube	SciShow	UCZYTClx2T1of7BRZ86-8fow
 youtube	ScottManley	UCxzC4EngIsMrPmbm6Nxvb-A
 youtube	Shaun	UCJ6o36XL0CpYb6U5dNBiXHQ
 youtube	sixtysymbols	UCvBqzzvUBLCs8Y7Axb-jZew
