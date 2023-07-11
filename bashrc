@@ -116,15 +116,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export PATH=~/System/Programs/bin:$HOME/desktop_scripts/for_laptop:$PATH
-export PAGER=pager
+#export PAGER=pager
 
 export XDG_RUNTIME_DIR=/run/user/1000
 
-export PULSE_SERVER=/var/run/pulse/native
+#export PULSE_SERVER=/var/run/pulse/native
 
-export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
+#export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
 
-export IPFS_PATH=/var/lib/ipfs/.ipfs
+#export IPFS_PATH=/var/lib/ipfs/.ipfs
 
 export EDITOR=emacsclient
 export VISUAL=emacsclient
