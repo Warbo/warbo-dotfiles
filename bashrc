@@ -128,3 +128,6 @@ export XDG_RUNTIME_DIR=/run/user/1000
 
 export EDITOR=emacsclient
 export VISUAL=emacsclient
+
+#gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false
+gsettings set sm.puri.phosh app-filter-mode '[]'
