@@ -1,5 +1,7 @@
 [core]
 	editor = emacsclient
+[diff]
+	algorithm = histogram
 [push]
 	default = matching
 [user]
