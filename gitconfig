@@ -2,6 +2,8 @@
 	editor = emacsclient
 [diff]
 	algorithm = histogram
+[init]
+	defaultBranch = master
 [push]
 	default = matching
 [user]
