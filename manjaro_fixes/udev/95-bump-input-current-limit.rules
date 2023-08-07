@@ -1,0 +1,3 @@
+# From https://forums.puri.sm/t/how-to-limit-battery-charge-voltage-and-current/19411
+
+SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_STATUS}=="Charging", RUN+="/home/manjaro/.manjaro_fixes/bump-input-current-limit.sh"

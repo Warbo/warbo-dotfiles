@@ -3,6 +3,14 @@
 Try to implement as much as possible using Nix/HomeManager. This directory is to
 collect whatever can't be done that way.
 
+## Charging ##
+
+The `input_current_limit` of the PinePhone's USB port may default to 0.5V when
+a cable gets plugged in. This is too low to charge, so we unconditionally bump
+it to 3V using `bump-input-current-limit.sh`, which gets run automatically by
+the UDev rule `95-bump-input-current-limit.rules`, which needs to be symlinked
+into `/etc/udev/rules.d/`
+
 ### External Monitor ###
 
 Gnome/Phosh is bad at handling external monitors: it forgets their orientation,
