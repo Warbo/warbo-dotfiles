@@ -1,0 +1,40 @@
+## Fixes for Manjaro on PinePhone ##
+
+Try to implement as much as possible using Nix/HomeManager. This directory is to
+collect whatever can't be done that way.
+
+### External Monitor ###
+
+Gnome/Phosh is bad at handling external monitors: it forgets their orientation,
+it has a limited selection of scaling values, etc. Also, external monitors can
+sometimes glitch on the PinePhone, which requires some way to "reset" them.
+
+We work around these problems with three parts:
+
+ - A `fix` command, managed HomeManager. This can be run manually (e.g. Alt-F2)
+ - A `fix-monitor.service` SystemD service, also managed by HomeManager. That
+   just runs the `fix` command as a "oneshot" service.
+ - A `95-monitor-hotplug.rules` UDev rule. This can't be managed by HomeManager
+   so it lives in here and must be symlinked into `/etc/udev/rules.d/`. It
+   starts `fix-monitor.service` whenever the graphics card detects a change.
+
+Note that `95-monitor-hotplug.rules` can't simply call `fix`, since UDev rules
+are blocking: the `fix` script tries to "turn off and on" the graphics setup,
+but those changes won't get processed while this handler is still running. Also,
+UDev handlers (and their spawned processes) are killed after a few seconds,
+which is not long enough for `fix` to run (as it waits for the graphics changes
+to take effect). Hence we have it non-blockingly start `fix-monitor.service`.
+
+Here are some example journald logs for monitor glitching (screen going blank
+then recovering):
+
+```
+Jul 13 14:23:49 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x0302
+Jul 13 14:23:50 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x040b
+Jul 13 14:23:51 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x0602
+...
+Jul 13 14:24:03 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x0302
+...
+Jul 13 14:24:04 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x040c
+Jul 13 14:24:05 manjaro-arm kernel: anx7688 0-0028: DP state changed to 0x0602
+```

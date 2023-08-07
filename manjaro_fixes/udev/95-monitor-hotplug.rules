@@ -1,0 +1,12 @@
+# Rule for executing commands when an external screen is plugged in.
+# See https://ruedigergad.com/2012/01/28/hotplug-an-external-screen-to-your-laptop-on-linux/
+
+# This rule should be symlinked into /etc/udev/rules.d/. It will trigger
+# whenever the PinePhone's graphics card changes (card1; since card0 is
+# 'virtual').
+
+# The monitor-fixing script takes too long to run as a udev handler, so we made
+# it into a systemd service. We use '-M' to run as manjaro (sudo doesn't set the
+# required env vars for DBus, etc.) https://unix.stackexchange.com/a/685029/63735
+
+KERNEL=="card1", ACTION=="change", RUN+="systemctl -M manjaro@ --no-block --user start fix-monitor"
