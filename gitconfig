@@ -1,7 +1,7 @@
-[user]
-	name = Chris Warburton
-	email = chriswarbo@gmail.com
 [core]
 	editor = emacsclient
 [push]
 	default = matching
+[user]
+	name = Chris Warburton
+	email = chriswarbo@gmail.com
