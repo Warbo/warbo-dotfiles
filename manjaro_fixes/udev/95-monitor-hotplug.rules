@@ -9,4 +9,4 @@
 # it into a systemd service. We use '-M' to run as manjaro (sudo doesn't set the
 # required env vars for DBus, etc.) https://unix.stackexchange.com/a/685029/63735
 
-KERNEL=="card1", ACTION=="change", RUN+="systemctl -M manjaro@ --no-block --user start fix-monitor"
+KERNEL=="card1", ACTION=="change", RUN+="/home/manjaro/.manjaro_fixes/monitor-hotplug.sh"
