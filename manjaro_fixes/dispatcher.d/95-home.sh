@@ -36,7 +36,7 @@ fi
 
 if [[ "$UP" -eq 1 ]]
 then
-    exec systemctl --no-block start home-wifi-connected.target
+    exec systemctl --user --no-block start home-wifi-connected.target
 else
-    exec systemctl --no-block stop home-wifi-connected.target
+    exec systemctl --user --no-block stop home-wifi-connected.target
 fi
