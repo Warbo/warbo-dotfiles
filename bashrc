@@ -60,10 +60,67 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+coloured() {
+    # Prints the given arguments wrapped in ANSI colour codes; except for the
+    # first argument, which is the colour code's numeric ID.
+    colourCode="$1"
+    shift
+    printf '\e[%sm%s\e[0m' "$colourCode" "$*"
+}
+
+# These print their arguments in various colours
+red() { coloured '1;91' "$@"; }
+green() { coloured '1;92' "$@"; }
+yellow() { coloured '0;93' "$@"; }
+blue() { coloured '1;94' "$@"; }
+purple() { coloured '0;95' "$@"; }
+
+calculatePrompt() {
+    # We use this to calculate the prompt (PS1 variable). The timeline is as
+    # follows:
+    #  - Previous command finishes
+    #  - Bash substitutes '\X' placeholders into PS1 string (e.g. replacing '\t'
+    #    with the current time)
+    #  - Bash evaluates that resulting string
+    #  - This function is called, due to the $(...) subshell
+    #
+    # This order is important, since it means those substituted placeholders can
+    # be passed into this function via arguments; whilst any placeholders we
+    # print out will *not* be substituted (since it's too late).
+
+    # This must come first, to capture the exit code of the last command
+    local success="$?"
+    local chroot="${debian_chroot:+($debian_chroot)}"
+
+    # Show the current time first. This is useful for seeing roughly how long a
+    # process took. NOTE: If you want to time a command, make sure you're using
+    # a fresh prompt! We also colour the timestamp to indicate whether the last
+    # command was successful (green) or failed (red)
+    local seconds="$5"
+    [[ "$1" = 'mono' ]] || {
+        if [[ "$success" -eq 0 ]]; then
+            seconds=$(green "$seconds")
+        else
+            seconds=$(red "$seconds")
+        fi
+    }
+
+    local username="$2"
+    [[ "$1" = 'mono' ]] || username=$(purple "$username")
+
+    local host="$3"
+    [[ "$1" = 'mono' ]] || host=$(yellow "$host")
+
+    local workingDir="$4"
+    [[ "$1" = 'mono' ]] || workingDir=$(blue "$workingDir")
+
+    printf "$seconds $chroot$username@$host:$workingDir$6 "
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='$(calculatePrompt "color" "\u" "\h" "\w" "\t" "\$")'
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='$(calculatePrompt "mono" "\u" "\h" "\w" "\t" "\$")'
 fi
 unset color_prompt force_color_prompt
 
