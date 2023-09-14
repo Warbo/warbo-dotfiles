@@ -19,6 +19,13 @@ XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/1000}"
 export DBUS_SESSION_BUS_ADDRESS
 export XDG_RUNTIME_DIR
 
+if getent ahosts dietpi.local > /dev/null
+then
+    systemctl --user --no-block start dietpi-accessible.target
+else
+    systemctl --user --no-block stop dietpi-accessible.target
+fi
+
 # Find the connection UUID with "nmcli connection show" in terminal.
 # All NetworkManager connection types are supported: wireless, VPN, wired...
 HOME_ID='VM4163004'
