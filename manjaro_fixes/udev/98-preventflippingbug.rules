@@ -1,0 +1,9 @@
+# Taken fromhttps://gitlab.freedesktop.org/mesa/mesa/-/issues/8415
+# udev rule. this prevent flipping frames bug
+# example file location /lib/udev/rules.d/98-preventflippingbug.rules
+# powersaving part
+KERNEL=="1c40000.gpu", SUBSYSTEM=="platform", DRIVER=="lima", ATTR{power/autosuspend_delay_ms}="-1"
+KERNEL=="1c40000.gpu", SUBSYSTEM=="platform", DRIVER=="lima", ATTR{power/control}="on"
+# frequency part, may not be needed
+KERNEL=="1c40000.gpu", SUBSYSTEM=="devfreq", ATTR{min_freq}="432000000"
+KERNEL=="1c40000.gpu", SUBSYSTEM=="devfreq", ATTR{max_freq}="432000000"
