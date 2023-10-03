@@ -65,15 +65,17 @@ coloured() {
     # first argument, which is the colour code's numeric ID.
     colourCode="$1"
     shift
-    printf '\e[%sm%s\e[0m' "$colourCode" "$*"
+    printf '%s' "$colourCode"
+    printf '%s' "$*"
+    printf '%s' "$(echo -en '\e[0m')"
 }
 
 # These print their arguments in various colours
-red() { coloured '1;91' "$@"; }
-green() { coloured '1;92' "$@"; }
-yellow() { coloured '0;93' "$@"; }
-blue() { coloured '1;94' "$@"; }
-purple() { coloured '0;95' "$@"; }
+red()    { coloured "$(echo -en '\e[1;91m')" "$@"; }
+green()  { coloured "$(echo -en '\e[1;92m')" "$@"; }
+yellow() { coloured "$(echo -en '\e[1;93m')" "$@"; }
+blue()   { coloured "$(echo -en '\e[1;94m')" "$@"; }
+purple() { coloured "$(echo -en '\e[1;95m')" "$@"; }
 
 calculatePrompt() {
     # We use this to calculate the prompt (PS1 variable). The timeline is as
