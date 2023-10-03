@@ -188,8 +188,8 @@ export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 #export PULSE_SERVER=/var/run/pulse/native
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 #export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
 
 #export IPFS_PATH=/var/lib/ipfs/.ipfs
 
