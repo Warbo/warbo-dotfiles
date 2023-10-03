@@ -184,12 +184,12 @@ fi
 export PATH=~/System/Programs/bin:$HOME/desktop_scripts/for_laptop:$PATH
 #export PAGER=pager
 
-export XDG_RUNTIME_DIR=/run/user/1000
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 #export PULSE_SERVER=/var/run/pulse/native
 
-#export SSH_AUTH_SOCK=/run/user/1000/ssh-agent
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
 #export IPFS_PATH=/var/lib/ipfs/.ipfs
 
