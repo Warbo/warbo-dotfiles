@@ -65,19 +65,19 @@ fi
 coloured() {
     # Prints the given arguments wrapped in ANSI colour codes; except for the
     # first argument, which is the colour code's numeric ID.
-    colourCode="$1"
+    tput bold
+    tput setaf "$1"
     shift
-    printf '%s' "$colourCode"
     printf '%s' "$*"
-    printf '%s' "$(echo -en '\e[0m')"
+    tput sgr0
 }
 
 # These print their arguments in various colours
-red()    { coloured "$(echo -en '\e[1;91m')" "$@"; }
-green()  { coloured "$(echo -en '\e[1;92m')" "$@"; }
-yellow() { coloured "$(echo -en '\e[1;93m')" "$@"; }
-blue()   { coloured "$(echo -en '\e[1;94m')" "$@"; }
-purple() { coloured "$(echo -en '\e[1;95m')" "$@"; }
+red()    { coloured 9 "$@"; }
+green()  { coloured 10 "$@"; }
+yellow() { coloured 11 "$@"; }
+blue()   { coloured 12 "$@"; }
+purple() { coloured 13 "$@"; }
 
 calculatePrompt() {
     # We use this to calculate the prompt (PS1 variable). The timeline is as
