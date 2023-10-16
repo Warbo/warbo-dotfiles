@@ -41,7 +41,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    *color) color_prompt=yes;;
     foot) color_prompt=yes;;
     screen) color_prompt=yes;;
 esac
