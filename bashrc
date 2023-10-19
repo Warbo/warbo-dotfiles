@@ -99,6 +99,9 @@ calculatePrompt() {
     # '\[' and '\]', so that they don't count towards the length of the prompt
     # (otherwise Bash/readline get confused about line-wrapping and scrolling).
 
+    # Indicates the working directory in a machine-readable way (for Emacs). We
+    # use $PWD since it's absolute (\w uses abbreviations like ~).
+    printf '\[\e]7;file://\h${PWD}\a\]'
 
     # We'll output ANSI colour codes when this is 'yes'
     local colour="$1"
