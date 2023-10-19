@@ -65,11 +65,10 @@ fi
 coloured() {
     # Prints the given arguments wrapped in ANSI colour codes; except for the
     # first argument, which is the colour code's numeric ID.
-    tput bold
-    tput setaf "$1"
+    printf '\[$(tput bold)$(tput setaf "%s")\]' "$1"
     shift
     printf '%s' "$*"
-    tput sgr0
+    printf '\[$(tput sgr0)\]'
 }
 
 # These print their arguments in various colours
@@ -86,46 +85,89 @@ calculatePrompt() {
     #  - Bash substitutes '\X' placeholders into PS1 string (e.g. replacing '\t'
     #    with the current time)
     #  - Bash evaluates that resulting string
-    #  - This function is called, due to the $(...) subshell
     #
-    # This order is important, since it means those substituted placeholders can
-    # be passed into this function via arguments; whilst any placeholders we
-    # print out will *not* be substituted (since it's too late).
+    # This order is important, since it means those substituted placeholders
+    # cannot be generated during the final evaluation step. In particular, we
+    # cannot use PS1='$(calculatePrompt)' (using single quotes to ensure that
+    # string is used verbatim, and hence this function is called every time the
+    # prompt is evaluated, and not before), since this function will not be able
+    # to use those \X placeholders.
+    #
+    # Instead, this function will be called using the PROMPT_COMMAND variable,
+    # which lets us emit \X placeholders. This is particularly important for
+    # ensuring non-printable characters (like ANSI colour codes) are wrapped in
+    # '\[' and '\]', so that they don't count towards the length of the prompt
+    # (otherwise Bash/readline get confused about line-wrapping and scrolling).
 
-    # This must come first, to capture the exit code of the last command
-    local success="$?"
-    local chroot="${debian_chroot:+($debian_chroot)}"
 
-    # Show the current time first. This is useful for seeing roughly how long a
-    # process took. NOTE: If you want to time a command, make sure you're using
-    # a fresh prompt! We also colour the timestamp to indicate whether the last
-    # command was successful (green) or failed (red)
-    local seconds="$5"
-    [[ "$1" = 'mono' ]] || {
+    # We'll output ANSI colour codes when this is 'yes'
+    local colour="$1"
+
+    # This is the exit code of the previous command. We use an argument, since
+    # that's more robust than assuming the $? variable hasn't since changed.
+    local success="$2"
+
+    # Show the current datetime, and calculate how long the last command took.
+    # The latter uses variables set by PS0 (when a command gets entered). This
+    # implementation is based on https://stackoverflow.com/a/66772796/884682
+    local time='\D{%T} ($((PS1calc ? \D{%s}-$PS0time : 0))s)${PWD:PS1calc=0:0}'
+    if [[ "$colour" = 'yes' ]]
+    then
+        # We're using colour, so make the timestamp green iff the last command
+        # was successful, or red otherwise.
         if [[ "$success" -eq 0 ]]; then
-            seconds=$(green "$seconds")
+            time=$(green "$time")
         else
-            seconds=$(red "$seconds")
+            time=$(red "$time")
         fi
-    }
+    fi
+    # Also indicate success/failure without using colour. Failed commands will
+    # get an exclamation mark, whilst success will be a normal space (we avoid
+    # fancier output like tick/cross emoji, since terminals lacking colour are
+    # not likely to implement Unicode!)
+    if [[ "$success" -eq 0 ]]
+    then
+        time+=' '
+    else
+        time+='!'
+    fi
+    printf '%s' "$time"
 
-    local username="$2"
-    [[ "$1" = 'mono' ]] || username=$(purple "$username")
+    # Hold-over from Debian's default prompt. Always empty, but no harm done.
+    printf '%s' "${debian_chroot:+($debian_chroot)}"
 
-    local host="$3"
-    [[ "$1" = 'mono' ]] || host=$(yellow "$host")
+    # Follow a normal user@machine:cwd$ prompt format, with arbitrary colours.
 
-    local workingDir="$4"
-    [[ "$1" = 'mono' ]] || workingDir=$(blue "$workingDir")
+    local username='\u'
+    [[ "$colour" = 'yes' ]] && username=$(purple "$USER")
+    printf '%s' "$username"
 
-    printf "$seconds $chroot$username@$host:$workingDir$6 "
+    local host='\h'
+    [[ "$colour" = 'yes' ]] && host=$(yellow "$host")
+    printf '@%s' "$host"
+
+    local workingDir='\w'
+    [[ "$colour" = 'yes' ]] && workingDir=$(blue "$workingDir")
+    printf ':%s\$ ' "$workingDir"
 }
 
-if [ "$color_prompt" = yes ]; then
-    PS1='$(calculatePrompt "color" "\u" "\h" "\w" "\t" "\$")'
-else
-    PS1='$(calculatePrompt "mono" "\u" "\h" "\w" "\t" "\$")'
-fi
+# Use calculatePrompt in our PROMPT_COMMAND, passing in suitable arguments. Note
+# that $color_prompt is hard-coded once, when this bashrc is loaded; whilst the
+# previous command's exit code can vary for each prompt.
+setPrompt() {
+    PS1=$(calculatePrompt "$1" "$?")
+}
+PROMPT_COMMAND="setPrompt $color_prompt"
+
+# PS0 extracts a substring of length 0 from PS1; as a side-effect it stores
+# the current time as epoch seconds to PS0time (no visible output in this case)
+PS0='\[${PS1:$((PS0time=\D{%s}, PS1calc=1, 0)):0}\]'
+PS0time=0
+PS1calc=0
+
+## NOTE: From time to time you may wish to replace $PS1 in your shell. You must
+## also replace PROMPT_COMMAND, otherwise setPrompt will overwrite your choice!
+
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
