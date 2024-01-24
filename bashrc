@@ -2,6 +2,13 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+## ALWAYS MAKE NIX BINARIES AVAILABLE
+. /etc/profile.d/nix.sh
+
+# Make SSH agents work
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -231,12 +238,10 @@ fi
 export PATH=~/System/Programs/bin:$HOME/desktop_scripts/for_laptop:$PATH
 #export PAGER=pager
 
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-
 #export PULSE_SERVER=/var/run/pulse/native
 
 #export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+
 
 #export IPFS_PATH=/var/lib/ipfs/.ipfs
 
