@@ -7,7 +7,7 @@
 
 # Make SSH agents work
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
