@@ -1,5 +1,7 @@
 *.o
 *.hi
+result
+result-*
 
 local
 
