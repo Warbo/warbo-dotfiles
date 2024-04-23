@@ -1,0 +1,11 @@
+# Disable autosuspend to try and prevent
+# "Apr 23 13:56:20 manjaro-arm phoc[94131]: [libinput] event7  -
+# Microsoft Natural® Ergonomic Keyboard 4000: client bug: event processing
+# lagging behind by 42ms, your system is too slow"
+# See https://bbs.archlinux.org/viewtopic.php?id=272328
+
+# Microsoft Natural keyboard
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="00db", ATTR{power/autosuspend}="-1"
+
+# PixArt USB mouse
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="093a", ATTR{idProduct}=="2510", ATTR{power/autosuspend}="-1"
