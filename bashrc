@@ -260,4 +260,5 @@ export EDITOR=emacsclient
 export VISUAL=emacsclient
 
 #gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false
-gsettings set sm.puri.phosh app-filter-mode '[]'
+[[ "x$USER" = "xmanjaro" ]] &&
+    gsettings set sm.puri.phosh app-filter-mode '[]'
