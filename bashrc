@@ -3,11 +3,13 @@
 # for examples
 
 ## ALWAYS MAKE NIX BINARIES AVAILABLE
-. /etc/profile.d/nix.sh
+[ -f /etc/profile.d/nix.sh ] && . /etc/profile.d/nix.sh
 
-# Make SSH agents work
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Make SSH agents work with Gnome Keyring
+[ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] &&
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
