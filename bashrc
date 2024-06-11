@@ -87,6 +87,15 @@ yellow() { coloured 11 "$@"; }
 blue()   { coloured 12 "$@"; }
 purple() { coloured 13 "$@"; }
 
+randcol() {
+    # Print "$1" in a pseudorandom colour, chosen by checksumming its contents.
+    # We use range 19-228 of termcap's setaf colours, since they're readable.
+    (
+        FIRST=19 LAST=228 SEED=$(echo "$1" | cksum | cut -d' ' -f1)
+        coloured "$(( (SEED % (LAST - FIRST)) + FIRST ))" "$1"
+    )
+}
+
 calculatePrompt() {
     # We use this to calculate the prompt (PS1 variable). The timeline is as
     # follows:
@@ -151,11 +160,11 @@ calculatePrompt() {
     # Follow a normal user@machine:cwd$ prompt format, with arbitrary colours.
 
     local username='\u'
-    [[ "$colour" = 'yes' ]] && username=$(purple "$USER")
+    [[ "$colour" = 'yes' ]] && username=$(randcol "$USER")
     printf '%s' "$username"
 
     local host='\h'
-    [[ "$colour" = 'yes' ]] && host=$(yellow "$host")
+    [[ "$colour" = 'yes' ]] && host=$(randcol "$host")
     printf '@%s' "$host"
 
     local workingDir='\w'
