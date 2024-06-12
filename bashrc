@@ -88,11 +88,11 @@ blue()   { coloured 12 "$@"; }
 purple() { coloured 13 "$@"; }
 
 randcol() {
-    # Print "$1" in a pseudorandom colour, chosen by checksumming its contents.
+    # Print $2 in a pseudorandom colour, chosen by checksumming $1.
     # We use range 19-228 of termcap's setaf colours, since they're readable.
     (
         FIRST=19 LAST=228 SEED=$(echo "$1" | cksum | cut -d' ' -f1)
-        coloured "$(( (SEED % (LAST - FIRST)) + FIRST ))" "$1"
+        coloured "$(( (SEED % (LAST - FIRST)) + FIRST ))" "$2"
     )
 }
 
@@ -126,7 +126,7 @@ calculatePrompt() {
 
     # This is the exit code of the previous command. We use an argument, since
     # that's more robust than assuming the $? variable hasn't since changed.
-    local success="$2"
+    local success="$4"
 
     # Show the current datetime, and calculate how long the last command took.
     # The latter uses variables set by PS0 (when a command gets entered). This
@@ -160,11 +160,11 @@ calculatePrompt() {
     # Follow a normal user@machine:cwd$ prompt format, with arbitrary colours.
 
     local username='\u'
-    [[ "$colour" = 'yes' ]] && username=$(randcol "$USER")
+    [[ "$colour" = 'yes' ]] && username=$(randcol "$2" "$username")
     printf '%s' "$username"
 
     local host='\h'
-    [[ "$colour" = 'yes' ]] && host=$(randcol "$host")
+    [[ "$colour" = 'yes' ]] && host=$(randcol "$3" "$host")
     printf '@%s' "$host"
 
     local workingDir='\w'
@@ -173,12 +173,14 @@ calculatePrompt() {
 }
 
 # Use calculatePrompt in our PROMPT_COMMAND, passing in suitable arguments. Note
-# that $color_prompt is hard-coded once, when this bashrc is loaded; whilst the
-# previous command's exit code can vary for each prompt.
+# that the first three ($color_prompt, $USER and $host_prompt) are hard-coded
+# once, when this bashrc is loaded. The last argument is the previous command's
+# exit code, which can vary for each prompt.
 setPrompt() {
-    PS1=$(calculatePrompt "$1" "$?")
+    PS1=$(calculatePrompt "$1" "$2" "$3" "$?")
 }
-PROMPT_COMMAND="setPrompt $color_prompt"
+host_prompt=$(uname -n 2>/dev/null || ls /home)  # Varies per machine
+PROMPT_COMMAND="setPrompt $color_prompt $USER $host_prompt"
 
 # PS0 extracts a substring of length 0 from PS1; as a side-effect it stores
 # the current time as epoch seconds to PS0time (no visible output in this case)
