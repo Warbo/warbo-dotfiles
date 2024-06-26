@@ -3,9 +3,9 @@
 # for examples
 
 ## ALWAYS MAKE NIX BINARIES AVAILABLE
-[ -f /etc/profile.d/nix.sh ] && . /etc/profile.d/nix.sh
+[[ -e /etc/profile.d/nix.sh ]] && . /etc/profile.d/nix.sh
 
-[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+[[ -z "$XDG_RUNTIME_DIR" ]] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 # Make SSH agents work with Gnome Keyring
 [ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] &&
