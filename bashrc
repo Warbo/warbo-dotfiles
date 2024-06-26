@@ -11,8 +11,13 @@
 [ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] &&
     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+# If not running interactively, don't do anything.
+# NOTE: it's important that this returns a successful exit code, in case it's
+# being sourced by scripts with 'set -x' enabled.
+case $- in
+    *i*) ;;
+    *) return;;
+esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
