@@ -3,11 +3,13 @@
 # for examples
 
 ## ALWAYS MAKE NIX BINARIES AVAILABLE
-. /etc/profile.d/nix.sh
+[ -f /etc/profile.d/nix.sh ] && . /etc/profile.d/nix.sh
 
-# Make SSH agents work
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Make SSH agents work with Gnome Keyring
+[ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] &&
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -85,6 +87,15 @@ yellow() { coloured 11 "$@"; }
 blue()   { coloured 12 "$@"; }
 purple() { coloured 13 "$@"; }
 
+randcol() {
+    # Print $2 in a pseudorandom colour, chosen by checksumming $1.
+    # We use range 19-228 of termcap's setaf colours, since they're readable.
+    (
+        FIRST=19 LAST=228 SEED=$(echo "$1" | cksum | cut -d' ' -f1)
+        coloured "$(( (SEED % (LAST - FIRST)) + FIRST ))" "$2"
+    )
+}
+
 calculatePrompt() {
     # We use this to calculate the prompt (PS1 variable). The timeline is as
     # follows:
@@ -115,7 +126,7 @@ calculatePrompt() {
 
     # This is the exit code of the previous command. We use an argument, since
     # that's more robust than assuming the $? variable hasn't since changed.
-    local success="$2"
+    local success="$4"
 
     # Show the current datetime, and calculate how long the last command took.
     # The latter uses variables set by PS0 (when a command gets entered). This
@@ -149,11 +160,11 @@ calculatePrompt() {
     # Follow a normal user@machine:cwd$ prompt format, with arbitrary colours.
 
     local username='\u'
-    [[ "$colour" = 'yes' ]] && username=$(purple "$USER")
+    [[ "$colour" = 'yes' ]] && username=$(randcol "$2" "$username")
     printf '%s' "$username"
 
     local host='\h'
-    [[ "$colour" = 'yes' ]] && host=$(yellow "$host")
+    [[ "$colour" = 'yes' ]] && host=$(randcol "$3" "$host")
     printf '@%s' "$host"
 
     local workingDir='\w'
@@ -162,12 +173,14 @@ calculatePrompt() {
 }
 
 # Use calculatePrompt in our PROMPT_COMMAND, passing in suitable arguments. Note
-# that $color_prompt is hard-coded once, when this bashrc is loaded; whilst the
-# previous command's exit code can vary for each prompt.
+# that the first three ($color_prompt, $USER and $host_prompt) are hard-coded
+# once, when this bashrc is loaded. The last argument is the previous command's
+# exit code, which can vary for each prompt.
 setPrompt() {
-    PS1=$(calculatePrompt "$1" "$?")
+    PS1=$(calculatePrompt "$1" "$2" "$3" "$?")
 }
-PROMPT_COMMAND="setPrompt $color_prompt"
+host_prompt=$(uname -n 2>/dev/null || ls /home)  # Varies per machine
+PROMPT_COMMAND="setPrompt $color_prompt $USER $host_prompt"
 
 # PS0 extracts a substring of length 0 from PS1; as a side-effect it stores
 # the current time as epoch seconds to PS0time (no visible output in this case)
@@ -235,7 +248,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export PATH=~/System/Programs/bin:$HOME/desktop_scripts/for_laptop:$PATH
+#export PATH=~/System/Programs/bin:$HOME/desktop_scripts/for_laptop:$PATH
 #export PAGER=pager
 
 #export PULSE_SERVER=/var/run/pulse/native
@@ -249,4 +262,5 @@ export EDITOR=emacsclient
 export VISUAL=emacsclient
 
 #gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false
-gsettings set sm.puri.phosh app-filter-mode '[]'
+[[ "x$USER" = "xmanjaro" ]] &&
+    gsettings set sm.puri.phosh app-filter-mode '[]'
