@@ -11,6 +11,9 @@
 [ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] &&
     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 
+[[ -e /run/wrappers/bin ]] &&
+  export PATH="/run/wrappers/bin:$PATH"
+
 # If not running interactively, don't do anything.
 # NOTE: it's important that this returns a successful exit code, in case it's
 # being sourced by scripts with 'set -x' enabled.
