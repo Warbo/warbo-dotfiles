@@ -19,7 +19,7 @@
 # being sourced by scripts with 'set -x' enabled.
 case $- in
     *i*) ;;
-    *) return;;
+    *) return 0;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
